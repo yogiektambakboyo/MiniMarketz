@@ -16,6 +16,7 @@
     "passport-facebook": "*",
     "passport-google": "*",
     "passport-linkedin": "*",
-    "connect-roles" : "*"
+    "connect-roles" : "*",
+    "socket.io : *"
   }
 }
