@@ -21,12 +21,12 @@ var db;
 //var uri = 'mongodb:localhost:27017/angularapp';
 var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
 
-if (process.env.PORT) {
+/*if (process.env.PORT) {
     var env = JSON.parse(process.env.PORT);
     db = mongoose.createConnection(env['mongodb-2.2'][0].credentials.url);
-} else {
+} else {*/
     db = mongoose.createConnection(uri);
-}
+//}
 var dataUserSchema = require('./model/DataSchema.js').dataUserSchema;
 var dataUser = db.model('datauser', dataUserSchema);
 
