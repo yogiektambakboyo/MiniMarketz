@@ -1,0 +1,28 @@
+<div>
+    <h1>Roles</h1>
+    <form role="form">
+        <div class="form-group">
+            <label> Pencarian : </label> <input type="text" ng-model="search" placeholder="Enter Keyword">
+        </div>
+    </form>
+    <a href="/#/addrole"> <span class="glyphicon glyphicon-plus"></span><label> Tambah Data Baru</label></a>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Roles</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="data in datarole | filter : search" class="repeat-animation">
+
+                <td>{{ $index + 1 }}</td>
+                <td>{{ data.id }}</td>
+                <td>{{ data.role }}</td>
+                <td>  <a href="/#/editrole/{{ data._id }}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delRole(data)"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

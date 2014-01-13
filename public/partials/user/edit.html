@@ -1,0 +1,18 @@
+<h1>Editing User</h1>
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Email</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datauser.username"/></td>
+        <td><input ng-model="datauser.password"/></td>
+        <td><input ng-model="datauser.email"/></td>
+        <td><input type="hidden" ng-model="datauser._id"/></td>
+    </tr>
+    <tr>
+        <td><input type="submit" class="btn btn-primary" value="Save" ng-click="updateUser()"/> <a href="/#/viewuser"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+    </tr>
+</table>

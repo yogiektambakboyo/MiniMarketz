@@ -1,0 +1,17 @@
+<h1>Adding User</h1>
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Email</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datauser.username"/></td>
+        <td><input ng-model="datauser.password"/></td>
+        <td><input ng-model="datauser.email"/></td>
+    </tr>
+    <tr>
+        <td><input type="submit" class="btn btn-primary" value="Save" ng-click="simpanUser(datauser)"/> <a href="/#/viewuser"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+    </tr>
+</table>

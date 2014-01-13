@@ -1,0 +1,22 @@
+doctype 5
+html(lang='en', ng-app='AngularAppRoute')
+    head
+        meta(charset='utf-8')
+        title Angular App - #{ title }
+        script(src='/javascripts/jquery.min.js')
+        script(src='/javascripts/angular-lib/angular.min.js')
+        script(src='/javascripts/angular-lib/angular-route.min.js')
+        script(src='/javascripts/angular-lib/angular-resource.min.js')
+        script(src='/javascripts/angular-lib/angular-cookies.min.js')
+        script(src='/javascripts/bootstrap.min.js')
+        script(src='/socket.io/socket.io.js')
+        script(src='/javascripts/bootstrap.min.js')
+        script(src='/javascripts/angular-route/angular-route.js')
+        script(src='/javascripts/angular-controller/angular-controller.js')
+        link(rel='stylesheet' href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet' href='/stylesheets/style.css')
+        base(href='/')
+    body
+    script $('.dropdown-toggle').dropdown()
+    div.container
+        div(ng-view)

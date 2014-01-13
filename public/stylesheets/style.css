@@ -1,0 +1,45 @@
+#loginform{
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    padding: auto 0;
+}
+
+#boxloginform{
+    width: 350px;
+    height: 350px;
+    margin: auto;
+    margin-top: 50px;
+    padding: auto 0;
+    border: #c0c0c0 1px solid;
+}
+
+@media (min-width: 280px) {
+    .main .inner{
+        width: 130px;
+    }
+}
+
+@media (min-width: 320px) {
+    .main .inner{
+        width: 260px;
+    }
+}
+
+@media (min-width: 480px) {
+    .main .inner{
+        width: 390px;
+    }
+}
+
+@media (min-width: 640px) {
+    .main .inner{
+        width: 520px;
+    }
+}
+
+@media (min-width: 800px) {
+    .main .inner{
+        width: 780px;
+    }
+}

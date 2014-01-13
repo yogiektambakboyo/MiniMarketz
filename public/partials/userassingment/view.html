@@ -1,0 +1,28 @@
+<div>
+    <h1>Data User Assingment</h1>
+    <form role="form">
+        <div class="form-group">
+            <label> Pencarian : </label> <input type="text" ng-model="search.user_id" placeholder="Enter Keyword">
+        </div>
+    </form>
+    <a href="/#/adduserassingment"> <span class="glyphicon glyphicon-plus"></span><label> Tambah Data Baru</label></a>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="data in datauserassingment | filter : search" class="repeat-animation">
+
+                <td>{{ $index + 1 }}</td>
+                <td ng-repeat="datausers in datauser | filter : data.user_id">{{ data.user_id }} ({{ datausers.username }})</td>
+                <td ng-repeat="dataroles in datarole | filter : { id : data.role_id  }">{{ data.role_id }} ({{ dataroles.role }})</td>
+                <td>  <a href="/#/edituserassingment/{{ data._id }}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delUserAssingment(data)"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
