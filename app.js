@@ -18,7 +18,8 @@ var io = require('socket.io').listen(server);
 
 var mongoose = require('mongoose');
 var db;
-var uri = 'mongodb:localhost:27017/angularapp';
+//var uri = 'mongodb:localhost:27017/angularapp';
+var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
 
 if (process.env.PORT) {
     var env = JSON.parse(process.env.PORT);
@@ -633,19 +634,35 @@ app.post('/logout', function(req, res){
 //
 
 //=================================
-// android API
+// Android API
 //=================================
 app.get('/api/android/datapegawai', function (req,res){
     res.contentType('json');
 
     dataPegawai
         .find()
+        .sort('nama',1)
         .exec(function (err, datapegawai){
             if (err) return next(err);
             var datapegawaiJSON = {
                 "datapegawai" : datapegawai
             }
             res.json(datapegawaiJSON);
+        });
+});
+
+app.get('/api/android/databarang', function (req,res){
+    res.contentType('json');
+
+    dataBarang
+        .find()
+        .sort('nama',1)
+        .exec(function (err, databarang){
+            if (err) return next(err);
+            var databarangJSON = {
+                "databarang" : databarang
+            }
+            res.json(databarangJSON);
         });
 });
 
