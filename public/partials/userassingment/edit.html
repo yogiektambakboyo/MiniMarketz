@@ -3,24 +3,28 @@
 <table>
     <tr>
         <th>User</th>
+    </tr>
+    <tr>
+        <td>
+            <select ng-change="selectActionUser()" ng-model="selectedDataUser" ng-options="datausers._id as datausers.username for datausers in datauser" class="form-control">
+                <option value="">== Select User ==</option>
+            </select>
+        </td>
+        <td><input ng-model="datauserassingment.user_id"  class="form-control"/></td>
+    </tr>
+    <tr>
         <th>Role</th>
     </tr>
     <tr>
         <td>
-            <select ng-change="selectActionUser()" ng-model="selectedDataUser" ng-options="datausers._id as datausers.username for datausers in datauser">
-                <option value="">== Select User ==</option>
-            </select>
-        </td>
-        <td>
-            <select ng-change="selectActionRole()" ng-model="selectedDataRole" ng-options="dataroles.id as dataroles.role for dataroles in datarole">
+            <select ng-change="selectActionRole()" ng-model="selectedDataRole" ng-options="dataroles.id as dataroles.role for dataroles in datarole"  class="form-control">
                 <option value="">== Select Role ==</option>
             </select>
         </td>
-        <td><input ng-model="datauserassingment.user_id"/></td>
-        <td><input ng-model="datauserassingment.role_id"/></td>
+        <td><input ng-model="datauserassingment.role_id"  class="form-control"/></td>
 
     </tr>
     <tr>
-        <td><input type="submit" class="btn btn-primary" value="Save" ng-click="updateUserAssingment(datauserassingment)"/> <a href="/#/viewuserassingment"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+        <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="updateUserAssingment(datauserassingment)"/> <a href="/#/viewuserassingment" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
     </tr>
 </table>

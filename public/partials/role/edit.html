@@ -2,15 +2,25 @@
 
 <table>
     <tr>
-        <th>ID</th>
-        <th>Role</th>
+        <td><label>ID :  </label></td>
     </tr>
     <tr>
-        <td><input ng-model="datarole.id"/></td>
-        <td><input ng-model="datarole.role"/></td>
+        <td><input ng-model="datarole.id" disabled class="form-control"/></td>
+    </tr>
+    <tr>
+        <td><label>Role :  </label></td>
+    </tr>
+    <tr>
+        <td><input ng-model="datarole.role" class="form-control"/></td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+    <tr>
+    <tr>
         <td><input type="hidden" ng-model="datarole._id"/></td>
     </tr>
     <tr>
-        <td><input type="submit" class="btn btn-primary" value="Save" ng-click="updateRole()"/> <a href="/#/viewrole"><input type="button" class="btn btn-warning" value="Back"/> </a> </td>
+        <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="updateRole()"/> <a href="/#/viewrole" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a> </td>
     </tr>
 </table>

@@ -1,18 +1,28 @@
 <h1>Editing {{ datapegawai._id }}</h1>
 
 <table>
-<tr>
-    <th>Nama</th>
-    <th>Umur</th>
-    <th>Alamat</th>
-</tr>
-<tr>
-    <td><input ng-model="datapegawai.nama"/></td>
-    <td><input ng-model="datapegawai.umur"/></td>
-    <td><input ng-model="datapegawai.alamat"/></td>
-    <td><input type="hidden" ng-model="datapegawai._id"/></td>
-</tr>
     <tr>
-    <td><input type="submit" class="btn btn-primary" value="Save" ng-click="updatePegawai()"/> <a href="/#/viewpegawai"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+        <th>Nama</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datapegawai.nama" class="form-control"/></td>
+    </tr>
+    <tr>
+        <th>Umur</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datapegawai.umur" class="form-control"/></td>
+    </tr>
+    <tr>
+        <th>Alamat</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datapegawai.alamat" class="form-control"/></td>
+    </tr>
+    <tr>
+        <td><input type="hidden" ng-model="datapegawai._id"/></td>
+    </tr>
+    <tr>
+    <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="updatePegawai()"/> <a href="/#/viewpegawai" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
     </tr>
 </table>

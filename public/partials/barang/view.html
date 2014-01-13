@@ -11,9 +11,9 @@
         <table class="table table-striped">
             <tr>
                 <th>#</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Email</th>
+                <th>Nama</th>
+                <th>Harga</th>
+                <th>Stock</th>
                 <th>Action</th>
             </tr>
             <tr ng-repeat="data in databarang | filter : search" class="repeat-animation">
@@ -22,7 +22,7 @@
                 <td>{{ data.nama }}</td>
                 <td>{{ data.harga }}</td>
                 <td>{{ data.stock }}</td>
-                <td>  <a href="/#/editbarang/{{ data._id }}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delBarang(data)"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+                <td>  <a href="/#/editbarang/{{ data._id }}" class="hover-shadow"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delBarang(data)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
             </tr>
         </table>
     </div>

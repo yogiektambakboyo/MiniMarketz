@@ -15,6 +15,7 @@ html(lang='en', ng-app='AngularAppRoute')
         script(src='/javascripts/angular-controller/angular-controller.js')
         link(rel='stylesheet' href='/stylesheets/bootstrap.min.css')
         link(rel='stylesheet' href='/stylesheets/style.css')
+        link(rel='stylesheet' href='/stylesheets/hover-min.css')
         base(href='/')
     body
     nav.navbar.navbar-default(role='navigation')
@@ -24,12 +25,8 @@ html(lang='en', ng-app='AngularAppRoute')
                 span.icon-bar
                 span.icon-bar
                 span.icon-bar
-            a.navbar-brand(href='#') Brand
+            a.navbar-brand(href='#') Mini Market v0.1Alpha
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
-            form.navbar-form.navbar-left(role='search')
-                .form-group
-                    input.form-control(type='text', placeholder='Search')
-                button.btn.btn-default(type='submit') Submit
             ul.nav.navbar-nav.navbar-right
                 li
                     a(href='#/home') Home

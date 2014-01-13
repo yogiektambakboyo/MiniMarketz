@@ -3,13 +3,21 @@
 <table>
     <tr>
         <th>Nama</th>
+    </tr>
+    <tr>
+        <td><input ng-model="databarang.nama" class="form-control"/></td>
+    </tr>
+    <tr>
         <th>Harga</th>
+    </tr>
+    <tr>
+        <td><input ng-model="databarang.harga" class="form-control"/></td>
+    </tr>
+    <tr>
         <th>Stock</th>
     </tr>
     <tr>
-        <td><input ng-model="databarang.nama"/></td>
-        <td><input ng-model="databarang.harga"/></td>
-        <td><input ng-model="databarang.stock"/></td>
+        <td><input ng-model="databarang.stock" class="form-control"/></td>
     </tr>
     <tr>
         <td><input type="submit" class="btn btn-primary" value="Save" ng-click="updateBarang(databarang)"/>  <a href="/#/viewbarang"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
