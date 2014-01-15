@@ -1,6 +1,5 @@
-var mongoose = require('mongoose');
-/*    bcrypt = require('bcrypt'),
-    SALT_WORK_FACTOR = 10;*/
+var mongoose = require('mongoose'),
+    bcrypt = require('bcrypt');
 
 exports.dataPegawaiSchema = new mongoose.Schema(
     {
@@ -8,6 +7,7 @@ exports.dataPegawaiSchema = new mongoose.Schema(
         nama : String,
         username : {type : String, index : { unique : true }},
         password : {type : String, required : true},
+        oldpassword : {type : String, required : true},
         ttl : {
             tempat : String,
             tanggal : Date
@@ -47,6 +47,13 @@ exports.dataPegawaiSchema = new mongoose.Schema(
     }
 );
 
+exports.dataPegawaiSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
+
 exports.dataBarangSchema = new mongoose.Schema(
     {
         id : String,
@@ -70,14 +77,6 @@ exports.datausersassingment = new mongoose.Schema(
     }
 );
 
-exports.dataUserSchema = new mongoose.Schema(
-    {
-        id : String,
-        username : String,
-        password : String,
-        email    : String
-    }
-);
 
 
 

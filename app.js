@@ -16,7 +16,9 @@ var server = http.createServer(app);
 // MongoDB Setting
 //==================================================================
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    bcrypt = require('bcrypt'),
+    SALT_WORK_FACTOR = 10;
 var db;
 //var uri = 'mongodb:localhost:27017/angularapp';
 var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
@@ -24,14 +26,49 @@ var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angular
 
 db = mongoose.createConnection(uri);
 
-var dataUserSchema = require('./model/DataSchema.js').dataUserSchema;
-var dataUser = db.model('datauser', dataUserSchema);
-
 var dataBarangSchema = require('./model/DataSchema.js').dataBarangSchema;
 var dataBarang = db.model('databarang', dataBarangSchema);
 
 var dataPegawaiSchema = require('./model/DataSchema.js').dataPegawaiSchema;
 var dataPegawai = db.model('datapegawai', dataPegawaiSchema);
+
+//=============================================
+//=============================================
+dataPegawaiSchema.pre('save', function(next){
+    var user = this;
+
+    if(!user.isModified('password'))
+        return next();
+
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
+        if (err) return next(err);
+
+        bcrypt.hash(user.password, salt, function(err, hash){
+            if (err) return next(err);
+
+            user.password = hash;
+            user.oldpassword = hash;
+            next();
+        });
+    });
+});
+
+var checkChangePassword = function(currentpassword, newpassword){
+    var hasho = currentpassword;
+    var pass;
+    var isMatch = bcrypt.compareSync(newpassword, hasho);
+    if((!isMatch)&&(currentpassword != newpassword)){
+        pass = bcrypt.hashSync(newpassword, SALT_WORK_FACTOR);
+        return pass;
+    }else{
+        return currentpassword;
+    }
+};
+
+
+//=============================================
+//=============================================
+
 
 var dataUserAssingmentSchema = require('./model/DataSchema.js').datausersassingment;
 var dataUserAssingment = db.model('datausersassingment', dataUserAssingmentSchema);
@@ -48,7 +85,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 
-passport.use(new LocalStrategy(
+/*passport.use(new LocalStrategy(
     function(username, password, done) {
         dataPegawai.findOne({ username : username, password : password }, function (err,user){
             if(err){
@@ -58,6 +95,30 @@ passport.use(new LocalStrategy(
                 return done(null, false, { message: 'Incorrect username.' });
             }
             return done(null, user);
+        });
+
+    }
+));*/
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        dataPegawai.findOne({ username : username }, function (err,user){
+            if(err){
+                return done(err);
+            }
+
+            if (!user) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+
+            user.comparePassword(password, function(err, isMatch) {
+                console.log(password, isMatch);
+                if(isMatch){
+                    return done(null, user);
+                }else{
+                    return done(err);
+                }
+            });
         });
 
     }
@@ -168,13 +229,15 @@ module.exports.findOnePegawai = function(req, res, next){
         });
 };
 
+
 module.exports.savePegawai = function(req, res, next){
     var datapegawai = new dataPegawai({
         nama : req.body.datapegawai.nama,
         umur : req.body.datapegawai.umur,
         alamat :req.body.datapegawai.alamat,
         username :req.body.datapegawai.username,
-        password : req.body.datapegawai.password
+        password : req.body.datapegawai.password,
+        oldpassword : req.body.datapegawai.password
     });
 
     datapegawai.save( function(err, datapegawai){
@@ -184,6 +247,7 @@ module.exports.savePegawai = function(req, res, next){
 };
 
 module.exports.editPegawai = function(req, res){
+    var isSame = checkChangePassword(req.body.datapegawai.oldpassword , req.body.datapegawai.password);
     dataPegawai.update(
         { _id : req.body.datapegawai._id},
         {
@@ -191,7 +255,8 @@ module.exports.editPegawai = function(req, res){
             umur : req.body.datapegawai.umur,
             alamat :req.body.datapegawai.alamat,
             username :req.body.datapegawai.username,
-            password : req.body.datapegawai.password
+            password : isSame ,
+            oldpassword: isSame
         },
         function(err){
             if(err){
