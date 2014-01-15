@@ -4,10 +4,6 @@ AngularAppController.factory('datapegawai',function($resource){
     return $resource('/api/datapegawai/:_id',{ _id : '@_id'})
 });
 
-AngularAppController.factory('datauser',function($resource){
-    return $resource('/api/datauser/:_id',{ _id : '@_id'})
-});
-
 AngularAppController.factory('databarang',function($resource){
     return $resource('/api/databarang/:_id',{ _id : '@_id'})
 });
@@ -110,16 +106,16 @@ AngularAppController.controller('AngularDataPegawai', [ '$scope', '$resource', '
         };
 
 
-        var socket = io.connect('http://localhost:3000');
-        socket.on('news', function (data) {
-            console.log(data);
+        //var socket = io.connect('http://localhost:3000');
+        //socket.on('news', function (data) {
+            //console.log(data);
             //socket.emit('my other event', { my: 'data' });
-        });
+        //});
 
-        socket.on('databaru', function (data) {
-            console.log(data);
+        //socket.on('databaru', function (data) {
+            //console.log(data);
             //socket.emit('my other event', { my: 'data' });
-        });
+        //});
     }
 
 
@@ -163,84 +159,14 @@ AngularAppController.controller('AngularAddDataPegawai', [ '$scope' , '$location
 ]);
 
 //==========================================
-// User Section
-//==========================================
-AngularAppController.controller('AngularDataUser', [ '$scope', '$resource', 'datauser', '$http', '$location', '$rootScope',
-    function($scope, $resource, datauser , $http, $location, $rootScope){
-        var dataUser = datauser;
-        $scope.datauser = dataUser.query();
-
-        $scope.delUser = function(data){
-            $http.delete('/api/datauser/' + data._id  , {
-                _id : data._id
-            })
-                .success(function(user){
-                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
-                    $scope.datauser = dataUser.query();
-                    //$location.url('/viewuser');
-                })
-                .error(function(){
-                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
-                });
-        };
-
-    }
-]);
-
-AngularAppController.controller('AngularAddDataUser', [ '$scope', '$location', '$http', '$rootScope',
-    function($scope, $location, $http, $rootScope){
-/*        var dataUser = datauser;
-        $scope.datauser = new dataUser({});
-
-        $scope.save = function (){
-            $scope.datauser.$save(function (){
-                $location.path("/viewuser");
-            });
-        }*/
-
-        $scope.simpanUser = function(datauser){
-            $http.post('/api/datauser' , {
-                "datauser" : $scope.datauser
-            })
-                .success(function(datauser){
-                    $rootScope.message = 'Add data "' + datauser._id + '" Succesful!';
-                    $location.url('/viewuser');
-                })
-                .error(function(){
-                    $rootScope.message = 'Add data "' + datauser._id + '" Failed!';
-                });
-        };
-
-    }
-]);
-
-AngularAppController.controller('AngularEditDataUser', [ '$scope', '$resource', 'datauser', '$routeParams', '$http', '$location', '$rootScope',
-    function($scope, $resource, datauser, $routeParams, $http, $location, $rootScope){
-        $scope.datauser = datauser.get({ _id : $routeParams._id });
-
-        $scope.updateUser = function(){
-            $http.put('/api/datauser/' + $scope.datauser._id , {"datauser": $scope.datauser})
-                .success(function(response){
-                    $rootScope.message = 'Edit data "' + $scope.datauser._id + '" Succesful!';
-                    $location.path("/viewuser");
-                })
-                .error(function(response){
-                    $rootScope.message = 'Edit data "' + $scope.datauser._id + '" Failed!';
-                });
-        };
-    }
-]);
-
-
-//==========================================
 // User Assingment Section
 //==========================================
-AngularAppController.controller('AngularDataUserAssingment', [ '$scope', '$resource','datauser','datarole', 'datauserassingment', '$http', '$location', '$rootScope',
-    function($scope, $resource, datauser, datarole, datauserassingment , $http, $location, $rootScope){
+AngularAppController.controller('AngularDataUserAssingment', [ '$scope', '$resource','datapegawai','datarole', 'datauserassingment', '$http', '$location', '$rootScope',
+    function($scope, $resource, datapegawai, datarole, datauserassingment , $http, $location, $rootScope){
         var dataUserAssingment = datauserassingment;
         $scope.datauserassingment = dataUserAssingment.query();
 
-        $scope.datauser = datauser.query();
+        $scope.datapegawai = datapegawai.query();
         $scope.datarole = datarole.query();
 
         $scope.delUserAssingment = function(data){
@@ -260,17 +186,17 @@ AngularAppController.controller('AngularDataUserAssingment', [ '$scope', '$resou
     }
 ]);
 
-AngularAppController.controller('AngularAddDataUserAssingment', [ '$scope','$resource', 'datauser', 'datarole', '$location', '$http', '$rootScope',
-    function($scope, $resource, datauser, datarole, $location, $http, $rootScope){
+AngularAppController.controller('AngularAddDataUserAssingment', [ '$scope','$resource', 'datapegawai', 'datarole', '$location', '$http', '$rootScope',
+    function($scope, $resource, datapegawai, datarole, $location, $http, $rootScope){
 
-        var dataUser = datauser;
-        $scope.datauser = dataUser.query();
+        var dataPegawai = datapegawai;
+        $scope.datapegawai = dataPegawai.query();
 
-        $scope.selectedDataUser = null;
+        $scope.selectedDataPegawai = null;
         $scope.datauserassingment = {};
 
-        $scope.selectActionUser = function(){
-            $scope.datauserassingment.user_id = $scope.selectedDataUser;
+        $scope.selectActionPegawai = function(){
+            $scope.datauserassingment.pegawai_id = $scope.selectedDataPegawai;
         }
 
         var dataRole = datarole;
@@ -300,20 +226,19 @@ AngularAppController.controller('AngularAddDataUserAssingment', [ '$scope','$res
     }
 ]);
 
-AngularAppController.controller('AngularEditDataUserAssingment', [ '$scope', '$resource', 'datauserassingment','datauser', 'datarole', '$routeParams', '$http', '$location', '$rootScope',
-    function($scope, $resource, datauserassingment, datauser, datarole, $routeParams, $http, $location, $rootScope){
+AngularAppController.controller('AngularEditDataUserAssingment', [ '$scope', '$resource', 'datauserassingment','datapegawai', 'datarole', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datauserassingment, datapegawai, datarole, $routeParams, $http, $location, $rootScope){
         $scope.datauserassingment = datauserassingment.get({ _id : $routeParams._id });
 
-        var dataUser = datauser;
-        $scope.datauser = dataUser.query();
+        var dataPegawai = datapegawai;
+        $scope.datapegawai = dataPegawai.query();
 
-        $scope.selectedDataUser = null;
+        $scope.selectedDataPegawai = null;
 
-        $scope.selectActionUser = function(){
-            $scope.datauserassingment.user_id = $scope.selectedDataUser;
+        $scope.selectActionPegawai = function(){
+            $scope.datauserassingment.pegawai_id = $scope.selectedDataPegawai;
         }
 
-        console.log($scope.selectedDataUser);
 
         var dataRole = datarole;
         $scope.datarole = dataRole.query();

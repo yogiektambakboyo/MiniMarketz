@@ -2,15 +2,15 @@
 
 <table>
     <tr>
-        <th>User</th>
+        <th>Pegawai</th>
     </tr>
     <tr>
         <td>
-            <select ng-change="selectActionUser()" ng-model="selectedDataUser" ng-options="datausers._id as datausers.username for datausers in datauser" class="form-control">
-                <option value="">== Select User ==</option>
+            <select ng-change="selectActionPegawai()" ng-model="selectedDataPegawai" ng-options="datapegawais._id as datapegawais.nama for datapegawais in datapegawai" class="form-control">
+                <option value="">== Select Pegawai ==</option>
             </select>
         </td>
-        <td><input ng-model="datauserassingment.user_id"  class="form-control"/></td>
+        <td><input ng-model="datauserassingment.pegawai_id"  class="form-control"/></td>
     </tr>
     <tr>
         <th>Role</th>

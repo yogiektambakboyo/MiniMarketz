@@ -11,14 +11,14 @@
         <table class="table table-striped">
             <tr>
                 <th>#</th>
-                <th>Username</th>
+                <th>Pegawai</th>
                 <th>Role</th>
                 <th>Action</th>
             </tr>
             <tr ng-repeat="data in datauserassingment | filter : search" class="repeat-animation">
 
                 <td>{{ $index + 1 }}</td>
-                <td ng-repeat="datausers in datauser | filter : data.user_id">{{ data.user_id }} ({{ datausers.username }})</td>
+                <td ng-repeat="datapegawais in datapegawai | filter : data.pegawai_id">{{ data.pegawai_id }} ({{ datapegawais.nama }})</td>
                 <td ng-repeat="dataroles in datarole | filter : { id : data.role_id  }">{{ data.role_id }} ({{ dataroles.role }})</td>
                 <td>  <a href="/#/edituserassingment/{{ data._id }}" class="hover-shadow"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delUserAssingment(data)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
             </tr>

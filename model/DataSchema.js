@@ -1,9 +1,13 @@
 var mongoose = require('mongoose');
+/*    bcrypt = require('bcrypt'),
+    SALT_WORK_FACTOR = 10;*/
 
 exports.dataPegawaiSchema = new mongoose.Schema(
     {
         id : String,
         nama : String,
+        username : {type : String, index : { unique : true }},
+        password : {type : String, required : true},
         ttl : {
             tempat : String,
             tanggal : Date
@@ -39,7 +43,7 @@ exports.dataPegawaiSchema = new mongoose.Schema(
             saudara_4 : String,
             saudara_5 : String
         },
-        image_url : String
+        image_path : String
     }
 );
 
@@ -61,7 +65,7 @@ exports.dataRoles = new mongoose.Schema(
 
 exports.datausersassingment = new mongoose.Schema(
     {
-        user_id : String,
+        pegawai_id : String,
         role_id : String
     }
 );

@@ -101,91 +101,69 @@ AngularAppRoute.config(
             }).
             when('/viewbarang',{
                 templateUrl: '/partials/barang/view.html',
-                controller: 'AngularDataBarang'
-                /*resolve: {
+                controller: 'AngularDataBarang',
+                resolve: {
                     loggedin: checkLoggedin
-                }*/
+                }
             }).
             when('/editbarang/:_id',{
                 templateUrl: '/partials/barang/edit.html',
-                controller : 'AngularEditDataBarang'
-/*                resolve: {
+                controller : 'AngularEditDataBarang',
+                resolve: {
                     loggedin: checkLoggedin
-                }*/
+                }
             }).
             when('/addbarang',{
                 templateUrl: '/partials/barang/add.html',
-                controller: 'AngularAddDataBarang'
-/*                resolve: {
+                controller: 'AngularAddDataBarang',
+                resolve: {
                     loggedin: checkLoggedin
-                }*/
+                }
             }).
             when('/error',{
                 templateUrl: '/partials/404.html'
             }).
-            when('/viewuser',{
-                templateUrl: '/partials/user/view.html',
-                controller: 'AngularDataUser',
-                resolve: {
-                    loggedin: checkLoggedin
-                }
-            }).
-            when('/adduser',{
-                templateUrl: '/partials/user/add.html',
-                controller: 'AngularAddDataUser',
-                resolve: {
-                    loggedin: checkLoggedin
-                }
-            }).
-            when('/edituser/:_id',{
-                templateUrl: '/partials/user/edit.html',
-                controller: 'AngularEditDataUser',
-                resolve: {
-                    loggedin: checkLoggedin
-                }
-            })
-            .
             when('/viewuserassingment',{
                 templateUrl: '/partials/userassingment/view.html',
-                controller: 'AngularDataUserAssingment'
-                /*resolve: {
+                controller: 'AngularDataUserAssingment',
+                resolve: {
                     loggedin: checkLoggedin
-                }*/
+                }
             }).
             when('/adduserassingment',{
                 templateUrl: '/partials/userassingment/add.html',
-                controller: 'AngularAddDataUserAssingment'
-                /*resolve: {
+                controller: 'AngularAddDataUserAssingment',
+                resolve: {
                  loggedin: checkLoggedin
-                 }*/
+                 }
             }).
             when('/edituserassingment/:_id',{
                 templateUrl: '/partials/userassingment/edit.html',
-                controller: 'AngularEditDataUserAssingment'
-                /*resolve: {
+                controller: 'AngularEditDataUserAssingment',
+                resolve: {
                  loggedin: checkLoggedin
-                 }*/
+                 }
             }).
             when('/viewrole',{
                 templateUrl: '/partials/role/view.html',
-                controller: 'AngularDataRole'
-                /*resolve: {
+                controller: 'AngularDataRole',
+                resolve: {
                  loggedin: checkLoggedin
-                 }*/
+                 }
             }).
             when('/addrole',{
                 templateUrl: '/partials/role/add.html',
-                controller: 'AngularAddDataRole'
-                /*resolve: {
+                controller: 'AngularAddDataRole',
+                resolve: {
                  loggedin: checkLoggedin
-                 }*/
+                 }
             }).
             when('/editrole/:_id',{
                 templateUrl: '/partials/role/edit.html',
-                controller: 'AngularEditDataRole'
-                /*resolve: {
+                controller: 'AngularEditDataRole',
+                resolve: {
                  loggedin: checkLoggedin
-                 }*/
+                 }
             }).
             when('/unauthorizhed',{
                 templateUrl:'/partials/unauthorizhed.html',
