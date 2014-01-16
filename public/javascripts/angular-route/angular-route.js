@@ -3,7 +3,8 @@
 var AngularAppRoute = angular.module('AngularAppRoute', [
     'ngRoute',
     'AngularAppController',
-    'ngCookies'
+    'ngCookies',
+    'ui.bootstrap'
 ]);
 
 
@@ -82,8 +83,9 @@ AngularAppRoute.config(
                     loggedin: checkLoggedin
                 }
             }).
-            when('/profil',{
+            when('/profil/:_id',{
                 templateUrl: '/partials/profil.html',
+                controller : 'AngularDisplayProfilDataPegawai',
                 resolve: {
                     loggedin: checkLoggedin
                 }

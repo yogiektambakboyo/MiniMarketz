@@ -1,9 +1,7 @@
-{ "user_id" : "52cbc68f23d77df01c000012", "role_id" : "4", "_id" : { "$oid" : "52cd1bc3082865c81600001b" } }
-{ "user_id" : "52cbc68f23d77df01c000012", "role_id" : "5", "_id" : { "$oid" : "52cd1bcb082865c81600002f" } }
-{ "user_id" : "52cbc68f23d77df01c000012", "role_id" : "1", "_id" : { "$oid" : "52cd1c4e74b1fe1c0d000033" } }
-{ "user_id" : "52cbc68f23d77df01c000012", "role_id" : "2", "_id" : { "$oid" : "52cd1c5374b1fe1c0d000049" } }
-{ "user_id" : "52cbc68f23d77df01c000012", "role_id" : "7", "_id" : { "$oid" : "52cd1c5974b1fe1c0d000060" } }
-{ "user_id" : "52cbc68f23d77df01c000012", "role_id" : "6", "_id" : { "$oid" : "52cd1c5f74b1fe1c0d000078" } }
-{ "user_id" : "52cbc68f23d77df01c000012", "role_id" : "3", "_id" : { "$oid" : "52cd1c6474b1fe1c0d000091" } }
-{ "user_id" : "52cbc66a23d77df01c00000b", "role_id" : "1", "_id" : { "$oid" : "52cd1c9474b1fe1c0d0000ab" } }
-{ "user_id" : "52cbc66a23d77df01c00000b", "role_id" : "2", "_id" : { "$oid" : "52cd1c9f74b1fe1c0d0000c6" } }
+{ "pegawai_id" : "52d799c55a7a9acc09461545", "role_id" : "4", "_id" : { "$oid" : "52d79c6de3cca4ac18b7a614" }, "__v" : 0 }
+{ "pegawai_id" : "52d799c55a7a9acc09461545", "role_id" : "5", "_id" : { "$oid" : "52d79c74e3cca4ac18b7a615" }, "__v" : 0 }
+{ "pegawai_id" : "52d799c55a7a9acc09461545", "role_id" : "1", "_id" : { "$oid" : "52d79c7ae3cca4ac18b7a616" }, "__v" : 0 }
+{ "pegawai_id" : "52d799c55a7a9acc09461545", "role_id" : "2", "_id" : { "$oid" : "52d79c7fe3cca4ac18b7a617" }, "__v" : 0 }
+{ "pegawai_id" : "52d799c55a7a9acc09461545", "role_id" : "7", "_id" : { "$oid" : "52d79c92e3cca4ac18b7a619" }, "__v" : 0 }
+{ "pegawai_id" : "52d799c55a7a9acc09461545", "role_id" : "6", "_id" : { "$oid" : "52d79c98e3cca4ac18b7a61a" }, "__v" : 0 }
+{ "pegawai_id" : "52d799c55a7a9acc09461545", "role_id" : "3", "_id" : { "$oid" : "52d79c9ee3cca4ac18b7a61b" }, "__v" : 0 }

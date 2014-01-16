@@ -135,6 +135,47 @@ AngularAppController.controller('AngularEditDataPegawai', [ '$scope', '$resource
                     $rootScope.message = 'Edit data "' + $scope.datapegawai._id + '" Failed!';
                 });
         };
+
+        //Test DatePicker
+        $scope.today = function() {
+            $scope.dt = new Date('yyyy-MM-dd');
+        };
+
+        $scope.today();
+
+        $scope.showWeeks = true;
+        $scope.toggleWeeks = function () {
+            $scope.showWeeks = ! $scope.showWeeks;
+        };
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        // Disable weekend selection
+        /*        $scope.disabled = function(date, mode) {
+         //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+         return ( mode === '');
+         };*/
+
+        /*$scope.toggleMin = function() {
+         $scope.minDate = ( $scope.minDate ) ? null : new Date();
+         };*/
+        //$scope.toggleMin();
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            'year-format': "'yy'",
+            'starting-day': 1
+        };
+
+        $scope.format = 'dd-MM-yyyy';
     }
 ]);
 
@@ -154,6 +195,54 @@ AngularAppController.controller('AngularAddDataPegawai', [ '$scope' , '$location
                     $rootScope.message = 'Add data "' + datapegawai._id + '" Failed!';
                 });
         };
+
+        //Test DatePicker
+        $scope.today = function() {
+            $scope.dt = new Date('yyyy-MM-dd');
+        };
+
+        $scope.today();
+
+        $scope.showWeeks = true;
+        $scope.toggleWeeks = function () {
+            $scope.showWeeks = ! $scope.showWeeks;
+        };
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        // Disable weekend selection
+/*        $scope.disabled = function(date, mode) {
+            //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            return ( mode === '');
+        };*/
+
+        /*$scope.toggleMin = function() {
+            $scope.minDate = ( $scope.minDate ) ? null : new Date();
+        };*/
+        //$scope.toggleMin();
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            'year-format': "'yy'",
+            'starting-day': 1
+        };
+
+        $scope.format = 'dd-MM-yyyy';
+
+    }
+]);
+
+AngularAppController.controller('AngularDisplayProfilDataPegawai', [ '$scope', '$resource', 'datapegawai', '$routeParams',
+    function($scope, $resource, datapegawai, $routeParams){
+        $scope.datapegawai = datapegawai.get({ _id : $routeParams._id });
 
     }
 ]);

@@ -1,2 +1,7 @@
 { "_id" : { "$oid" : "52cb8f98d683ef27df213c1c" }, "id" : 1, "role" : "view barang" }
-{ "_id" : { "$oid" : "52cb8faad683ef27df213c1d" }, "id" : 2, "role" : "view pegawai" }
+{ "id" : 2, "role" : "view pegawai", "_id" : { "$oid" : "52cd0a27cde043081300006f" } }
+{ "_id" : { "$oid" : "52cd18b1ce83a5800a000004" }, "id" : 3, "role" : "view user assingment" }
+{ "_id" : { "$oid" : "52cd19cf717e8ab417000020" }, "id" : 4, "role" : "Home" }
+{ "id" : 5, "role" : "Profil", "_id" : { "$oid" : "52cd19dd717e8ab417000026" } }
+{ "id" : 6, "role" : "view user", "_id" : { "$oid" : "52cd19f0717e8ab41700002d" } }
+{ "id" : 7, "role" : "view role", "_id" : { "$oid" : "52cd1a38717e8ab41700004a" } }

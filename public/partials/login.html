@@ -5,11 +5,17 @@
         <form method="post" action="/login">
             <label for="username">User Name :  </label>
             <br>
-            <input type="text" name="username" id="username"  placeholder="Enter User Name" class="form-control" ng-model="user.username"> <br>
+            <div class="input-group">
+                <span class="input-group-addon glyphicon glyphicon-user"></span>
+                <input type="text" name="username" id="username"  placeholder="Enter User Name" class="form-control" ng-model="user.username"> <br>
+            </div>
             <label for="password">Password : </label>
             <br>
-            <input type="password" name="password" id="password"  placeholder="password" class="form-control" ng-model="user.password"> <br>
-
+            <div class="input-group">
+                <span class="input-group-addon glyphicon glyphicon-asterisk"></span>
+                <input type="password" name="password" id="password"  placeholder="Enter Password Here" class="form-control" ng-model="user.password"> <br>
+            </div>
+            <br>
             <button type="submit" class="btn btn-primary hover-shadow">Login</button>
         </form>
     </div>

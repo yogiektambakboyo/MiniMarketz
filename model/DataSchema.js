@@ -12,7 +12,11 @@ exports.dataPegawaiSchema = new mongoose.Schema(
             tempat : String,
             tanggal : Date
         },
-        umur : String,
+        jenis_kelamin : String,
+        agama : String,
+        tanggal_masuk : Date,
+        status : String,
+        negara : String,
         alamat : {
             kelurahan : String,
             kecamatan : String,
@@ -20,20 +24,11 @@ exports.dataPegawaiSchema = new mongoose.Schema(
             provinsi  : String,
             kodepos   : Number
         },
-        jenis_kelamin : String,
-        agama : String,
         telepon : {
             rumah : String,
             handphone : String
         },
         email : String,
-        pendidikan : {
-            nama_sekolah : String,
-            jenjang : String,
-            jurusan : String,
-            mulai : Number,
-            lulus : Number
-        },
         keluarga : {
             ayah : String,
             ibu : String,
@@ -74,6 +69,27 @@ exports.datausersassingment = new mongoose.Schema(
     {
         pegawai_id : String,
         role_id : String
+    }
+);
+
+exports.datariwayatkerja = new mongoose.Schema(
+    {
+        id_pegawai : String,
+        tanggal_riwayat : Date,
+        jabatan : String,
+        gaji : String
+    }
+);
+
+exports.datapegawaipendidikan = new mongoose.Schema(
+    {
+        id_pegawai : String,
+        nama_sekolah : String,
+        jenjang : String,
+        mulai : Number,
+        lulus : Number,
+        jurusan : String,
+        ipk : String
     }
 );
 

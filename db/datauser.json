@@ -1,2 +1,0 @@
-{ "username" : "operator", "password" : "operator", "email" : "www.operator.com", "_id" : { "$oid" : "52cbc66a23d77df01c00000b" } }
-{ "username" : "admin", "password" : "admin", "email" : "admin.com", "_id" : { "$oid" : "52cbc68f23d77df01c000012" } }

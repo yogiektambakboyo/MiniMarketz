@@ -1,13 +1,13 @@
 #loginform{
-    width: 300px;
-    height: 300px;
+    width: 230px;
+    height: 250px;
     margin: auto;
     padding: auto 0;
 }
 
 #boxloginform{
-    width: 350px;
-    height: 350px;
+    width: 270px;
+    height: 300px;
     margin: auto;
     margin-top: 50px;
     padding: auto 0;
@@ -43,3 +43,5 @@
         width: 780px;
     }
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

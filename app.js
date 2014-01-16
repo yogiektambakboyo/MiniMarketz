@@ -4,7 +4,6 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 
@@ -20,8 +19,8 @@ var mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 var db;
-//var uri = 'mongodb:localhost:27017/angularapp';
-var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
+var uri = 'mongodb://192.168.16.13:27017/angularapp';
+//var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
 
 
 db = mongoose.createConnection(uri);
@@ -31,6 +30,15 @@ var dataBarang = db.model('databarang', dataBarangSchema);
 
 var dataPegawaiSchema = require('./model/DataSchema.js').dataPegawaiSchema;
 var dataPegawai = db.model('datapegawai', dataPegawaiSchema);
+
+function customHeaders( req, res, next ){
+    // Switch off the default 'X-Powered-By: Express' header
+    app.disable( 'x-powered-by' );
+    res.setHeader( 'X-Powered-By', 'Mini Marketz V0.1' );
+    next()
+}
+
+app.use(customHeaders);
 
 //=============================================
 //=============================================
@@ -233,11 +241,31 @@ module.exports.findOnePegawai = function(req, res, next){
 module.exports.savePegawai = function(req, res, next){
     var datapegawai = new dataPegawai({
         nama : req.body.datapegawai.nama,
-        umur : req.body.datapegawai.umur,
-        alamat :req.body.datapegawai.alamat,
         username :req.body.datapegawai.username,
         password : req.body.datapegawai.password,
-        oldpassword : req.body.datapegawai.password
+        oldpassword : req.body.datapegawai.password,
+        ttl : {
+            tempat : req.body.datapegawai.ttl.tempat,
+            tanggal : req.body.datapegawai.ttl.tanggal
+        },
+        jenis_kelamin : req.body.datapegawai.jenis_kelamin,
+        agama : req.body.datapegawai.agama,
+        tanggal_masuk : req.body.datapegawai.tanggal_masuk,
+        negara : req.body.datapegawai.negara,
+        alamat :{
+            kelurahan : req.body.datapegawai.alamat.kelurahan,
+            kecamatan : req.body.datapegawai.alamat.kecamatan,
+            kota : req.body.datapegawai.alamat.kota,
+            provinsi : req.body.datapegawai.alamat.provinsi,
+            kodepos : req.body.datapegawai.alamat.kodepos
+        },
+        telepon : {
+            rumah : req.body.datapegawai.rumah,
+            handphone : req.body.datapegawai.handphone
+        },
+        email : req.body.datapegawai.email
+        //image_path : req.body.datapegawai.image_path
+
     });
 
     datapegawai.save( function(err, datapegawai){
@@ -252,11 +280,30 @@ module.exports.editPegawai = function(req, res){
         { _id : req.body.datapegawai._id},
         {
             nama : req.body.datapegawai.nama,
-            umur : req.body.datapegawai.umur,
-            alamat :req.body.datapegawai.alamat,
             username :req.body.datapegawai.username,
             password : isSame ,
-            oldpassword: isSame
+            oldpassword: isSame,
+            ttl : {
+                tempat : req.body.datapegawai.ttl.tempat,
+                tanggal : req.body.datapegawai.ttl.tanggal
+            },
+            jenis_kelamin : req.body.datapegawai.jenis_kelamin,
+            agama : req.body.datapegawai.agama,
+            tanggal_masuk : req.body.datapegawai.tanggal_masuk,
+            negara : req.body.datapegawai.negara,
+            alamat :{
+                kelurahan : req.body.datapegawai.alamat.kelurahan,
+                kecamatan : req.body.datapegawai.alamat.kecamatan,
+                kota : req.body.datapegawai.alamat.kota,
+                provinsi : req.body.datapegawai.alamat.provinsi,
+                kodepos : req.body.datapegawai.alamat.kodepos
+            },
+            telepon : {
+                rumah : req.body.datapegawai.telepon.rumah,
+                handphone : req.body.datapegawai.telepon.handphone
+            },
+            email : req.body.datapegawai.email
+            //image_path : req.body.datapegawai.image_path
         },
         function(err){
             if(err){

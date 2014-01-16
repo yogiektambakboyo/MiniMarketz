@@ -1,41 +1,310 @@
 <h1><span class="glyphicon glyphicon-user"> </span>  Editing {{ datapegawai._id }}</h1>
 
-<table>
-    <tr>
-        <th>Nama</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datapegawai.nama" class="form-control"/></td>
-    </tr>
-    <tr>
-        <th>Umur</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datapegawai.umur" class="form-control"/></td>
-    </tr>
-    <tr>
-        <th>Alamat</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datapegawai.alamat" class="form-control"/></td>
-    </tr>
-    <tr>
-        <th>Username</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datapegawai.username" class="form-control"/></td>
-    </tr>
-    <tr>
-        <th>Password</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datapegawai.password" class="form-control"/></td>
-        <td><input ng-model="datapegawai.oldpassword" class="form-control"/></td>
-    </tr>
+<script type="text/javascript">
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+</script>
+<div class="row">
+    <div class="col-xs-6 col-sm-3">
+        <img src="/images/defaultavatar.jpg" class="thumbnail img-responsive" alt="Test">
+        <label>Image : </label><input type="file" ng-model="datapegawai.image_path"/>
+    </div>
+
+    <div class="col-xs-6 col-md-8 table-responsive">
+        <ul class="nav nav-tabs"  id="myTab">
+            <li  class="active"><a href="#identitas" data-toggle="tab"><strong>Identitas</strong></a></li>
+            <li><a href="#domisili" data-toggle="tab"><strong>Domisili</strong></a></li>
+            <li><a href="#riwayat_kerja" data-toggle="tab"><strong>Riwayat Bekerja</strong></a></li>
+            <li><a href="#pendidikan" data-toggle="tab"><strong>Pendidikan</strong></a></li>
+            <li><a href="#keluarga" data-toggle="tab"><strong>Keluarga</strong></a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="identitas">
+            <br>
+                <table>
+                    <tr>
+                        <th>Nama </th>
+                        <td><input ng-model="datapegawai.nama" class="form-control"/></td>
+                    </tr>
+
+                    <tr>
+                        <th>Username </th>
+                        <td><input ng-model="datapegawai.username" class="form-control"/></td>
+                    </tr>
+
+                    <tr>
+                        <th>Password </th>
+                        <td><input type="password" ng-model="datapegawai.password" class="form-control"/></td>
+                    </tr>
+
+                    <tr>
+                        <th>Tempat Tanggal Lahir </th>
+                        <td><input ng-model="datapegawai.ttl.tempat" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div class="input-group">
+                                <input ng-model="datapegawai.ttl.tanggal" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                    </span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Jenis Kelamin </th>
+                        <td>
+                            <select ng-model="datapegawai.jenis_kelamin" class="form-control">
+                                <option value="Laki-laki">Laki - Laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Agama </th>
+                        <td>
+                            <select ng-model="datapegawai.agama" class="form-control">
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Budha">Budha</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+        </div>
+
+        <div class="tab-pane" id="domisili">
+            <br>
+            <table>
+                <tr>
+                    <td>Negara </td>
+                    <td><input ng-model="datapegawai.negara" class="form-control"/></td>
+                </tr>
+
+                <tr>
+                    <td>Provinsi </td>
+                    <td><input ng-model="datapegawai.alamat.provinsi" class="form-control"/></td>
+                </tr>
+
+                <td>
+                    <tr>
+                        <td>Kota </td>
+                        <td><input ng-model="datapegawai.alamat.kota" class="form-control"/></td>
+                    </tr>
+                </td>
+
+                <tr>
+                    <td>Kecamatan </td>
+                    <td><input ng-model="datapegawai.alamat.kecamatan" class="form-control"/></td>
+                </tr>
+
+                <td>
+                    <tr>
+                        <td>Kelurahan </td>
+                        <td><input ng-model="datapegawai.alamat.kelurahan" class="form-control"/></td>
+                    </tr>
+                </td>
+
+
+
+                <td>
+                    <tr>
+                        <td>Kode Pos </td>
+                        <td><input ng-model="datapegawai.alamat.kodepos" class="form-control"/></td>
+                    </tr>
+                </td>
+                <tr>
+                    <th>Telepon </th>
+                </tr>
+                <tr>
+                    <td>
+                <tr>
+                    <td>Rumah </td>
+                    <td><input ng-model="datapegawai.telepon.rumah" class="form-control"/></td>
+                </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Handphone </td>
+                        <td><input ng-model="datapegawai.telepon.handphone" class="form-control"/></td>
+                    </tr>
+                </td>
+                </tr>
+
+                <tr>
+                    <th>Email</th>
+                    <td><input ng-model="datapegawai.email" class="form-control"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="tab-pane" id="riwayat_kerja">
+            <br>
+            <table>
+                <tr>
+                    <td>Tanggal Masuk</td>
+                    <td>
+                        <div class="input-group">
+                            <input ng-model="datapegawai.tanggal_masuk" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td><select ng-model="datapegawai.status" class="form-control">
+                        <option value="Aktif">Aktif</option>
+                        <option value="Tidak Aktif">Tidak Aktif</option>
+                    </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th> Tambah Riwayat Kerja</th>
+                    <td><input class="form-control"  type="hidden"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tanggal</td>
+                    <td>
+                        <!--<div class="input-group">
+                            <input ng-model="datapegawai.tanggal_riwayat" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                        </div>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>Jabatan</td>
+                    <td><input ng-model="datapegawai.tahun_jabatan" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <td>Gaji</td>
+                    <td><input ng-model="datapegawai.gaji" class="form-control"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="tab-pane" id="pendidikan">
+            <br>
+            <table>
+                <tr>
+                    <td>
+                        <tr>
+                            <td>Nama Sekolah </td>
+                            <td><input ng-model="datapegawai.pendidikan.nama_sekolah" class="form-control"/></td>
+                        </tr>
+                    </td>
+
+                <td>
+                    <tr>
+                        <td>Jenjang </td>
+                        <td><input ng-model="datapegawai.pendidikan.jenjang" class="form-control"/></td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Jurusan </td>
+                        <td><input ng-model="datapegawai.pendidikan.jurusan" class="form-control"/></td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Mulai </td>
+                        <td><input ng-model="datapegawai.pendidikan.mulai" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Lulus </td>
+                        <td><input ng-model="datapegawai.pendidikan.lulus" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="tab-pane" id="keluarga">
+            <br>
+            <table>
+                <tr>
+
+                    <td>
+                <tr>
+                    <td>Ayah</td>
+                    <td><input ng-model="datapegawai.keluarga.ayah" class="form-control"  type="number"/></td>
+                </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <td>Ibu</td>
+                        <td><input ng-model="datapegawai.keluarga.ibu" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <td>Saudara 1</td>
+                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <td>Saudara 2</td>
+                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Saudara 3</td>
+                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Saudara 4</td>
+                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Saudara 5</td>
+                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
+                    </tr>
+                </td>
+
+                </tr>
+            </table>
+        </div>
+        </div>
+        <br>
+    </div>
     <tr>
         <td><input type="hidden" ng-model="datapegawai._id"/></td>
     </tr>
     <tr>
-    <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="updatePegawai()"/> <a href="/#/viewpegawai" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
     </tr>
-</table>
+</div>
+
+<div class="table-responsive">
+    <table>
+        <tr>
+            <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="updatePegawai()"/> <a href="/#/viewpegawai" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+        </tr>
+    </table>
+</div>

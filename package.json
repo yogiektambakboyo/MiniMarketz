@@ -12,5 +12,8 @@
       "socket.io" : "*",
       "mongoose" : "*",
       "bcrypt" : "*"
+  },
+  "devDependencies" : {
+      "nodemon" : "*"
   }
 }

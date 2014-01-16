@@ -1,3 +1,220 @@
 <div>
-<h1><span class="glyphicon glyphicon-send"> </span> Profile Page</h1>
+<h1><span class="glyphicon glyphicon-send"> </span> Profile</h1>
+</div>
+
+<script type="text/javascript">
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+</script>
+<div class="row">
+<div class="col-xs-6 col-sm-3">
+    <img src="/images/defaultavatar.jpg" class="thumbnail img-responsive" alt="Test">
+    <label>Image : </label><input type="file" ng-model="datapegawai.image_path"/>
+</div>
+
+<div class="col-xs-6 col-md-8 table-responsive">
+    <div><h2>{{ datapegawai.nama}}</h2></div>
+    <ul class="nav nav-tabs"  id="myTab">
+        <li  class="active"><a href="#identitas" data-toggle="tab">Identitas</a></li>
+        <li><a href="#domisili" data-toggle="tab">Domisili</a></li>
+        <li><a href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
+        <li><a href="#keluarga" data-toggle="tab">Keluarga</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="identitas">
+            <br>
+            <table>
+                <tr>
+                    <th>Nama</th>
+                    <td>: {{ datapegawai.nama }}</td>
+                </tr>
+
+                <tr>
+                    <th>Username</th>
+                    <td>: {{ datapegawai.username }}</td>
+                </tr>
+
+                <tr>
+                    <th>Password</th>
+                    <td>: {{ datapegawai.password }}</td>
+                </tr>
+
+                <tr>
+                    <th>Tempat Tanggal Lahir</th>
+                    <td>: {{ datapegawai.ttl.tempat }}, {{ datapegawai.ttl.tanggal }}</td>
+                </tr>
+
+                <tr>
+                    <th>Jenis Kelamin</th>
+                    <td>: {{ datapegawai.jenis_kelamin }}</td>
+                </tr>
+
+                <tr>
+                    <th>Agama</th>
+                    <td>: {{ datapegawai.agama }}</td>
+                </tr>
+
+                <tr>
+                    <th>Telepon</th>
+                </tr>
+                <tr>
+                    <td>
+                <tr>
+                    <td>Rumah </td>
+                    <td>: {{ datapegawai.telepon.rumah }}</td>
+                </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Handphone</td>
+                        <td>: {{ datapegawai.telepon.handphone }}</td>
+                    </tr>
+                </td>
+                </tr>
+
+                <tr>
+                    <th>Email</th>
+                    <td>: {{ datapegawai.email }}</td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="tab-pane" id="domisili">
+            <br>
+            <table>
+                <td>
+                    <tr>
+                        <td>Provinsi </td>
+                        <td>: {{ datapegawai.alamat.provinsi }}</td>
+                    </tr>
+                </td>
+
+                <tr>
+                    <td>Kecamatan </td>
+                    <td>: {{ datapegawai.alamat.kecamatan }}</td>
+                </tr>
+
+                <td>
+                    <tr>
+                        <td>Kota </td>
+                        <td>: {{ datapegawai.alamat.kota }}</td>
+                    </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <td>Kelurahan </td>
+                        <td>: {{ datapegawai.alamat.kelurahan }}</td>
+                    </tr>
+                </td>
+
+
+
+                <td>
+                    <tr>
+                        <td>Kode Pos </td>
+                        <td>: {{ datapegawai.alamat.kodepos }}</td>
+                    </tr>
+                </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane" id="pendidikan">
+            <br>
+            <table>
+                <tr>
+                    <td>
+                <tr>
+                    <td>Nama Sekolah</td>
+                    <td>{{ datapegawai.pendidikan.nama_sekolah }}</td>
+                </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Jenjang</td>
+                        <td>{{ datapegawai.pendidikan.jenjang }}</td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Jurusan</td>
+                        <td>{{ datapegawai.pendidikan.jurusan }} </td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Mulai</td>
+                        <td>{{ datapegawai.pendidikan.mulai }}  </td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Lulus</td>
+                        <td>{{ datapegawai.pendidikan.lulus }}  </td>
+                    </tr>
+                </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane" id="keluarga">
+            <br>
+            <table>
+                <tr>
+
+                    <td>
+                <tr>
+                    <td>Ayah</td>
+                    <td>{{ datapegawai.keluarga.ayah }}  </td>
+                </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <td>Ibu</td>
+                        <td>{{ datapegawai.keluarga.ibu }}  </td>
+                    </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <td>Saudara 1</td>
+                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
+                    </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <td>Saudara 2</td>
+                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Saudara 3</td>
+                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Saudara 4</td>
+                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
+                    </tr>
+                </td>
+                <td>
+                    <tr>
+                        <td>Saudara 5</td>
+                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
+                    </tr>
+                </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <br>
+</div>
 </div>

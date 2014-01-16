@@ -1,8 +1,1 @@
-{ "_id" : { "$oid" : "52c634faf5db59a415000006" }, "alamat" : "Sepuh Baru, Karang Pilang", "nama" : "Zanuari", "umur" : "11" }
-{ "nama" : "Samsul", "umur" : "13", "alamat" : "Bandung", "_id" : { "$oid" : "52c65ed7a4040f9414000006" } }
-{ "nama" : "Budi santoso", "umur" : "55", "alamat" : "Dukuh pakis", "_id" : { "$oid" : "52c681582b004f601b0000d3" } }
-{ "nama" : "Jokowi", "umur" : "45", "alamat" : "Surakarta", "_id" : { "$oid" : "52c681812b004f601b0000d8" } }
-{ "nama" : "Ahok", "umur" : "35", "alamat" : "Bangka belitung", "_id" : { "$oid" : "52c681bd2b004f601b0000de" } }
-{ "_id" : { "$oid" : "52cb79c76a8f9f6c0100000d" }, "alamat" : "Lebak Tengah", "nama" : "Jimmy", "umur" : "67" }
-{ "nama" : "Roma", "umur" : "31", "alamat" : "Irlandia", "_id" : { "$oid" : "52cb7f7ed1bdc0701100002a" } }
-{ "nama" : "Mulyadi", "umur" : "11", "alamat" : "Kapuk Anyar", "_id" : { "$oid" : "52cbc9a640a99fd815000019" } }
+{ "nama" : "Admin", "username" : "admin", "password" : "$2a$10$SYclpbZLusW8HVXP70tMIurBlMDwheZ1oShrCXmpL10HQYu8no.e.", "oldpassword" : "$2a$10$SYclpbZLusW8HVXP70tMIurBlMDwheZ1oShrCXmpL10HQYu8no.e.", "jenis_kelamin" : "Laki-laki", "agama" : "Islam", "negara" : "Indonesia", "email" : "yogiek_tambakboyo@yahoo.com", "_id" : { "$oid" : "52d799c55a7a9acc09461545" }, "alamat" : { "kelurahan" : "Tambakrigadung", "kota" : "Lamongan", "provinsi" : "Jawa Timur", "kodepos" : 62281 }, "ttl" : { "tempat" : "Lamongan", "tanggal" : { "$date" : 1389632400000 } }, "__v" : 0 }
