@@ -77,18 +77,6 @@
                         </td>
                     </tr>
 
-                    <tr>
-                        <td>Tanggal Masuk</td>
-                        <td>
-                            <div class="input-group">
-                                <input ng-model="datapegawai.tanggal_masuk" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                        </span>
-                            </div>
-                        </td>
-                    </tr>
-
                 </table>
             </div>
             <div class="tab-pane" id="domisili">
@@ -146,6 +134,27 @@
                     <tr>
                         <td>Email</td>
                         <td><input ng-model="datapegawai.email" class="form-control"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Tanggal Masuk</td>
+                        <td>
+                            <div class="input-group">
+                                <input ng-model="datapegawai.tanggal_masuk" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td><select ng-model="datapegawai.status" class="form-control">
+                            <option value="Tetap">Tetap</option>
+                            <option value="Kontrak">Kontrak</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                        </td>
                     </tr>
                 </table>
             </div>

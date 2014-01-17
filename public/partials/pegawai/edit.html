@@ -152,49 +152,72 @@
                 <tr>
                     <td>Tanggal Masuk</td>
                     <td>
-                        <div class="input-group">
+                        <!--<div class="input-group">
                             <input ng-model="datapegawai.tanggal_masuk" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                        </span>
-                        </div>
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                        </div>-->
+                        <input ng-model="datapegawai.tanggal_masuk" class="form-control">
                     </td>
                 </tr>
                 <tr>
                     <td>Status</td>
                     <td><select ng-model="datapegawai.status" class="form-control">
-                        <option value="Aktif">Aktif</option>
+                        <option value="Tetap">Tetap</option>
+                        <option value="Kontrak">Kontrak</option>
                         <option value="Tidak Aktif">Tidak Aktif</option>
                     </select>
                     </td>
                 </tr>
 
                 <tr>
-                    <th> Tambah Riwayat Kerja</th>
-                    <td><input class="form-control"  type="hidden"/></td>
-                </tr>
-                <tr>
                     <td></td>
                 </tr>
+
+
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Jabatan</th>
+                            <th>Gaji</th>
+                            <th>Action</th>
+                        </tr>
+
+                        <tr ng-repeat="datariwayat in datariwayatbekerja | filter : datapegawai._id ">
+                            <td>{{ datariwayat.tanggal_riwayat.substring(0,10) }}</td>
+                            <td>{{ datariwayat.jabatan }}</td>
+                            <td>{{ datariwayat.gaji }}</td>
+                            <td> <a href="" ng-click="delRiwayatBekerja(datariwayat)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+                        </tr>
+                    </table>
+
                 <tr>
-                    <td>Tanggal</td>
-                    <td>
-                        <!--<div class="input-group">
-                            <input ng-model="datapegawai.tanggal_riwayat" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                        </span>
-                        </div>-->
-                    </td>
+                    <th><button ng-click="isAdd()">Tambah Riwayat Kerja</button></th>  {{ add }}
                 </tr>
-                <tr>
-                    <td>Jabatan</td>
-                    <td><input ng-model="datapegawai.tahun_jabatan" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <td>Gaji</td>
-                    <td><input ng-model="datapegawai.gaji" class="form-control"/></td>
-                </tr>
+
+                <div ng-show="add">
+                    <tr>
+                        <td>Tanggal</td>
+                        <td>
+                            <div class="input-group">
+                                <input ng-model="datapegawai.tanggal_riwayat" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default" ng-click="open($event)" ><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jabatan</td>
+                        <td><input ng-model="datapegawai.tahun_jabatan" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td>Gaji</td>
+                        <td><input ng-model="datapegawai.gaji" class="form-control"/></td>
+                    </tr>
+                </div>
+
             </table>
         </div>
 

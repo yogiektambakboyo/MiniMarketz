@@ -93,6 +93,17 @@ exports.datapegawaipendidikan = new mongoose.Schema(
     }
 );
 
+exports.datapegawaikeluarga = new mongoose.Schema(
+    {
+        id_pegawai : String,
+        status : String,
+        nama : String,
+        tanggal_lahir : String,
+        pekerjaan : String,
+        keterangan : String
+    }
+);
+
 
 
 

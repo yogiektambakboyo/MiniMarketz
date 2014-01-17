@@ -31,6 +31,21 @@ var dataBarang = db.model('databarang', dataBarangSchema);
 var dataPegawaiSchema = require('./model/DataSchema.js').dataPegawaiSchema;
 var dataPegawai = db.model('datapegawai', dataPegawaiSchema);
 
+var dataUserAssingmentSchema = require('./model/DataSchema.js').datausersassingment;
+var dataUserAssingment = db.model('datausersassingment', dataUserAssingmentSchema);
+
+var dataRolesSchema = require('./model/DataSchema.js').dataRoles;
+var dataRoles = db.model('datarole', dataRolesSchema);
+
+var dataRiwayatBekerjaSchema = require('./model/DataSchema.js').datariwayatkerja;
+var dataRiwayatBekerja = db.model('datariwayatbekerja', dataRiwayatBekerjaSchema);
+
+var dataPegawaiPendidikanSchema = require('./model/DataSchema.js').datapegawaipendidikan;
+var dataPegawaiPendidikan = db.model('datapegawaipendidikan', dataPegawaiPendidikanSchema);
+
+var dataPegawaiKeluargaSchema = require('./model/DataSchema.js').datapegawaikeluarga;
+var dataPegawaiKeluarga = db.model('datapegawaikeluarga', dataPegawaiKeluargaSchema);
+
 function customHeaders( req, res, next ){
     // Switch off the default 'X-Powered-By: Express' header
     app.disable( 'x-powered-by' );
@@ -78,11 +93,6 @@ var checkChangePassword = function(currentpassword, newpassword){
 //=============================================
 
 
-var dataUserAssingmentSchema = require('./model/DataSchema.js').datausersassingment;
-var dataUserAssingment = db.model('datausersassingment', dataUserAssingmentSchema);
-
-var dataRolesSchema = require('./model/DataSchema.js').dataRoles;
-var dataRoles = db.model('datarole', dataRolesSchema);
 
 
 //==================================================================
@@ -251,6 +261,7 @@ module.exports.savePegawai = function(req, res, next){
         jenis_kelamin : req.body.datapegawai.jenis_kelamin,
         agama : req.body.datapegawai.agama,
         tanggal_masuk : req.body.datapegawai.tanggal_masuk,
+        status : req.body.datapegawai.status,
         negara : req.body.datapegawai.negara,
         alamat :{
             kelurahan : req.body.datapegawai.alamat.kelurahan,
@@ -290,6 +301,7 @@ module.exports.editPegawai = function(req, res){
             jenis_kelamin : req.body.datapegawai.jenis_kelamin,
             agama : req.body.datapegawai.agama,
             tanggal_masuk : req.body.datapegawai.tanggal_masuk,
+            status : req.body.datapegawai.status,
             negara : req.body.datapegawai.negara,
             alamat :{
                 kelurahan : req.body.datapegawai.alamat.kelurahan,
@@ -545,6 +557,235 @@ module.exports.deleteRoles = function(req, res) {
         });
 };
 
+
+//=======================================
+// Riwayat Bekerja
+//=======================================
+module.exports.findAllRiwayatBekerja = function(req,res, next){
+    dataRiwayatBekerja
+        .find()
+        .sort({'id_pegawai' : 1})
+        .exec(function (err, datariwayatbekerja){
+            if (err) return next(err);
+            res.send(datariwayatbekerja);
+        });
+};
+
+module.exports.findAllRiwayatBekerjaPerPegawai = function(req,res, next){
+    dataRiwayatBekerja
+        .find()
+        .sort({'id_pegawai' : 1})
+        .exec(function (err, datariwayatbekerja){
+            if (err) return next(err);
+            res.send(datariwayatbekerja);
+        });
+};
+
+module.exports.findOneRiwayatBekerja = function(req, res, next){
+    dataRiwayatBekerja
+        .findOne({ '_id' : req.params._id })
+        .exec(function (err, editdatariwayatbekerja){
+            if(err) return next(err);
+            res.send(editdatariwayatbekerja);
+        });
+};
+
+module.exports.saveRiwayatBekerja = function(req, res, next){
+    var datariwayatbekerja = new dataRiwayatBekerja({
+        id_pegawai : req.body.datariwayatbekerja.id_pegawai,
+        tanggal_riwayat : req.body.datariwayatbekerja.tanggal_riwayat,
+        jabatan : req.body.datariwayatbekerja.jabatan,
+        gaji : req.body.datariwayatbekerja.gaji
+    });
+
+    datariwayatbekerja.save( function(err, datariwayatbekerja){
+        if (err) return next(err);
+        res.send(datariwayatbekerja);
+    });
+};
+
+/*module.exports.editRiwayatBekerja = function(req, res){
+    dataRiwayatBekerja.update(
+        { _id : req.body.datariwayatbekerja._id},
+        {
+            id_pegawai : req.body.datariwayatbekerja.id_pegawai,
+            tanggal_riwayat : req.body.datariwayatbekerja.tanggal_riwayat,
+            jabatan : req.body.datariwayatbekerja.jabatan,
+            gaji : req.body.datariwayatbekerja.gaji
+        },
+        function(err){
+            if(err){
+                res.send(err);
+            }else{
+                res.send('OK, Updated');
+            }
+
+        }
+    );
+};*/
+
+module.exports.deleteRiwayatBekerja = function(req, res) {
+    dataRiwayatBekerja
+        .remove({
+            _id : req.params._id
+        }, function(err) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send('Deleted');
+            }
+
+        });
+};
+
+//=======================================
+// Riwayat Pendidikan
+//=======================================
+
+module.exports.findAllPegawaiPendidikan = function(req,res, next){
+    dataPegawaiPendidikan
+        .find()
+        .sort({'id_pegawai' : 1})
+        .exec(function (err, datapegawaipendidikan){
+            if (err) return next(err);
+            res.send(datapegawaipendidikan);
+        });
+};
+
+module.exports.findOnePegawaiPendidikan = function(req, res, next){
+    dataPegawaiPendidikan
+        .findOne({ '_id' : req.params._id })
+        .exec(function (err, editdatapegawaipendidikan){
+            if(err) return next(err);
+            res.send(editdatapegawaipendidikan);
+        });
+};
+
+module.exports.savePegawaiPendidikan = function(req, res, next){
+    var datapegawaipendidikan = new dataPegawaiPendidikan({
+        id_pegawai : req.body.datapegawaipendidikan.id_pegawai,
+        nama_sekolah : req.body.datapegawaipendidikan.nama_sekolah,
+        jenjang : req.body.datapegawaipendidikan.jenjang,
+        mulai : req.body.datapegawaipendidikan.mulai,
+        lulus : req.body.datapegawaipendidikan.lulus,
+        jurusan : req.body.datapegawaipendidikan.jurusan,
+        ipk : req.body.datapegawaipendidikan.ipk
+    });
+
+    datapegawaipendidikan.save( function(err, datapegawaipendidikan){
+        if (err) return next(err);
+        res.send(datapegawaipendidikan);
+    });
+};
+
+/*module.exports.editPegawaiPendidikan = function(req, res){
+ dataPegawaiPendidikan.update(
+ { _id : req.body.datapegawaipendidikan._id},
+ {
+ id_pegawai : req.body.datapegawaipendidikan.id_pegawai,
+ tanggal_riwayat : req.body.datapegawaipendidikan.tanggal_riwayat,
+ jabatan : req.body.datapegawaipendidikan.jabatan,
+ gaji : req.body.datapegawaipendidikan.gaji
+ },
+ function(err){
+ if(err){
+ res.send(err);
+ }else{
+ res.send('OK, Updated');
+ }
+
+ }
+ );
+ };*/
+
+module.exports.deletePegawaiPendidikan = function(req, res) {
+    dataPegawaiPendidikan
+        .remove({
+            _id : req.params._id
+        }, function(err) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send('Deleted');
+            }
+
+        });
+};
+
+
+//=======================================
+// Keluarga
+//=======================================
+
+module.exports.findAllPegawaiKeluarga = function(req,res, next){
+    dataPegawaiKeluarga
+        .find()
+        .sort({'id_pegawai' : 1})
+        .exec(function (err, datapegawaikeluarga){
+            if (err) return next(err);
+            res.send(datapegawaikeluarga);
+        });
+};
+
+module.exports.findOnePegawaiKeluarga = function(req, res, next){
+    dataPegawaiKeluarga
+        .findOne({ '_id' : req.params._id })
+        .exec(function (err, editdatapegawaikeluarga){
+            if(err) return next(err);
+            res.send(editdatapegawaikeluarga);
+        });
+};
+
+module.exports.savePegawaiKeluarga = function(req, res, next){
+    var datapegawaikeluarga = new dataPegawaiKeluarga({
+        id_pegawai : req.body.datapegawaikeluarga.id_pegawai,
+        status : req.body.datapegawaikeluarga.status,
+        nama : req.body.datapegawaikeluarga.nama,
+        tanggal_lahir : req.body.datapegawaikeluarga.tanggal_lahir,
+        pekerjaan : req.body.datapegawaikeluarga.pekerjaan,
+        keterangan : req.body.datapegawaikeluarga.keterangan
+    });
+
+    datapegawaikeluarga.save( function(err, datapegawaikeluarga){
+        if (err) return next(err);
+        res.send(datapegawaikeluarga);
+    });
+};
+
+/*module.exports.editPegawaiKeluarga = function(req, res){
+ dataPegawaiKeluarga.update(
+ { _id : req.body.datapegawaikeluarga._id},
+ {
+ id_pegawai : req.body.datapegawaikeluarga.id_pegawai,
+ tanggal_riwayat : req.body.datapegawaikeluarga.tanggal_riwayat,
+ jabatan : req.body.datapegawaikeluarga.jabatan,
+ gaji : req.body.datapegawaikeluarga.gaji
+ },
+ function(err){
+ if(err){
+ res.send(err);
+ }else{
+ res.send('OK, Updated');
+ }
+
+ }
+ );
+ };*/
+
+module.exports.deletePegawaiKeluarga = function(req, res) {
+    dataPegawaiKeluarga
+        .remove({
+            _id : req.params._id
+        }, function(err) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send('Deleted');
+            }
+
+        });
+};
+
 //==================================================================
 // Permission
 //==================================================================
@@ -597,6 +838,29 @@ app.get('/api/databarang/:_id', this.findOneBarang);
 app.post('/api/databarang', this.saveBarang);
 app.put('/api/databarang/:_id', this.editBarang);
 app.delete('/api/databarang/:_id', this.deleteBarang);
+
+//
+app.get('/api/datariwayatbekerja',needsRoles(1), this.findAllRiwayatBekerja);
+app.get('/api/datariwayatbekerja/:_id', this.findOneRiwayatBekerja);
+app.post('/api/datariwayatbekerja', this.saveRiwayatBekerja);
+//app.put('/api/datariwayatbekerja/:_id', this.editRiwayatBekerja);
+app.delete('/api/datariwayatbekerja/:_id', this.deleteRiwayatBekerja);
+
+//
+//app.get('/api/datapegawaipendidikan',needsRoles(1), this.findAllPegawaiPendidikan);
+app.get('/api/datapegawaipendidikan', this.findAllPegawaiPendidikan);
+app.get('/api/datapegawaipendidikan/:_id', this.findOnePegawaiPendidikan);
+app.post('/api/datapegawaipendidikan', this.savePegawaiPendidikan);
+//app.put('/api/datapegawaipendidikan/:_id', this.editPegawaiPendidikan);
+app.delete('/api/datapegawaipendidikan/:_id', this.deletePegawaiPendidikan);
+
+//
+//app.get('/api/datapegawaikeluarga',needsRoles(1), this.findAllPegawaiKeluarga);
+app.get('/api/datapegawaikeluarga', this.findAllPegawaiKeluarga);
+app.get('/api/datapegawaikeluarga/:_id', this.findOnePegawaiKeluarga);
+app.post('/api/datapegawaikeluarga', this.savePegawaiKeluarga);
+//app.put('/api/datapegawaikeluarga/:_id', this.editPegawaiKeluarga);
+app.delete('/api/datapegawaikeluarga/:_id', this.deletePegawaiKeluarga);
 
 //io.sockets.on('connection', function (socket) {
     //socket.emit('news', { hello: 'world' });

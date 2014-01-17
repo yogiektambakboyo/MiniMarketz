@@ -20,6 +20,18 @@ AngularAppController.factory('datarolemaxid',function($resource){
     return $resource('/api/datarole/getmaxid/')
 });
 
+AngularAppController.factory('datariwayatbekerja',function($resource){
+    return $resource('/api/datariwayatbekerja/')
+});
+
+AngularAppController.factory('datapegawaipendidikan',function($resource){
+    return $resource('/api/datapegawaipendidikan/:id_pegawai',{ id_pegawai : '@_id'})
+});
+
+AngularAppController.factory('datapegawaikeluarga',function($resource){
+    return $resource('/api/datapegawaikeluarga/:id_pegawai',{ id_pegawai : '@_id'})
+});
+
 
 //==============================================
 // Barang Section
@@ -121,9 +133,15 @@ AngularAppController.controller('AngularDataPegawai', [ '$scope', '$resource', '
 
 ]);
 
-AngularAppController.controller('AngularEditDataPegawai', [ '$scope', '$resource', 'datapegawai', '$routeParams', '$http', '$location', '$rootScope',
-    function($scope, $resource, datapegawai, $routeParams, $http, $location, $rootScope){
+AngularAppController.controller('AngularEditDataPegawai', [ '$scope', '$resource', 'datapegawai','datariwayatbekerja','datapegawaipendidikan','datapegawaikeluarga', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datapegawai, datariwayatbekerja, datapegawaipendidikan, datapegawaikeluarga, $routeParams, $http, $location, $rootScope){
         $scope.datapegawai = datapegawai.get({ _id : $routeParams._id });
+
+        var dataRiwayatBekerja = datariwayatbekerja;
+        $scope.datariwayatbekerja = dataRiwayatBekerja.query();
+
+        $scope.datapegawaipendidikan = datapegawaipendidikan.get({ id_pegawai : $routeParams._id });
+        $scope.datapegawaikeluarga = datapegawaikeluarga.get({ id_pegawai : $routeParams._id });
 
         $scope.updatePegawai = function(){
             $http.put('/api/datapegawai/' + $scope.datapegawai._id , {"datapegawai": $scope.datapegawai})
@@ -133,6 +151,30 @@ AngularAppController.controller('AngularEditDataPegawai', [ '$scope', '$resource
                 })
                 .error(function(response){
                     $rootScope.message = 'Edit data "' + $scope.datapegawai._id + '" Failed!';
+                });
+        };
+
+        $scope.add = false;
+
+        $scope.isAdd = function(){
+            if($scope.add){
+              $scope.add = false;
+            }else{
+                $scope.add = true;
+            }
+        }
+
+        $scope.delRiwayatBekerja = function(data){
+            $http.delete('/api/datariwayatbekerja/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(user){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datariwayatbekerja = dataRiwayatBekerja.query();
+                    //$location.url('/viewpegawai');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
                 });
         };
 
