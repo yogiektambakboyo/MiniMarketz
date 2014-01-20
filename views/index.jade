@@ -57,6 +57,21 @@ html(lang='en', ng-app='AngularAppRoute')
                         li.divider
                         li
                             a(href='#') Other
+                li.dropdown
+                    a.dropdown-toggle(data-toggle='dropdown')
+                        | Setting
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href='#/viewdistributor') Distributor
+                        li.divider
+                        li
+                            a(href='#/viewprodusen') Produsen
+                        li.divider
+                        li
+                            a(href='#/viewsatuan') Satuan
+                        li
+                            a(href='#/viewmatauang') Mata Uang
                 li
                     a(href='/logout') Logout
     script $('.dropdown-toggle').dropdown()

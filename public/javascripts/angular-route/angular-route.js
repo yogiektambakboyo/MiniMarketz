@@ -83,6 +83,18 @@ AngularAppRoute.config(
                     loggedin: checkLoggedin
                 }
             }).
+            when('/addriwayatbekerja/:id_pegawai',{
+                templateUrl: '/partials/riwayatbekerja/add.html',
+                controller: 'AngularAddDataRiwayatBekerja'
+            }).
+            when('/addriwayatpendidikan/:id_pegawai',{
+                templateUrl: '/partials/riwayatpendidikan/add.html',
+                controller: 'AngularAddDataRiwayatPendidikan'
+            }).
+            when('/addriwayatkeluarga/:id_pegawai',{
+                templateUrl: '/partials/riwayatkeluarga/add.html',
+                controller: 'AngularAddDataRiwayatKeluarga'
+            }).
             when('/profil/:_id',{
                 templateUrl: '/partials/profil.html',
                 controller : 'AngularDisplayProfilDataPegawai',
@@ -169,6 +181,90 @@ AngularAppRoute.config(
             }).
             when('/unauthorizhed',{
                 templateUrl:'/partials/unauthorizhed.html',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/viewprodusen',{
+                templateUrl: '/partials/produsen/view.html',
+                controller: 'AngularDataProdusen',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/editprodusen/:_id',{
+                templateUrl: '/partials/produsen/edit.html',
+                controller : 'AngularEditDataProdusen',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/addprodusen',{
+                templateUrl: '/partials/produsen/add.html',
+                controller: 'AngularAddDataProdusen',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/viewdistributor',{
+                templateUrl: '/partials/distributor/view.html',
+                controller: 'AngularDataDistributor',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/editdistributor/:_id',{
+                templateUrl: '/partials/distributor/edit.html',
+                controller : 'AngularEditDataDistributor',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/adddistributor',{
+                templateUrl: '/partials/distributor/add.html',
+                controller: 'AngularAddDataDistributor',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/viewsatuan',{
+                templateUrl: '/partials/satuan/view.html',
+                controller: 'AngularDataSatuan',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/editsatuan/:_id',{
+                templateUrl: '/partials/satuan/edit.html',
+                controller : 'AngularEditDataSatuan',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/addsatuan',{
+                templateUrl: '/partials/satuan/add.html',
+                controller: 'AngularAddDataSatuan',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/viewmatauang',{
+                templateUrl: '/partials/matauang/view.html',
+                controller: 'AngularDataMataUang',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/editmatauang/:_id',{
+                templateUrl: '/partials/matauang/edit.html',
+                controller : 'AngularEditDataMataUang',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
+            when('/addmatauang',{
+                templateUrl: '/partials/matauang/add.html',
+                controller: 'AngularAddDataMataUang',
                 resolve: {
                     loggedin: checkLoggedin
                 }

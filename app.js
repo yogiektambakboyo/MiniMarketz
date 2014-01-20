@@ -19,8 +19,8 @@ var mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 var db;
-//var uri = 'mongodb://192.168.16.13:27017/angularapp';
-var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
+var uri = 'mongodb://192.168.16.13:27017/angularapp';
+//var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
 
 
 db = mongoose.createConnection(uri);
@@ -45,6 +45,18 @@ var dataPegawaiPendidikan = db.model('datapegawaipendidikan', dataPegawaiPendidi
 
 var dataPegawaiKeluargaSchema = require('./model/DataSchema.js').datapegawaikeluarga;
 var dataPegawaiKeluarga = db.model('datapegawaikeluarga', dataPegawaiKeluargaSchema);
+
+var dataProdusenSchema = require('./model/DataSchema.js').dataProdusenSchema;
+var dataProdusen = db.model('dataprodusen', dataProdusenSchema);
+
+var dataDistributorSchema = require('./model/DataSchema.js').dataDistributorSchema;
+var dataDistributor = db.model('datadistributor', dataDistributorSchema);
+
+var dataMataUangSchema = require('./model/DataSchema.js').dataMataUangSchema;
+var dataMataUang = db.model('datamatauang', dataMataUangSchema);
+
+var dataSatuanSchema = require('./model/DataSchema.js').dataSatuanSchema;
+var dataSatuan = db.model('datasatuan', dataSatuanSchema);
 
 function customHeaders( req, res, next ){
     // Switch off the default 'X-Powered-By: Express' header
@@ -271,8 +283,8 @@ module.exports.savePegawai = function(req, res, next){
             kodepos : req.body.datapegawai.alamat.kodepos
         },
         telepon : {
-            rumah : req.body.datapegawai.rumah,
-            handphone : req.body.datapegawai.handphone
+            rumah : req.body.datapegawai.telepon.rumah,
+            handphone : req.body.datapegawai.telepon.handphone
         },
         email : req.body.datapegawai.email
         //image_path : req.body.datapegawai.image_path
@@ -337,7 +349,7 @@ module.exports.deletePegawai = function(req, res) {
             if (err){
                 res.send(err);
             }else{
-                res.send('Deleted');
+                res.send('Deleted ' +  req.params._id);
             }
 
         });
@@ -369,8 +381,13 @@ module.exports.findOneBarang = function(req, res, next){
 module.exports.saveBarang = function(req, res, next){
     var databarang = new dataBarang({
         nama : req.body.databarang.nama,
+        tipe : req.body.databarang.tipe,
+        id_distributor : req.body.databarang.id_distributor,
+        id_produsen : req.body.databarang.id_produsen,
         stock : req.body.databarang.stock,
-        harga : req.body.databarang.harga
+        id_satuan : req.body.databarang.id_satuan,
+        harga : req.body.databarang.harga,
+        id_mata_uang : req.body.databarang.id_mata_uang
     });
 
     databarang.save( function(err, databarang){
@@ -384,8 +401,13 @@ module.exports.editBarang = function(req, res){
         { _id : req.body.databarang._id},
         {
             nama : req.body.databarang.nama,
+            tipe : req.body.databarang.tipe,
+            id_distributor : req.body.databarang.id_distributor,
+            id_produsen : req.body.databarang.id_produsen,
             stock : req.body.databarang.stock,
-            harga : req.body.databarang.harga
+            id_satuan : req.body.databarang.id_satuan,
+            harga : req.body.databarang.harga,
+            id_mata_uang : req.body.databarang.id_mata_uang
         },
         function(err){
             if(err){
@@ -406,7 +428,7 @@ module.exports.deleteBarang = function(req, res) {
             if (err){
                 res.send(err);
             }else{
-                res.send('Deleted');
+                res.send('Deleted ' +  req.params._id);
             }
 
         });
@@ -473,7 +495,7 @@ module.exports.deleteUserAssingment = function(req, res) {
             if (err){
                 res.send(err);
             }else{
-                res.send('Deleted');
+                res.send('Deleted ' +  req.params._id);
             }
 
         });
@@ -551,7 +573,7 @@ module.exports.deleteRoles = function(req, res) {
             if (err){
                 res.send(err);
             }else{
-                res.send('Deleted');
+                res.send('Deleted '+ req.params._id);
             }
 
         });
@@ -632,7 +654,7 @@ module.exports.deleteRiwayatBekerja = function(req, res) {
             if (err){
                 res.send(err);
             }else{
-                res.send('Deleted');
+                res.send('Deleted '+ req.params._id);
             }
 
         });
@@ -654,7 +676,7 @@ module.exports.findAllPegawaiPendidikan = function(req,res, next){
 
 module.exports.findOnePegawaiPendidikan = function(req, res, next){
     dataPegawaiPendidikan
-        .findOne({ '_id' : req.params._id })
+        .findOne({ 'id_pegawai' : req.params.id_pegawai })
         .exec(function (err, editdatapegawaipendidikan){
             if(err) return next(err);
             res.send(editdatapegawaipendidikan);
@@ -665,11 +687,12 @@ module.exports.savePegawaiPendidikan = function(req, res, next){
     var datapegawaipendidikan = new dataPegawaiPendidikan({
         id_pegawai : req.body.datapegawaipendidikan.id_pegawai,
         nama_sekolah : req.body.datapegawaipendidikan.nama_sekolah,
+        kota : req.body.datapegawaipendidikan.kota,
         jenjang : req.body.datapegawaipendidikan.jenjang,
         mulai : req.body.datapegawaipendidikan.mulai,
         lulus : req.body.datapegawaipendidikan.lulus,
         jurusan : req.body.datapegawaipendidikan.jurusan,
-        ipk : req.body.datapegawaipendidikan.ipk
+        nilai : req.body.datapegawaipendidikan.nilai
     });
 
     datapegawaipendidikan.save( function(err, datapegawaipendidikan){
@@ -706,7 +729,7 @@ module.exports.deletePegawaiPendidikan = function(req, res) {
             if (err){
                 res.send(err);
             }else{
-                res.send('Deleted');
+                res.send('Deleted ' + req.params._id);
             }
 
         });
@@ -742,6 +765,7 @@ module.exports.savePegawaiKeluarga = function(req, res, next){
         status : req.body.datapegawaikeluarga.status,
         nama : req.body.datapegawaikeluarga.nama,
         tanggal_lahir : req.body.datapegawaikeluarga.tanggal_lahir,
+        alamat : req.body.datapegawaikeluarga.alamat,
         pekerjaan : req.body.datapegawaikeluarga.pekerjaan,
         keterangan : req.body.datapegawaikeluarga.keterangan
     });
@@ -780,7 +804,277 @@ module.exports.deletePegawaiKeluarga = function(req, res) {
             if (err){
                 res.send(err);
             }else{
-                res.send('Deleted');
+                res.send('Deleted ' + req.params._id);
+            }
+
+        });
+};
+
+//=======================================
+// Produsen
+//=======================================
+
+module.exports.findAllProdusen = function(req,res, next){
+    dataProdusen
+        .find()
+        .sort({'nama' : 1})
+        .exec(function (err, dataprodusen){
+            if (err) return next(err);
+            res.send(dataprodusen);
+        });
+};
+
+module.exports.findOneProdusen = function(req, res, next){
+    dataProdusen
+        .findOne({ '_id' : req.params._id })
+        .exec(function (err, editdataprodusen){
+            if(err) return next(err);
+            res.send(editdataprodusen);
+        });
+};
+
+module.exports.saveProdusen = function(req, res, next){
+    var dataprodusen = new dataProdusen({
+        id : req.body.dataprodusen.id,
+        nama : req.body.dataprodusen.nama
+    });
+
+    dataprodusen.save( function(err, dataprodusen){
+        if (err) return next(err);
+        res.send(dataprodusen);
+    });
+};
+
+module.exports.editProdusen = function(req, res){
+    dataProdusen.update(
+        { _id : req.body.dataprodusen._id},
+        {
+            id : req.body.dataprodusen.id,
+            nama : req.body.dataprodusen.nama
+        },
+        function(err){
+            if(err){
+                res.send(err);
+            }else{
+                res.send('OK, Updated');
+            }
+
+        }
+    );
+};
+
+module.exports.deleteProdusen = function(req, res) {
+    dataProdusen
+        .remove({
+            _id : req.params._id
+        }, function(err) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send('Deleted ' +  req.params._id);
+            }
+
+        });
+};
+
+//=======================================
+// Distributor
+//=======================================
+
+module.exports.findAllDistributor = function(req,res, next){
+    dataDistributor
+        .find()
+        .sort({'nama' : 1})
+        .exec(function (err, datadistributor){
+            if (err) return next(err);
+            res.send(datadistributor);
+        });
+};
+
+module.exports.findOneDistributor = function(req, res, next){
+    dataDistributor
+        .findOne({ '_id' : req.params._id })
+        .exec(function (err, editdatadistributor){
+            if(err) return next(err);
+            res.send(editdatadistributor);
+        });
+};
+
+module.exports.saveDistributor = function(req, res, next){
+    var datadistributor = new dataDistributor({
+        id : req.body.datadistributor.id,
+        nama : req.body.datadistributor.nama,
+        no_telepon : req.body.datadistributor.no_telepon
+    });
+
+    datadistributor.save( function(err, datadistributor){
+        if (err) return next(err);
+        res.send(datadistributor);
+    });
+};
+
+module.exports.editDistributor = function(req, res){
+    dataDistributor.update(
+        { _id : req.body.datadistributor._id},
+        {
+            id : req.body.datadistributor.id,
+            nama : req.body.datadistributor.nama,
+            no_telepon : req.body.datadistributor.no_telepon
+        },
+        function(err){
+            if(err){
+                res.send(err);
+            }else{
+                res.send('OK, Updated');
+            }
+
+        }
+    );
+};
+
+module.exports.deleteDistributor = function(req, res) {
+    dataDistributor
+        .remove({
+            _id : req.params._id
+        }, function(err) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send('Deleted ' +  req.params._id);
+            }
+
+        });
+};
+
+//=======================================
+// Satuan
+//=======================================
+
+module.exports.findAllSatuan = function(req,res, next){
+    dataSatuan
+        .find()
+        .sort({'nama' : 1})
+        .exec(function (err, datasatuan){
+            if (err) return next(err);
+            res.send(datasatuan);
+        });
+};
+
+module.exports.findOneSatuan = function(req, res, next){
+    dataSatuan
+        .findOne({ '_id' : req.params._id })
+        .exec(function (err, editdatasatuan){
+            if(err) return next(err);
+            res.send(editdatasatuan);
+        });
+};
+
+module.exports.saveSatuan = function(req, res, next){
+    var datasatuan = new dataSatuan({
+        id : req.body.datasatuan.id,
+        nama : req.body.datasatuan.nama
+    });
+
+    datasatuan.save( function(err, datasatuan){
+        if (err) return next(err);
+        res.send(datasatuan);
+    });
+};
+
+module.exports.editSatuan = function(req, res){
+    dataSatuan.update(
+        { _id : req.body.datasatuan._id},
+        {
+            id : req.body.datasatuan.id,
+            nama : req.body.datasatuan.nama
+        },
+        function(err){
+            if(err){
+                res.send(err);
+            }else{
+                res.send('OK, Updated');
+            }
+
+        }
+    );
+};
+
+module.exports.deleteSatuan = function(req, res) {
+    dataSatuan
+        .remove({
+            _id : req.params._id
+        }, function(err) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send('Deleted ' +  req.params._id);
+            }
+
+        });
+};
+
+//=======================================
+// MataUang
+//=======================================
+
+module.exports.findAllMataUang = function(req,res, next){
+    dataMataUang
+        .find()
+        .sort({'nama' : 1})
+        .exec(function (err, datamatauang){
+            if (err) return next(err);
+            res.send(datamatauang);
+        });
+};
+
+module.exports.findOneMataUang = function(req, res, next){
+    dataMataUang
+        .findOne({ '_id' : req.params._id })
+        .exec(function (err, editdatamatauang){
+            if(err) return next(err);
+            res.send(editdatamatauang);
+        });
+};
+
+module.exports.saveMataUang = function(req, res, next){
+    var datamatauang = new dataMataUang({
+        id : req.body.datamatauang.id,
+        nama : req.body.datamatauang.nama
+    });
+
+    datamatauang.save( function(err, datamatauang){
+        if (err) return next(err);
+        res.send(datamatauang);
+    });
+};
+
+module.exports.editMataUang = function(req, res){
+    dataMataUang.update(
+        { _id : req.body.datamatauang._id},
+        {
+            id : req.body.datamatauang.id,
+            nama : req.body.datamatauang.nama
+        },
+        function(err){
+            if(err){
+                res.send(err);
+            }else{
+                res.send('OK, Updated');
+            }
+
+        }
+    );
+};
+
+module.exports.deleteMataUang = function(req, res) {
+    dataMataUang
+        .remove({
+            _id : req.params._id
+        }, function(err) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send('Deleted ' +  req.params._id);
             }
 
         });
@@ -861,6 +1155,38 @@ app.get('/api/datapegawaikeluarga/:_id', this.findOnePegawaiKeluarga);
 app.post('/api/datapegawaikeluarga', this.savePegawaiKeluarga);
 //app.put('/api/datapegawaikeluarga/:_id', this.editPegawaiKeluarga);
 app.delete('/api/datapegawaikeluarga/:_id', this.deletePegawaiKeluarga);
+
+//
+app.get('/api/dataprodusen',needsRoles(1), this.findAllProdusen);
+//app.get('/api/dataprodusen', this.findAllProdusen);
+app.get('/api/dataprodusen/:_id', this.findOneProdusen);
+app.post('/api/dataprodusen', this.saveProdusen);
+app.put('/api/dataprodusen/:_id', this.editProdusen);
+app.delete('/api/dataprodusen/:_id', this.deleteProdusen);
+
+//
+app.get('/api/datadistributor',needsRoles(1), this.findAllDistributor);
+//app.get('/api/datadistributor', this.findAllDistributor);
+app.get('/api/datadistributor/:_id', this.findOneDistributor);
+app.post('/api/datadistributor', this.saveDistributor);
+app.put('/api/datadistributor/:_id', this.editDistributor);
+app.delete('/api/datadistributor/:_id', this.deleteDistributor);
+
+//
+app.get('/api/datasatuan',needsRoles(1), this.findAllSatuan);
+//app.get('/api/datasatuan', this.findAllSatuan);
+app.get('/api/datasatuan/:_id', this.findOneSatuan);
+app.post('/api/datasatuan', this.saveSatuan);
+app.put('/api/datasatuan/:_id', this.editSatuan);
+app.delete('/api/datasatuan/:_id', this.deleteSatuan);
+
+//
+app.get('/api/datamatauang',needsRoles(1), this.findAllMataUang);
+//app.get('/api/datamatauang', this.findAllMataUang);
+app.get('/api/datamatauang/:_id', this.findOneMataUang);
+app.post('/api/datamatauang', this.saveMataUang);
+app.put('/api/datamatauang/:_id', this.editMataUang);
+app.delete('/api/datamatauang/:_id', this.deleteMataUang);
 
 //io.sockets.on('connection', function (socket) {
     //socket.emit('news', { hello: 'world' });

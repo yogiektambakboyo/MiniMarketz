@@ -1,0 +1,28 @@
+<h1><span class="glyphicon glyphicon-tasks"> </span>  Edit Distributor</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datadistributor.id" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>Nama</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datadistributor.nama" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>No. Telepon</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datadistributor.no_telepon" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="updateDistributor(datadistributor)"/>  <a href="/#/viewdistributor" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+    </tr>
+</table>

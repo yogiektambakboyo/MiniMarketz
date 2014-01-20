@@ -1,0 +1,62 @@
+<h1>Tambah Riwayat Pendidikan Pegawai</h1>
+<br>
+<table>
+    <tr>
+        <td>Nama Sekolah </td>
+        <td><input ng-model="datapegawaipendidikan.nama_sekolah" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <td>Kota </td>
+        <td><input ng-model="datapegawaipendidikan.kota" class="form-control"/></td>
+    </tr>
+
+
+    <td>
+        <tr>
+            <td>Jenjang </td>
+            <td><select ng-model="datapegawaipendidikan.jenjang" class="form-control">
+                <option value="SD">SD</option>
+                <option value="SLTP">SLTP</option>
+                <option value="SLTA">SLTA</option>
+                <option value="D1">D1</option>
+                <option value="D2">D2</option>
+                <option value="D3">D3</option>
+                <option value="S1">S1</option>
+                <option value="S2">S2</option>
+                <option value="S3">S3</option>
+                <option value="Lainnya">Lainnya</option>
+            </select></td>
+        </tr>
+    </td>
+    <td>
+        <tr>
+            <td>Jurusan </td>
+            <td><input ng-model="datapegawaipendidikan.jurusan" class="form-control"/></td>
+        </tr>
+    </td>
+    <td>
+        <tr>
+            <td>Mulai </td>
+            <td><input ng-model="datapegawaipendidikan.mulai" class="form-control"  type="number"/></td>
+        </tr>
+    </td>
+    <td>
+        <tr>
+            <td>Lulus </td>
+            <td><input ng-model="datapegawaipendidikan.lulus" class="form-control"  type="number"/></td>
+            <input type="hidden" ng-model="datapegawaipendidikan.id_pegawai" disabled class="form-control"/>
+        </tr>
+    </td>
+
+    <td>
+        <tr>
+            <td>Nilai/IPK </td>
+            <td><input ng-model="datapegawaipendidikan.nilai" class="form-control"  type="number"/></td>
+        </tr>
+    </td>
+
+    <tr>
+        <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="simpanRiwayatPendidikan(datapegawaipendidikan)"/></td>
+    </tr>
+</table>

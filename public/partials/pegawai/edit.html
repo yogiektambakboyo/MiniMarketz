@@ -1,4 +1,4 @@
-<h1><span class="glyphicon glyphicon-user"> </span>  Editing {{ datapegawai._id }}</h1>
+<h1><span class="glyphicon glyphicon-user"> </span>  Editing  @{{ datapegawai.nama }}</h1>
 
 <script type="text/javascript">
     $('#myTab a').click(function (e) {
@@ -152,13 +152,12 @@
                 <tr>
                     <td>Tanggal Masuk</td>
                     <td>
-                        <!--<div class="input-group">
+                        <div class="input-group">
                             <input ng-model="datapegawai.tanggal_masuk" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                               <span class="input-group-btn">
                                  <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                               </span>
-                        </div>-->
-                        <input ng-model="datapegawai.tanggal_masuk" class="form-control">
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -187,132 +186,76 @@
                         <tr ng-repeat="datariwayat in datariwayatbekerja | filter : datapegawai._id ">
                             <td>{{ datariwayat.tanggal_riwayat.substring(0,10) }}</td>
                             <td>{{ datariwayat.jabatan }}</td>
-                            <td>{{ datariwayat.gaji }}</td>
+                            <td>{{ datariwayat.gaji | number }}</td>
                             <td> <a href="" ng-click="delRiwayatBekerja(datariwayat)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
                         </tr>
                     </table>
-
                 <tr>
-                    <th><button ng-click="isAdd()">Tambah Riwayat Kerja</button></th>  {{ add }}
+                    <th><a href="#/addriwayatbekerja/{{ datapegawai._id }}"><button class="btn btn-primary">Tambah Riwayat Kerja</button></a></th>
                 </tr>
 
-                <div ng-show="add">
-                    <tr>
-                        <td>Tanggal</td>
-                        <td>
-                            <div class="input-group">
-                                <input ng-model="datapegawai.tanggal_riwayat" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                              <span class="input-group-btn">
-                                 <button class="btn btn-default" ng-click="open($event)" ><i class="glyphicon glyphicon-calendar"></i></button>
-                              </span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Jabatan</td>
-                        <td><input ng-model="datapegawai.tahun_jabatan" class="form-control"/></td>
-                    </tr>
-                    <tr>
-                        <td>Gaji</td>
-                        <td><input ng-model="datapegawai.gaji" class="form-control"/></td>
-                    </tr>
-                </div>
+
+
 
             </table>
         </div>
 
         <div class="tab-pane" id="pendidikan">
             <br>
-            <table>
+            <table class="table table-striped">
                 <tr>
-                    <td>
-                        <tr>
-                            <td>Nama Sekolah </td>
-                            <td><input ng-model="datapegawai.pendidikan.nama_sekolah" class="form-control"/></td>
-                        </tr>
-                    </td>
+                    <th>Nama Sekolah</th>
+                    <th>Jenjang</th>
+                    <th>Mulai</th>
+                    <th>Lulus</th>
+                    <th>Jurusan</th>
+                    <th>Nilai / IPK</th>
+                    <th>Action</th>
+                </tr>
 
-                <td>
-                    <tr>
-                        <td>Jenjang </td>
-                        <td><input ng-model="datapegawai.pendidikan.jenjang" class="form-control"/></td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Jurusan </td>
-                        <td><input ng-model="datapegawai.pendidikan.jurusan" class="form-control"/></td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Mulai </td>
-                        <td><input ng-model="datapegawai.pendidikan.mulai" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Lulus </td>
-                        <td><input ng-model="datapegawai.pendidikan.lulus" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
+                <tr ng-repeat="datapegawai in datapegawaipendidikan | filter : datapegawai._id ">
+                    <td>{{ datapegawai.nama_sekolah }}</td>
+                    <td>{{ datapegawai.jenjang }}</td>
+                    <td>{{ datapegawai.mulai }}</td>
+                    <td>{{ datapegawai.lulus }}</td>
+                    <td>{{ datapegawai.jurusan }}</td>
+                    <td>{{ datapegawai.nilai }}</td>
+                    <td> <a href="" ng-click="delRiwayatPendidikan(datapegawai)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
                 </tr>
             </table>
+            <tr>
+                <th><a href="#/addriwayatpendidikan/{{ datapegawai._id }}"><button class="btn btn-primary">Tambah Riwayat Pendidikan</button></a></th>
+            </tr>
+
         </div>
 
         <div class="tab-pane" id="keluarga">
             <br>
-            <table>
+            <table class="table table-striped">
                 <tr>
-
-                    <td>
-                <tr>
-                    <td>Ayah</td>
-                    <td><input ng-model="datapegawai.keluarga.ayah" class="form-control"  type="number"/></td>
+                    <th>Nama</th>
+                    <th>Status</th>
+                    <th>Tanggal lahir</th>
+                    <th>Alamat</th>
+                    <th>Pekerjaan</th>
+                    <th>Keterangan</th>
+                    <th>Action</th>
                 </tr>
-                </td>
 
-                <td>
-                    <tr>
-                        <td>Ibu</td>
-                        <td><input ng-model="datapegawai.keluarga.ibu" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
-
-                <td>
-                    <tr>
-                        <td>Saudara 1</td>
-                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
-
-                <td>
-                    <tr>
-                        <td>Saudara 2</td>
-                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Saudara 3</td>
-                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Saudara 4</td>
-                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Saudara 5</td>
-                        <td><input ng-model="datapegawai.keluarga.saudara_1" class="form-control"  type="number"/></td>
-                    </tr>
-                </td>
-
+                <tr ng-repeat="datapegawai in datapegawaikeluarga | filter : datapegawai._id ">
+                    <td>{{ datapegawai.nama }}</td>
+                    <td>{{ datapegawai.status }}</td>
+                    <td>{{ datapegawai.tanggal_lahir.substring(0,10) }}</td>
+                    <td>{{ datapegawai.alamat }}</td>
+                    <td>{{ datapegawai.pekerjaan }}</td>
+                    <td>{{ datapegawai.keterangan }}</td>
+                    <td> <a href="" ng-click="delRiwayatKeluarga(datapegawai)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
                 </tr>
             </table>
+            <tr>
+                <th><a href="#/addriwayatkeluarga/{{ datapegawai._id }}"><button class="btn btn-primary">Tambah Riwayat Keluarga</button></a></th>
+            </tr>
+
         </div>
         </div>
         <br>

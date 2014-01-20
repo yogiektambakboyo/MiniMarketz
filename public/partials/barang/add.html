@@ -7,19 +7,79 @@
     <tr>
         <td><input ng-model="databarang.nama" class="form-control"/></td>
     </tr>
+
     <tr>
-        <th>Harga</th>
+        <th>Tipe</th>
     </tr>
     <tr>
-        <td><input ng-model="databarang.harga" class="form-control"/></td>
+        <td><input ng-model="databarang.tipe" class="form-control"/></td>
     </tr>
+
+
+    <tr>
+        <th>Distributor</th>
+    </tr>
+    <tr>
+        <td>
+            <select ng-change="selectActionDistributor()" ng-model="selectedDataDistributor" ng-options="datadistributors._id as datadistributors.nama for datadistributors in datadistributor" class="form-control">
+                <option value="">== Select Distributor ==</option>
+            </select>
+        </td>
+        <td><input type="hidden" ng-model="databarang.id_distributor" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>Produsen</th>
+    </tr>
+    <tr>
+        <td>
+            <select ng-change="selectActionProdusen()" ng-model="selectedDataProdusen" ng-options="dataprodusens._id as dataprodusens.nama for dataprodusens in dataprodusen" class="form-control">
+                <option value="">== Select Produsen ==</option>
+            </select>
+        </td>
+        <td><input type="hidden" ng-model="databarang.id_produsen" class="form-control"/></td>
+    </tr>
+
     <tr>
         <th>Stock</th>
     </tr>
     <tr>
         <td><input ng-model="databarang.stock" class="form-control"/></td>
     </tr>
+
     <tr>
-        <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="simpanBarang(databarang)"/>  <a href="/#/viewbarang" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+        <th>Satuan</th>
+    </tr>
+    <tr>
+        <td>
+            <select ng-change="selectActionSatuan()" ng-model="selectedDataSatuan" ng-options="datasatuans._id as datasatuans.nama for datasatuans in datasatuan" class="form-control">
+                <option value="">== Select Satuan ==</option>
+            </select>
+        </td>
+        <td><input type="hidden" ng-model="databarang.id_satuan" class="form-control"/></td>
+    </tr>
+
+
+    <tr>
+        <th>Harga</th>
+    </tr>
+    <tr>
+        <td><input ng-model="databarang.harga" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>Mata Uang</th>
+    </tr>
+    <tr>
+        <td>
+            <select ng-change="selectActionMataUang()" ng-model="selectedDataMataUang" ng-options="datamatauangs._id as datamatauangs.nama for datamatauangs in datamatauang" class="form-control">
+                <option value="">== Select MataUang ==</option>
+            </select>
+        </td>
+        <td><input type="hidden" ng-model="databarang.id_mata_uang" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <td><input  type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="simpanBarang(databarang)"/>  <a href="/#/viewbarang" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
     </tr>
 </table>

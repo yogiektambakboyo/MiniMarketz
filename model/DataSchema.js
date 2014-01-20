@@ -29,15 +29,6 @@ exports.dataPegawaiSchema = new mongoose.Schema(
             handphone : String
         },
         email : String,
-        keluarga : {
-            ayah : String,
-            ibu : String,
-            saudara_1 : String,
-            saudara_2 : String,
-            saudara_3 : String,
-            saudara_4 : String,
-            saudara_5 : String
-        },
         image_path : String
     }
 );
@@ -53,8 +44,45 @@ exports.dataBarangSchema = new mongoose.Schema(
     {
         id : String,
         nama : String,
+        tipe: String,
         stock : String,
-        harga : String
+        id_satuan : String,
+        id_distributor : String,
+        id_produsen : String,
+        harga : Number,
+        id_mata_uang : String
+    }
+);
+
+exports.dataProdusenSchema = new mongoose.Schema(
+    {
+        id : String,
+        nama : String
+    }
+);
+exports.dataDistributorSchema = new mongoose.Schema(
+    {
+        id : String,
+        nama : String,
+        no_telepon : String
+    }
+);
+
+exports.dataMataUangSchema = new mongoose.Schema({
+    id : String,
+    nama : String
+});
+
+exports.dataDiskonSchema = new mongoose.Schema({
+    id : String,
+    nama : String,
+    persen : String
+});
+
+exports.dataSatuanSchema = new mongoose.Schema(
+    {
+        id : String,
+        nama : String
     }
 );
 
@@ -77,7 +105,7 @@ exports.datariwayatkerja = new mongoose.Schema(
         id_pegawai : String,
         tanggal_riwayat : Date,
         jabatan : String,
-        gaji : String
+        gaji : Number
     }
 );
 
@@ -85,11 +113,12 @@ exports.datapegawaipendidikan = new mongoose.Schema(
     {
         id_pegawai : String,
         nama_sekolah : String,
+        kota : String,
         jenjang : String,
         mulai : Number,
         lulus : Number,
         jurusan : String,
-        ipk : String
+        nilai : String
     }
 );
 
@@ -98,9 +127,42 @@ exports.datapegawaikeluarga = new mongoose.Schema(
         id_pegawai : String,
         status : String,
         nama : String,
-        tanggal_lahir : String,
+        tanggal_lahir : Date,
+        alamat : String,
         pekerjaan : String,
         keterangan : String
+    }
+);
+
+exports.dataTransaksiPembelian = new mongoose.Schema(
+    {
+        tanggal_transaksi : Date,
+        no_kwitansi : String,
+        total_transaksi : Number,
+        distributor : String,
+        penerima : String,
+        status : String
+    }
+);
+exports.dataTransaksiPenjualan = new mongoose.Schema(
+    {
+        tanggal_transaksi : Date,
+        no_kwitansi : String,
+        total_transaksi : Number,
+        uang_bayar : Number,
+        uang_kembali : Number,
+        pegawai : String,
+        status : String
+    }
+);
+
+exports.dataTransaksi = new mongoose.Schema(
+    {
+        tanggal : Date,
+        id_transaksi : String,
+        id_barang : String,
+        jumlah_barang : String,
+        diskon : String
     }
 );
 

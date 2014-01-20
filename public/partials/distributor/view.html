@@ -1,0 +1,28 @@
+<div>
+    <h1><span class="glyphicon glyphicon-tasks"> </span>  Stock Distributor</h1>
+    <form role="form">
+        <div class="form-group">
+            <label> Pencarian : </label> <input type="text" ng-model="search" placeholder="Enter Keyword">
+        </div>
+    </form>
+    <a href="/#/adddistributor"> <span class="glyphicon glyphicon-plus"></span><label> Tambah Data Baru</label></a>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>No Telepon</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="data in datadistributor | filter : search" class="repeat-animation">
+
+                <td>{{ $index + 1 }}</td>
+                <td>{{ data.nama }}</td>
+                <td>{{ data.no_telepon }}</td>
+                <td>  <a href="/#/editdistributor/{{ data._id }}" class="hover-shadow"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delDistributor(data)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
