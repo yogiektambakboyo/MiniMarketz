@@ -19,8 +19,8 @@ var mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 var db;
-var uri = 'mongodb://192.168.16.13:27017/angularapp';
-//var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
+//var uri = 'mongodb://192.168.16.13:27017/angularapp';
+var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
 
 
 db = mongoose.createConnection(uri);
