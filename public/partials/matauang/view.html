@@ -1,0 +1,66 @@
+<div>
+    <h1><span class="glyphicon glyphicon-tasks"> </span>  Stock MataUang</h1>
+    <form role="form">
+        <div class="form-group">
+            <label> Pencarian : </label> <input type="text" ng-model="search" placeholder="Enter Keyword">
+        </div>
+    </form>
+    <a href="/#/addmatauang"> <span class="glyphicon glyphicon-plus"></span><label> Tambah Data Baru</label></a>
+    <br>
+
+    <div>
+        <table>
+            <tr>
+                <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="btn btn-primary">
+                    Previous
+                </button>
+                {{currentPage+1}}/{{numberOfPages()}}
+                <button ng-disabled="currentPage >= datamatauang.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="btn" class="btn btn-primary">
+                    Next
+                </button>
+            </tr>
+
+        </table>
+
+    </div>
+    <br>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="data in datamatauang | filter : search | startFrom:currentPage * pageSize | limitTo: pageSize" class="repeat-animation">
+
+                <td>{{ $index + 1 }}</td>
+                <td>{{ data.nama }}</td>
+                <td>  <a href="/#/editmatauang/{{ data._id }}" class="hover-shadow"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delMataUang(data)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+</div>
+
+
+
+        <div>
+            <button ng-click="tableParams.sorting({})" class="btn btn-default pull-right">Clear sorting</button>
+            <p><strong>Sorting:</strong> {{tableParams.sorting()|json}}
+
+
+            <table ng-table="tableParams" class="table">
+                <tr ng-repeat="user in datamatauang">
+                    <td data-title="'Id'" sortable="'id'">
+                        {{user.id}}
+                    </td>
+                    <td data-title="'Nama'" sortable="'nama'">
+                        {{user.nama}}
+                    </td>
+                </tr>
+            </table>
+        </div>

@@ -25,21 +25,62 @@ AngularAppController.factory('datariwayatbekerja',function($resource){
 });
 
 AngularAppController.factory('datapegawaipendidikan',function($resource){
-    return $resource('/api/datapegawaipendidikan/:id_pegawai',{ id_pegawai : '@_id'})
+    return $resource('/api/datapegawaipendidikan/')
 });
 
 AngularAppController.factory('datapegawaikeluarga',function($resource){
-    return $resource('/api/datapegawaikeluarga/:id_pegawai',{ id_pegawai : '@_id'})
+    return $resource('/api/datapegawaikeluarga/')
+});
+
+AngularAppController.factory('dataprodusen',function($resource){
+    return $resource('/api/dataprodusen/:_id',{ _id : '@_id'})
+});
+
+AngularAppController.factory('datadistributor',function($resource){
+    return $resource('/api/datadistributor/:_id',{ _id : '@_id'})
+});
+
+AngularAppController.factory('datasatuan',function($resource){
+    return $resource('/api/datasatuan/:_id',{ _id : '@_id'})
+});
+
+AngularAppController.factory('datamatauang',function($resource){
+    return $resource('/api/datamatauang/:_id',{ _id : '@_id'})
+});
+
+AngularAppController.factory('datatransaksi',function($resource){
+    return $resource('/api/datatransaksi/:_id',{ _id : '@_id'})
+});
+
+AngularAppController.factory('datatransaksipenjualan',function($resource){
+    return $resource('/api/datatransaksipenjualan/:_id',{ _id : '@_id'})
+});
+
+AngularAppController.factory('datatransaksipembelian',function($resource){
+    return $resource('/api/datatransaksipembelian/:_id',{ _id : '@_id'})
 });
 
 
 //==============================================
 // Barang Section
 //==============================================
-AngularAppController.controller('AngularDataBarang', [ '$scope', '$resource', 'databarang', '$http', '$location', '$rootScope',
-    function($scope, $resource ,databarang, $http, $location, $rootScope){
+AngularAppController.controller('AngularDataBarang', [ '$scope', '$resource', 'databarang','dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang', '$http', '$location', '$rootScope',
+    function($scope, $resource , databarang, dataprodusen, datadistributor, datasatuan, datamatauang, $http, $location, $rootScope){
         var dataBarang = databarang;
         $scope.databarang = dataBarang.query();
+
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+        var dataSatuan = datasatuan;
+        $scope.datasatuan = dataSatuan.query();
+
+        var dataMataUang = datamatauang;
+        $scope.datamatauang = dataMataUang.query();
+
 
         $scope.delBarang = function(data){
             $http.delete('/api/databarang/' + data._id  , {
@@ -57,8 +98,8 @@ AngularAppController.controller('AngularDataBarang', [ '$scope', '$resource', 'd
     }
 ]);
 
-AngularAppController.controller('AngularEditDataBarang', [ '$scope', '$resource', 'databarang', '$routeParams', '$http', '$location', '$rootScope',
-    function($scope, $resource, databarang, $routeParams, $http, $location, $rootScope){
+AngularAppController.controller('AngularEditDataBarang', [ '$scope', '$resource', 'databarang','dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, databarang, dataprodusen, datadistributor, datasatuan, datamatauang, $routeParams, $http, $location, $rootScope){
         $scope.databarang = databarang.get({ _id : $routeParams._id });
 
         $scope.updateBarang = function(){
@@ -74,8 +115,45 @@ AngularAppController.controller('AngularEditDataBarang', [ '$scope', '$resource'
     }
 ]);
 
-AngularAppController.controller('AngularAddDataBarang', [ '$scope' , '$location', '$http', '$rootScope',
-    function($scope, $location, $http, $rootScope){
+AngularAppController.controller('AngularAddDataBarang', [ '$scope' , '$location', '$http', '$rootScope', 'dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang',
+    function($scope, $location, $http, $rootScope, dataprodusen, datadistributor, datasatuan, datamatauang){
+
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        $scope.selectedDataProdusen = null;
+        $scope.databarang = {};
+
+        $scope.selectActionProdusen = function(){
+            $scope.databarang.id_produsen = $scope.selectedDataProdusen;
+        }
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+        $scope.selectedDataDistributor = null;
+
+        $scope.selectActionDistributor = function(){
+            $scope.databarang.id_distributor = $scope.selectedDataDistributor;
+        }
+
+        var dataSatuan = datasatuan;
+        $scope.datasatuan = dataSatuan.query();
+
+        $scope.selectedDataSatuan = null;
+
+        $scope.selectActionSatuan = function(){
+            $scope.databarang.id_satuan = $scope.selectedDataSatuan;
+        }
+
+        var dataMataUang = datamatauang;
+        $scope.datamatauang = dataMataUang.query();
+
+        $scope.selectedDataMataUang = null;
+
+        $scope.selectActionMataUang = function(){
+            $scope.databarang.id_mata_uang = $scope.selectedDataMataUang;
+        }
 
 
         $scope.simpanBarang = function(databarang){
@@ -99,7 +177,7 @@ AngularAppController.controller('AngularAddDataBarang', [ '$scope' , '$location'
 //==============================================
 
 AngularAppController.controller('AngularDataPegawai', [ '$scope', '$resource', 'datapegawai', '$http', '$location', '$rootScope',
-    function($scope, $resource, datapegawai, $http, $location, $rootScope){
+    function($scope, $resource, datapegawai, $http, $location, $rootScope ){
         var dataPegawai = datapegawai;
         $scope.datapegawai = dataPegawai.query();
 
@@ -140,8 +218,11 @@ AngularAppController.controller('AngularEditDataPegawai', [ '$scope', '$resource
         var dataRiwayatBekerja = datariwayatbekerja;
         $scope.datariwayatbekerja = dataRiwayatBekerja.query();
 
-        $scope.datapegawaipendidikan = datapegawaipendidikan.get({ id_pegawai : $routeParams._id });
-        $scope.datapegawaikeluarga = datapegawaikeluarga.get({ id_pegawai : $routeParams._id });
+        var dataRiwayatPendidikan = datapegawaipendidikan;
+        $scope.datapegawaipendidikan = dataRiwayatPendidikan.query();
+
+        var dataRiwayatKeluarga = datapegawaikeluarga;
+        $scope.datapegawaikeluarga = dataRiwayatKeluarga.query();
 
         $scope.updatePegawai = function(){
             $http.put('/api/datapegawai/' + $scope.datapegawai._id , {"datapegawai": $scope.datapegawai})
@@ -154,16 +235,6 @@ AngularAppController.controller('AngularEditDataPegawai', [ '$scope', '$resource
                 });
         };
 
-        $scope.add = false;
-
-        $scope.isAdd = function(){
-            if($scope.add){
-              $scope.add = false;
-            }else{
-                $scope.add = true;
-            }
-        }
-
         $scope.delRiwayatBekerja = function(data){
             $http.delete('/api/datariwayatbekerja/' + data._id  , {
                 _id : data._id
@@ -171,6 +242,34 @@ AngularAppController.controller('AngularEditDataPegawai', [ '$scope', '$resource
                 .success(function(user){
                     $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
                     $scope.datariwayatbekerja = dataRiwayatBekerja.query();
+                    //$location.url('/viewpegawai');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+
+        $scope.delRiwayatPendidikan = function(data){
+            $http.delete('/api/datapegawaipendidikan/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(user){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datapegawaipendidikan = dataRiwayatPendidikan.query();
+                    //$location.url('/viewpegawai');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+
+        $scope.delRiwayatKeluarga = function(data){
+            $http.delete('/api/datapegawaikeluarga/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(user){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datapegawaikeluarga = dataRiwayatKeluarga.query();
                     //$location.url('/viewpegawai');
                 })
                 .error(function(){
@@ -282,9 +381,18 @@ AngularAppController.controller('AngularAddDataPegawai', [ '$scope' , '$location
     }
 ]);
 
-AngularAppController.controller('AngularDisplayProfilDataPegawai', [ '$scope', '$resource', 'datapegawai', '$routeParams',
-    function($scope, $resource, datapegawai, $routeParams){
+AngularAppController.controller('AngularDisplayProfilDataPegawai', [ '$scope', '$resource', 'datapegawai','datariwayatbekerja','datapegawaipendidikan','datapegawaikeluarga', '$routeParams',
+    function($scope, $resource, datapegawai, datariwayatbekerja, datapegawaipendidikan, datapegawaikeluarga, $routeParams){
         $scope.datapegawai = datapegawai.get({ _id : $routeParams._id });
+
+        var dataRiwayatBekerja = datariwayatbekerja;
+        $scope.datariwayatbekerja = dataRiwayatBekerja.query();
+
+        var dataRiwayatPendidikan = datapegawaipendidikan;
+        $scope.datapegawaipendidikan = dataRiwayatPendidikan.query();
+
+        var dataRiwayatKeluarga = datapegawaikeluarga;
+        $scope.datapegawaikeluarga = dataRiwayatKeluarga.query();
 
     }
 ]);
@@ -500,4 +608,736 @@ AngularAppController.controller('AngularEditDataRole', [ '$scope', '$resource', 
     }
 ]);
 
+
+//=================================================================================
+// Riwayat Bakerja
+//=================================================================================
+AngularAppController.controller('AngularAddDataRiwayatBekerja', [ '$scope' , '$location', '$http', '$rootScope', '$routeParams',
+    function($scope, $location, $http, $rootScope, $routeParams){
+
+        $scope.simpanRiwayatBekerja = function(datariwayatbekerja){
+            $scope.datariwayatbekerja.id_pegawai = $routeParams.id_pegawai;
+            $http.post('/api/datariwayatbekerja' , {
+                "datariwayatbekerja" : $scope.datariwayatbekerja
+            })
+                .success(function(datariwayatbekerja){
+                    $rootScope.message = 'Add data "' + datariwayatbekerja._id + '" Succesful!';
+                    $location.url('/editpegawai/' + $routeParams.id_pegawai);
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datariwayatbekerja._id + '" Failed!';
+                });
+        };
+
+        //Test DatePicker
+        $scope.today = function() {
+            $scope.dt = new Date('yyyy-MM-dd');
+        };
+
+        $scope.today();
+
+        $scope.showWeeks = true;
+        $scope.toggleWeeks = function () {
+            $scope.showWeeks = ! $scope.showWeeks;
+        };
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            'year-format': "'yy'",
+            'starting-day': 1
+        };
+
+        $scope.format = 'dd-MM-yyyy';
+
+    }
+]);
+
+//=================================================================================
+// Riwayat Pendidikan
+//=================================================================================
+AngularAppController.controller('AngularAddDataRiwayatPendidikan', [ '$scope' , '$location', '$http', '$rootScope', '$routeParams',
+    function($scope, $location, $http, $rootScope, $routeParams){
+
+        $scope.simpanRiwayatPendidikan = function(datapegawaipendidikan){
+            $scope.datapegawaipendidikan.id_pegawai = $routeParams.id_pegawai;
+            $http.post('/api/datapegawaipendidikan' , {
+                "datapegawaipendidikan" : $scope.datapegawaipendidikan
+            })
+                .success(function(datapegawaipendidikan){
+                    $rootScope.message = 'Add data "' + datapegawaipendidikan._id + '" Succesful!';
+                    $location.url('/editpegawai/' + $routeParams.id_pegawai);
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datapegawaipendidikan._id + '" Failed!';
+                });
+        };
+
+    }
+]);
+
+//=================================================================================
+// Riwayat Keluarga
+//=================================================================================
+AngularAppController.controller('AngularAddDataRiwayatKeluarga', [ '$scope' , '$location', '$http', '$rootScope', '$routeParams',
+    function($scope, $location, $http, $rootScope, $routeParams){
+
+
+
+        $scope.simpanRiwayatKeluarga = function(datapegawaikeluarga){
+            $scope.datapegawaikeluarga.id_pegawai = $routeParams.id_pegawai;
+            $http.post('/api/datapegawaikeluarga' , {
+                "datapegawaikeluarga" : $scope.datapegawaikeluarga
+            })
+                .success(function(datapegawaikeluarga){
+                    $rootScope.message = 'Add data "' + datapegawaikeluarga._id + '" Succesful!';
+                    $location.url('/editpegawai/' + $routeParams.id_pegawai);
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datapegawaikeluarga._id + '" Failed!';
+                });
+        };
+
+        //Test DatePicker
+        $scope.today = function() {
+            $scope.dt = new Date('yyyy-MM-dd');
+        };
+
+        $scope.today();
+
+        $scope.showWeeks = true;
+        $scope.toggleWeeks = function () {
+            $scope.showWeeks = ! $scope.showWeeks;
+        };
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            'year-format': "'yy'",
+            'starting-day': 1
+        };
+
+        $scope.format = 'dd-MM-yyyy';
+
+    }
+]);
+
+//==============================================
+// Produsen Section
+//==============================================
+AngularAppController.controller('AngularDataProdusen', [ '$scope', '$resource', 'dataprodusen', '$http', '$location', '$rootScope',
+    function($scope, $resource ,dataprodusen, $http, $location, $rootScope){
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        $scope.delProdusen = function(data){
+            $http.delete('/api/dataprodusen/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(produsen){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.dataprodusen = dataProdusen.query();
+                    $location.url('/viewprodusen');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularEditDataProdusen', [ '$scope', '$resource', 'dataprodusen', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, dataprodusen, $routeParams, $http, $location, $rootScope){
+        $scope.dataprodusen = dataprodusen.get({ _id : $routeParams._id });
+
+        $scope.updateProdusen = function(){
+            $http.put('/api/dataprodusen/' + $scope.dataprodusen._id , {"dataprodusen": $scope.dataprodusen})
+                .success(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.dataprodusen._id + '" Succesful!';
+                    $location.path("/viewprodusen");
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.dataprodusen._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularAddDataProdusen', [ '$scope' , '$location', '$http', '$rootScope',
+    function($scope, $location, $http, $rootScope){
+
+
+        $scope.simpanProdusen = function(dataprodusen){
+            $http.post('/api/dataprodusen' , {
+                "dataprodusen" : $scope.dataprodusen
+            })
+                .success(function(dataprodusen){
+                    $rootScope.message = 'Add data "' + dataprodusen._id + '" Succesful!';
+                    $location.url('/viewprodusen');
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + dataprodusen._id + '" Failed!';
+                });
+        };
+
+    }
+]);
+
+//==============================================
+// Distributor Section
+//==============================================
+AngularAppController.controller('AngularDataDistributor', [ '$scope', '$resource', 'datadistributor', '$http', '$location', '$rootScope',
+    function($scope, $resource ,datadistributor, $http, $location, $rootScope){
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+        $scope.delDistributor = function(data){
+            $http.delete('/api/datadistributor/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(distributor){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datadistributor = dataDistributor.query();
+                    $location.url('/viewdistributor');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularEditDataDistributor', [ '$scope', '$resource', 'datadistributor', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datadistributor, $routeParams, $http, $location, $rootScope){
+        $scope.datadistributor = datadistributor.get({ _id : $routeParams._id });
+
+        $scope.updateDistributor = function(){
+            $http.put('/api/datadistributor/' + $scope.datadistributor._id , {"datadistributor": $scope.datadistributor})
+                .success(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datadistributor._id + '" Succesful!';
+                    $location.path("/viewdistributor");
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datadistributor._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularAddDataDistributor', [ '$scope' , '$location', '$http', '$rootScope',
+    function($scope, $location, $http, $rootScope){
+
+
+        $scope.simpanDistributor = function(datadistributor){
+            $http.post('/api/datadistributor' , {
+                "datadistributor" : $scope.datadistributor
+            })
+                .success(function(datadistributor){
+                    $rootScope.message = 'Add data "' + datadistributor._id + '" Succesful!';
+                    $location.url('/viewdistributor');
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datadistributor._id + '" Failed!';
+                });
+        };
+
+    }
+]);
+
+
+//==============================================
+// Satuan Section
+//==============================================
+AngularAppController.controller('AngularDataSatuan', [ '$scope', '$resource', 'datasatuan', '$http', '$location', '$rootScope',
+    function($scope, $resource ,datasatuan, $http, $location, $rootScope){
+        var dataSatuan = datasatuan;
+        $scope.datasatuan = dataSatuan.query();
+
+        $scope.delSatuan = function(data){
+            $http.delete('/api/datasatuan/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(satuan){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datasatuan = dataSatuan.query();
+                    $location.url('/viewsatuan');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularEditDataSatuan', [ '$scope', '$resource', 'datasatuan', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datasatuan, $routeParams, $http, $location, $rootScope){
+        $scope.datasatuan = datasatuan.get({ _id : $routeParams._id });
+
+        $scope.updateSatuan = function(){
+            $http.put('/api/datasatuan/' + $scope.datasatuan._id , {"datasatuan": $scope.datasatuan})
+                .success(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datasatuan._id + '" Succesful!';
+                    $location.path("/viewsatuan");
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datasatuan._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularAddDataSatuan', [ '$scope' , '$location', '$http', '$rootScope',
+    function($scope, $location, $http, $rootScope){
+
+
+        $scope.simpanSatuan = function(datasatuan){
+            $http.post('/api/datasatuan' , {
+                "datasatuan" : $scope.datasatuan
+            })
+                .success(function(datasatuan){
+                    $rootScope.message = 'Add data "' + datasatuan._id + '" Succesful!';
+                    $location.url('/viewsatuan');
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datasatuan._id + '" Failed!';
+                });
+        };
+
+    }
+]);
+
+//==============================================
+// MataUang Section
+//==============================================
+AngularAppController.controller('AngularDataMataUang', [ '$scope', '$resource', 'datamatauang', '$http', '$location', '$rootScope', '$filter', 'ngTableParams',
+    function($scope, $resource ,datamatauang, $http, $location, $rootScope, $filter, ngTableParams){
+        var dataMataUang = datamatauang;
+        $scope.datamatauang = dataMataUang.query();
+
+        $scope.currentPage = 0;
+        $scope.pageSize = 5;
+
+        $scope.numberOfPages=function(){
+            return Math.ceil($scope.datamatauang.length/$scope.pageSize);
+        }
+
+        //===============================================================
+        //===============================================================
+        $scope.tableParams = new ngTableParams({
+            page: 1,            // show first page
+            count: 10,          // count per page
+            sorting: {
+                nama : 'asc'     // initial sorting
+            }
+        }, {
+            total: datamatauang.length, // length of data
+            getData: function($defer, params) {
+
+                datamatauang(function(matauang){
+                    $scope.datamatauang = matauang;
+                    // use build-in angular filter
+                    var orderedData = params.sorting() ?
+                        $filter('orderBy')(datamatauang, params.orderBy()) : datamatauang;
+
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                })
+
+            }
+        });
+        //===============================================================
+        //===============================================================
+        $scope.delMataUang = function(data){
+            $http.delete('/api/datamatauang/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(matauang){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datamatauang = dataMataUang.query();
+                    $location.url('/viewmatauang');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});
+
+AngularAppController.controller('AngularEditDataMataUang', [ '$scope', '$resource', 'datamatauang', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datamatauang, $routeParams, $http, $location, $rootScope){
+        $scope.datamatauang = datamatauang.get({ _id : $routeParams._id });
+
+        $scope.updateMataUang = function(){
+            $http.put('/api/datamatauang/' + $scope.datamatauang._id , {"datamatauang": $scope.datamatauang})
+                .success(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datamatauang._id + '" Succesful!';
+                    $location.path("/viewmatauang");
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datamatauang._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularAddDataMataUang', [ '$scope' , '$location', '$http', '$rootScope',
+    function($scope, $location, $http, $rootScope){
+
+
+        $scope.simpanMataUang = function(datamatauang){
+            $http.post('/api/datamatauang' , {
+                "datamatauang" : $scope.datamatauang
+            })
+                .success(function(datamatauang){
+                    $rootScope.message = 'Add data "' + datamatauang._id + '" Succesful!';
+                    $location.url('/viewmatauang');
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datamatauang._id + '" Failed!';
+                });
+        };
+
+    }
+]);
+
+
+//==============================================
+// Transaksi Pembelian Section
+//==============================================
+AngularAppController.controller('AngularDataTransaksiPembelian', [ '$scope', '$resource', 'datatransaksipembelian','dataprodusen', 'datadistributor', '$http', '$location', '$rootScope',
+    function($scope, $resource , datatransaksipembelian, dataprodusen, datadistributor, $http, $location, $rootScope){
+        var dataTransaksiPembelian = datatransaksipembelian;
+        $scope.datatransaksipembelian = dataTransaksiPembelian.query();
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+
+        $scope.delTransaksiPembelian = function(data){
+            $http.delete('/api/datatransaksipembelian/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(transaksipembelian){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datatransaksipembelian = dataTransaksiPembelian.query();
+                    $location.url('/viewtransaksipembelian');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularEditDataTransaksiPembelian', [ '$scope', '$resource', 'datatransaksipembelian','dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datatransaksipembelian, dataprodusen, datadistributor, datasatuan, datamatauang, $routeParams, $http, $location, $rootScope){
+        $scope.datatransaksipembelian = datatransaksipembelian.get({ _id : $routeParams._id });
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+        $scope.updateTransaksiPembelian = function(){
+            $http.put('/api/datatransaksipembelian/' + $scope.datatransaksipembelian._id , {"datatransaksipembelian": $scope.datatransaksipembelian})
+                .success(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksipembelian._id + '" Succesful!';
+                    $location.path("/viewtransaksipembelian");
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksipembelian._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularAddDataTransaksiPembelian', [ '$scope' , '$location', '$http', '$rootScope', 'dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang',
+    function($scope, $location, $http, $rootScope, dataprodusen, datadistributor, datasatuan, datamatauang){
+
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        $scope.selectedDataProdusen = null;
+        $scope.datatransaksipembelian = {};
+
+        $scope.selectActionProdusen = function(){
+            $scope.datatransaksipembelian.id_produsen = $scope.selectedDataProdusen;
+        }
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+        $scope.selectedDataDistributor = null;
+
+        $scope.selectActionDistributor = function(){
+            $scope.datatransaksipembelian.id_distributor = $scope.selectedDataDistributor;
+        }
+
+        var dataSatuan = datasatuan;
+        $scope.datasatuan = dataSatuan.query();
+
+        $scope.selectedDataSatuan = null;
+
+        $scope.selectActionSatuan = function(){
+            $scope.datatransaksipembelian.id_satuan = $scope.selectedDataSatuan;
+        }
+
+        var dataMataUang = datamatauang;
+        $scope.datamatauang = dataMataUang.query();
+
+        $scope.selectedDataMataUang = null;
+
+        $scope.selectActionMataUang = function(){
+            $scope.datatransaksipembelian.id_mata_uang = $scope.selectedDataMataUang;
+        }
+
+
+        $scope.simpanTransaksiPembelian = function(datatransaksipembelian){
+            $http.post('/api/datatransaksipembelian' , {
+                "datatransaksipembelian" : $scope.datatransaksipembelian
+            })
+                .success(function(datatransaksipembelian){
+                    $rootScope.message = 'Add data "' + datatransaksipembelian._id + '" Succesful!';
+                    $location.url('/viewtransaksipembelian');
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datatransaksipembelian._id + '" Failed!';
+                });
+        };
+
+    }
+]);
+
+//==============================================
+// Transaksi Penjualan Section
+//==============================================
+AngularAppController.controller('AngularDataTransaksiPenjualan', [ '$scope', '$resource', 'datatransaksipenjualan','dataprodusen', 'datadistributor', '$http', '$location', '$rootScope',
+    function($scope, $resource , datatransaksipenjualan, dataprodusen, datadistributor, $http, $location, $rootScope){
+        var dataTransaksiPenjualan = datatransaksipenjualan;
+        $scope.datatransaksipenjualan = dataTransaksiPenjualan.query();
+
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+
+        $scope.delTransaksiPenjualan = function(data){
+            $http.delete('/api/datatransaksipenjualan/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(transaksipenjualan){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datatransaksipenjualan = dataTransaksiPenjualan.query();
+                    $location.url('/viewtransaksipenjualan');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularEditDataTransaksiPenjualan', [ '$scope', '$resource', 'datatransaksipenjualan','dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datatransaksipenjualan, dataprodusen, datadistributor, datasatuan, datamatauang, $routeParams, $http, $location, $rootScope){
+        $scope.datatransaksipenjualan = datatransaksipenjualan.get({ _id : $routeParams._id });
+
+        $scope.updateTransaksiPenjualan = function(){
+            $http.put('/api/datatransaksipenjualan/' + $scope.datatransaksipenjualan._id , {"datatransaksipenjualan": $scope.datatransaksipenjualan})
+                .success(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksipenjualan._id + '" Succesful!';
+                    $location.path("/viewtransaksipenjualan");
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksipenjualan._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' , '$location', '$http', '$rootScope', 'dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang',
+    function($scope, $location, $http, $rootScope, dataprodusen, datadistributor, datasatuan, datamatauang){
+
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        $scope.selectedDataProdusen = null;
+        $scope.datatransaksipenjualan = {};
+
+        $scope.selectActionProdusen = function(){
+            $scope.datatransaksipenjualan.id_produsen = $scope.selectedDataProdusen;
+        }
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+        $scope.selectedDataDistributor = null;
+
+        $scope.selectActionDistributor = function(){
+            $scope.datatransaksipenjualan.id_distributor = $scope.selectedDataDistributor;
+        }
+
+        var dataSatuan = datasatuan;
+        $scope.datasatuan = dataSatuan.query();
+
+        $scope.selectedDataSatuan = null;
+
+        $scope.selectActionSatuan = function(){
+            $scope.datatransaksipenjualan.id_satuan = $scope.selectedDataSatuan;
+        }
+
+        var dataMataUang = datamatauang;
+        $scope.datamatauang = dataMataUang.query();
+
+        $scope.selectedDataMataUang = null;
+
+        $scope.selectActionMataUang = function(){
+            $scope.datatransaksipenjualan.id_mata_uang = $scope.selectedDataMataUang;
+        }
+
+
+        $scope.simpanTransaksiPenjualan = function(datatransaksipenjualan){
+            $http.post('/api/datatransaksipenjualan' , {
+                "datatransaksipenjualan" : $scope.datatransaksipenjualan
+            })
+                .success(function(datatransaksipenjualan){
+                    $rootScope.message = 'Add data "' + datatransaksipenjualan._id + '" Succesful!';
+                    $location.url('/viewtransaksipenjualan');
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datatransaksipenjualan._id + '" Failed!';
+                });
+        };
+
+    }
+]);
+
+
+//==============================================
+// Transaksi  Section
+//==============================================
+AngularAppController.controller('AngularDataTransaksi', [ '$scope', '$resource', 'datatransaksi','dataprodusen', 'datadistributor', '$http', '$location', '$rootScope',
+    function($scope, $resource , datatransaksi, dataprodusen, datadistributor, $http, $location, $rootScope){
+        var dataTransaksi = datatransaksi;
+        $scope.datatransaksi = dataTransaksi.query();
+
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+
+        $scope.delTransaksi = function(data){
+            $http.delete('/api/datatransaksi/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(transaksi){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datatransaksi = dataTransaksi.query();
+                    $location.url('/viewtransaksi');
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularEditDataTransaksi', [ '$scope', '$resource', 'datatransaksi','dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datatransaksi, dataprodusen, datadistributor, datasatuan, datamatauang, $routeParams, $http, $location, $rootScope){
+        $scope.datatransaksi = datatransaksi.get({ _id : $routeParams._id });
+
+        $scope.updateTransaksi = function(){
+            $http.put('/api/datatransaksi/' + $scope.datatransaksi._id , {"datatransaksi": $scope.datatransaksi})
+                .success(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksi._id + '" Succesful!';
+                    $location.path("/viewtransaksi");
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksi._id + '" Failed!';
+                });
+        };
+    }
+]);
+
+AngularAppController.controller('AngularAddDataTransaksi', [ '$scope' , '$location', '$http', '$rootScope', 'dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang',
+    function($scope, $location, $http, $rootScope, dataprodusen, datadistributor, datasatuan, datamatauang){
+
+        var dataProdusen = dataprodusen;
+        $scope.dataprodusen = dataProdusen.query();
+
+        $scope.selectedDataProdusen = null;
+        $scope.datatransaksi = {};
+
+        $scope.selectActionProdusen = function(){
+            $scope.datatransaksi.id_produsen = $scope.selectedDataProdusen;
+        }
+
+        var dataDistributor = datadistributor;
+        $scope.datadistributor = dataDistributor.query();
+
+        $scope.selectedDataDistributor = null;
+
+        $scope.selectActionDistributor = function(){
+            $scope.datatransaksi.id_distributor = $scope.selectedDataDistributor;
+        }
+
+        var dataSatuan = datasatuan;
+        $scope.datasatuan = dataSatuan.query();
+
+        $scope.selectedDataSatuan = null;
+
+        $scope.selectActionSatuan = function(){
+            $scope.datatransaksi.id_satuan = $scope.selectedDataSatuan;
+        }
+
+        var dataMataUang = datamatauang;
+        $scope.datamatauang = dataMataUang.query();
+
+        $scope.selectedDataMataUang = null;
+
+        $scope.selectActionMataUang = function(){
+            $scope.datatransaksi.id_mata_uang = $scope.selectedDataMataUang;
+        }
+
+
+        $scope.simpanTransaksi = function(datatransaksi){
+            $http.post('/api/datatransaksi' , {
+                "datatransaksi" : $scope.datatransaksi
+            })
+                .success(function(datatransaksi){
+                    $rootScope.message = 'Add data "' + datatransaksi._id + '" Succesful!';
+                    $location.url('/viewtransaksi');
+                })
+                .error(function(){
+                    $rootScope.message = 'Add data "' + datatransaksi._id + '" Failed!';
+                });
+        };
+
+    }
+]);
 

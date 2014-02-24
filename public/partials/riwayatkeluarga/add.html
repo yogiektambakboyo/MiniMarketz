@@ -1,0 +1,55 @@
+<h1>Tambah Keluarga Pegawai</h1>
+<br>
+<table>
+    <tr>
+        <td>Nama</td>
+        <td><input ng-model="datapegawaikeluarga.nama" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <td>Status</td>
+        <td><select ng-model="datapegawaikeluarga.status" class="form-control">
+            <option value="Ayah">Ayah</option>
+            <option value="Ibu">Ibu</option>
+            <option value="Saudara">Saudara</option>
+            <option value="Istri">Istri</option>
+            <option value="Suami">Suami</option>
+            <option value="Anak">Anak</option>
+        </select></td>
+    </tr>
+    <tr>
+        <td>Tanggal Lahir</td>
+        <td>
+            <div class="input-group">
+                <input ng-model="datapegawaikeluarga.tanggal_lahir" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Alamat</td>
+        <td><input ng-model="datapegawaikeluarga.alamat" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <td>Pekerjaan</td>
+        <td><input ng-model="datapegawaikeluarga.pekerjaan" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <td>Keterangan</td>
+        <td><input ng-model="datapegawaikeluarga.keterangan" class="form-control"/></td>
+        <input type="hidden" ng-model="datapegawaikeluarga.id_pegawai" disabled class="form-control"/>
+    </tr>
+
+
+
+    <tr>
+        <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="simpanRiwayatKeluarga(datapegawaikeluarga)"/></td>
+    </tr>
+
+    </tr>
+</table>

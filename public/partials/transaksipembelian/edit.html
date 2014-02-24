@@ -1,0 +1,56 @@
+<h1><span class="glyphicon glyphicon-tasks"> </span>  Editing</h1>
+
+<table>
+    <tr>
+        <th>Tanggal Transaksi</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datatransaksipembelian.tanggal_transaksi" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>No Kwitansi</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datatransaksipembelian.no_kwitansi" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>Total Kwitansi</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datatransaksipembelian.total_transaksi" class="form-control"/></td>
+    </tr>
+
+
+    <tr>
+        <th>Distributor</th>
+    </tr>
+    <tr>
+        <td>
+            <select ng-change="selectActionDistributor()" ng-model="selectedDataDistributor" ng-options="datadistributors._id as datadistributors.nama for datadistributors in datadistributor" class="form-control">
+                <option value="">== Select Distributor ==</option>
+            </select>
+        </td>
+        <td><input type="hidden" ng-model="datatransaksipembelian.id_distributor" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>Penerima</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datatransaksipembelian.penerima" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td><input ng-model="datatransaksipembelian.status" class="form-control"/></td>
+    </tr>
+
+    <tr>
+        <td><input  type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="updateTransaksiPembelian(datatransaksipembelian)"/>  <a href="/#/viewtransaksipembelian" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+    </tr>
+
+</table>

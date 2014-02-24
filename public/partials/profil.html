@@ -17,10 +17,11 @@
 <div class="col-xs-6 col-md-8 table-responsive">
     <div><h2>{{ datapegawai.nama}}</h2></div>
     <ul class="nav nav-tabs"  id="myTab">
-        <li  class="active"><a href="#identitas" data-toggle="tab">Identitas</a></li>
-        <li><a href="#domisili" data-toggle="tab">Domisili</a></li>
-        <li><a href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
-        <li><a href="#keluarga" data-toggle="tab">Keluarga</a></li>
+        <li  class="active"><a href="#identitas" data-toggle="tab"><strong>Identitas</strong></a></li>
+        <li><a href="#domisili" data-toggle="tab"><strong>Domisili</strong></a></li>
+        <li><a href="#riwayat_kerja" data-toggle="tab"><strong>Riwayat Bekerja</strong></a></li>
+        <li><a href="#pendidikan" data-toggle="tab"><strong>Pendidikan</strong></a></li>
+        <li><a href="#keluarga" data-toggle="tab"><strong>Keluarga</strong></a></li>
     </ul>
 
     <div class="tab-content">
@@ -37,14 +38,14 @@
                     <td>: {{ datapegawai.username }}</td>
                 </tr>
 
-                <tr>
+                <!--<tr>
                     <th>Password</th>
                     <td>: {{ datapegawai.password }}</td>
-                </tr>
+                </tr>-->
 
                 <tr>
                     <th>Tempat Tanggal Lahir</th>
-                    <td>: {{ datapegawai.ttl.tempat }}, {{ datapegawai.ttl.tanggal }}</td>
+                    <td>: {{ datapegawai.ttl.tempat }}, {{ datapegawai.ttl.tanggal.substring(0,10) }}</td>
                 </tr>
 
                 <tr>
@@ -122,96 +123,93 @@
                 </tr>
             </table>
         </div>
-        <div class="tab-pane" id="pendidikan">
+
+        <div class="tab-pane" id="riwayat_kerja">
             <br>
             <table>
-                <tr>
                     <td>
+                        <tr>
+                            <td>Tanggal Masuk </td>
+                            <td>: {{ datapegawai.tanggal_masuk.substring(0,10) }}</td>
+                        </tr>
+                </td>
                 <tr>
-                    <td>Nama Sekolah</td>
-                    <td>{{ datapegawai.pendidikan.nama_sekolah }}</td>
+                    <td>Status</td>
+                    <td>: {{ datapegawai.status }}
+                    </td>
                 </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Jenjang</td>
-                        <td>{{ datapegawai.pendidikan.jenjang }}</td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Jurusan</td>
-                        <td>{{ datapegawai.pendidikan.jurusan }} </td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Mulai</td>
-                        <td>{{ datapegawai.pendidikan.mulai }}  </td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Lulus</td>
-                        <td>{{ datapegawai.pendidikan.lulus }}  </td>
-                    </tr>
-                </td>
+
+                <tr>
+                    <td></td>
                 </tr>
+
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Jabatan</th>
+                        <th>Gaji</th>
+                    </tr>
+
+                    <tr ng-repeat="datariwayat in datariwayatbekerja | filter : datapegawai._id ">
+                        <td>{{ datariwayat.tanggal_riwayat.substring(0,10) }}</td>
+                        <td>{{ datariwayat.jabatan }}</td>
+                        <td>{{ datariwayat.gaji | number }}</td>
+                    </tr>
+                </table>
+
+
+
+
             </table>
         </div>
-        <div class="tab-pane" id="keluarga">
+
+        <div class="tab-pane" id="pendidikan">
             <br>
-            <table>
+            <table class="table table-striped">
                 <tr>
-
-                    <td>
-                <tr>
-                    <td>Ayah</td>
-                    <td>{{ datapegawai.keluarga.ayah }}  </td>
+                    <th>Nama Sekolah</th>
+                    <th>Jenjang</th>
+                    <th>Mulai</th>
+                    <th>Lulus</th>
+                    <th>Jurusan</th>
+                    <th>Nilai / IPK</th>
                 </tr>
-                </td>
 
-                <td>
-                    <tr>
-                        <td>Ibu</td>
-                        <td>{{ datapegawai.keluarga.ibu }}  </td>
-                    </tr>
-                </td>
-
-                <td>
-                    <tr>
-                        <td>Saudara 1</td>
-                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
-                    </tr>
-                </td>
-
-                <td>
-                    <tr>
-                        <td>Saudara 2</td>
-                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Saudara 3</td>
-                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Saudara 4</td>
-                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
-                    </tr>
-                </td>
-                <td>
-                    <tr>
-                        <td>Saudara 5</td>
-                        <td>{{ datapegawai.keluarga.saudara_1 }}  </td>
-                    </tr>
-                </td>
-
+                <tr ng-repeat="datapegawai in datapegawaipendidikan | filter : datapegawai._id ">
+                    <td>{{ datapegawai.nama_sekolah }}</td>
+                    <td>{{ datapegawai.jenjang }}</td>
+                    <td>{{ datapegawai.mulai }}</td>
+                    <td>{{ datapegawai.lulus }}</td>
+                    <td>{{ datapegawai.jurusan }}</td>
+                    <td>{{ datapegawai.nilai }}</td>
                 </tr>
             </table>
+
+        </div>
+
+        <div class="tab-pane" id="keluarga">
+            <br>
+            <table class="table table-striped">
+                <tr>
+                    <th>Nama</th>
+                    <th>Status</th>
+                    <th>Tanggal lahir</th>
+                    <th>Alamat</th>
+                    <th>Pekerjaan</th>
+                    <th>Keterangan</th>
+                </tr>
+
+                <tr ng-repeat="datapegawai in datapegawaikeluarga | filter : datapegawai._id ">
+                    <td>{{ datapegawai.nama }}</td>
+                    <td>{{ datapegawai.status }}</td>
+                    <td>{{ datapegawai.tanggal_lahir.substring(0,10) }}</td>
+                    <td>{{ datapegawai.alamat }}</td>
+                    <td>{{ datapegawai.pekerjaan }}</td>
+                    <td>{{ datapegawai.keterangan }}</td>
+                </tr>
+            </table>
+
         </div>
     </div>
 

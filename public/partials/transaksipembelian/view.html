@@ -1,0 +1,35 @@
+<div>
+    <h1><span class="glyphicon glyphicon-tasks"> </span>Data Transaksi Pembelian</h1>
+    <form role="form">
+        <div class="form-group">
+            <label> Pencarian : </label> <input type="text" ng-model="search" placeholder="Enter Keyword">
+        </div>
+    </form>
+    <a href="/#/addtransaksipembelian"> <span class="glyphicon glyphicon-plus"></span><label> Tambah Data Baru</label></a>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Tanggal</th>
+                <th>No Kwitansi</th>
+                <th>Total Transaksi</th>
+                <th>Distributor</th>
+                <th>Penerima</th>
+                <th>Status</th>
+            </tr>
+            <tr ng-repeat="data in datatransaksipembelian | filter : search" class="repeat-animation">
+
+                <td>{{ $index + 1 }}</td>
+                <td>{{ data.tanggal_transaksi }}</td>
+                <td>{{ data.no_kwitansi }}</td>
+                <td>{{ data.total_transaksi }}</td>
+                <td>{{ data.id_distributor }}</td>
+                <td>{{ data.penerima }}</td>
+                <td>{{ data.status }}</td>
+                <td>  <a href="/#/edittransaksipembelian/{{ data._id }}" class="hover-shadow"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delTransaksiPembelian(data)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

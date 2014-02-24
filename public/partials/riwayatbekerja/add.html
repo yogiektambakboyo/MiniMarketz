@@ -1,0 +1,28 @@
+
+<h1> Tambah Riwayat Bekerja </h1>
+<div>
+    <tr>
+        <td>Tanggal</td>
+        <td>
+            <div class="input-group">
+                <input ng-model="datariwayatbekerja.tanggal_riwayat" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default" ng-click="open($event)" ><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>Jabatan</td>
+        <td><input ng-model="datariwayatbekerja.jabatan" class="form-control"/></td>
+    </tr>
+    <tr>
+        <td>Gaji</td>
+        <td><input ng-model="datariwayatbekerja.gaji" class="form-control"/></td>
+        <input type="hidden" ng-model="datariwayatbekerja.id_pegawai" disabled class="form-control"/>
+    </tr>
+
+    <tr>
+        <td><input type="submit" class="btn btn-primary hover-shadow" value="Save" ng-click="simpanRiwayatBekerja(datariwayatbekerja)"/></td>
+    </tr>
+</div>
