@@ -153,14 +153,14 @@ passport.use(new LocalStrategy(
                 return done(null, false, { message: 'Incorrect username.' });
             }
 
-            /*user.comparePassword(password, function(err, isMatch) {
+            user.comparePassword(password, function(err, isMatch) {
                 console.log(password, isMatch);
                 if(isMatch){
                     return done(null, user);
                 }else{
                     return done(err);
                 }
-            });*/
+            });
         });
 
     }
@@ -1283,6 +1283,7 @@ module.exports.findOneTransaksiPenjualan = function(req, res, next){
 };
 
 module.exports.saveTransaksiPenjualan = function(req, res, next){
+    console.log(req.user);
     var datatransaksipenjualan = new dataTransaksiPenjualan({
         id_transaksi : req.body.datatransaksipenjualan.id_transaksipenjualan,
         tanggal_transaksi : req.body.datatransaksipenjualan.tanggal_transaksi,
@@ -1290,7 +1291,7 @@ module.exports.saveTransaksiPenjualan = function(req, res, next){
         total_transaksi : req.body.datatransaksipenjualan.total_transaksi,
         uang_bayar : req.body.datatransaksipenjualan.uang_bayar,
         uang_kembali : req.body.datatransaksipenjualan.uang_kembali,
-        pegawai : req.body.datatransaksipenjualan.pegawai,
+        pegawai : req.user._id,
         status : req.body.datatransaksipenjualan.status
     });
 

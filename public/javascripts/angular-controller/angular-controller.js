@@ -60,6 +60,10 @@ AngularAppController.factory('datatransaksipembelian',function($resource){
     return $resource('/api/datatransaksipembelian/:_id',{ _id : '@_id'})
 });
 
+AngularAppController.factory('datauseraktif',function($resource){
+    return $resource('/api/datapegawai/:_id',{ _id : '@_id'})
+});
+
 
 //==============================================
 // Barang Section
@@ -1178,45 +1182,54 @@ AngularAppController.controller('AngularEditDataTransaksiPenjualan', [ '$scope',
     }
 ]);
 
-AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' , '$location', '$http', '$rootScope', 'dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang',
-    function($scope, $location, $http, $rootScope, dataprodusen, datadistributor, datasatuan, datamatauang){
+AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,'databarang', '$modal', '$location', '$http', '$rootScope',
+    function($scope,databarang, $modal, $location, $http, $rootScope, dataprodusen, datadistributor){
 
-        var dataProdusen = dataprodusen;
-        $scope.dataprodusen = dataProdusen.query();
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
 
-        $scope.selectedDataProdusen = null;
-        $scope.datatransaksipenjualan = {};
+        var yyyy = today.getFullYear();
 
-        $scope.selectActionProdusen = function(){
-            $scope.datatransaksipenjualan.id_produsen = $scope.selectedDataProdusen;
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
         }
 
-        var dataDistributor = datadistributor;
+        today = mm+'-'+dd+'-'+yyyy;
+
+        $scope.datatransaksipenjualan = {};
+        $scope.datatransaksipenjualan.tanggal_transaksi = today;
+        $scope.datatransaksipenjualan.total_transaksi = 0;
+
+/*        var dataDistributor = datadistributor;
         $scope.datadistributor = dataDistributor.query();
 
         $scope.selectedDataDistributor = null;
 
         $scope.selectActionDistributor = function(){
             $scope.datatransaksipenjualan.id_distributor = $scope.selectedDataDistributor;
-        }
+        }*/
 
-        var dataSatuan = datasatuan;
+        /*var dataSatuan = datasatuan;
         $scope.datasatuan = dataSatuan.query();
 
         $scope.selectedDataSatuan = null;
 
         $scope.selectActionSatuan = function(){
             $scope.datatransaksipenjualan.id_satuan = $scope.selectedDataSatuan;
-        }
+        }*/
 
-        var dataMataUang = datamatauang;
+        /*var dataMataUang = datamatauang;
         $scope.datamatauang = dataMataUang.query();
 
         $scope.selectedDataMataUang = null;
 
         $scope.selectActionMataUang = function(){
             $scope.datatransaksipenjualan.id_mata_uang = $scope.selectedDataMataUang;
-        }
+        }*/
 
 
         $scope.simpanTransaksiPenjualan = function(datatransaksipenjualan){
@@ -1231,6 +1244,75 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,
                     $rootScope.message = 'Add data "' + datatransaksipenjualan._id + '" Failed!';
                 });
         };
+
+        //==========================
+        // Dialog
+        //==========================
+
+        $scope.open = function(){
+            var modalInstance = $modal.open({
+                templateUrl : 'addTransaksiPenjualan.html',
+                controller : ModalInstanceCtrl
+            });
+
+            modalInstance.result.then(function (){
+                console.log("Test");
+            });
+        };
+
+        var ModalInstanceCtrl = function ($scope, $modalInstance){
+            var dataBarang = databarang;
+            $scope.databarang = dataBarang.query();
+            $scope.datatransaksi = {};
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+
+            var yyyy = today.getFullYear();
+
+            if(dd<10){
+                dd='0'+dd
+            }
+            if(mm<10){
+                mm='0'+mm
+            }
+
+            today = mm+'-'+dd+'-'+yyyy;
+
+            $scope.datatransaksi.tanggal = today;
+
+            $scope.addBarang = function(data){
+                //console.log("Add" + data.nama);
+                $scope.datatransaksi.id_barang = data._id;
+                $scope.datatransaksi.nama_barang = data.nama;
+            };
+
+            $scope.simpanTransaksi = function(datatransaksi){
+                $http.post('/api/datatransaksi' , {
+                    "datatransaksi" : $scope.datatransaksi
+                })
+                    .success(function(datatransaksi){
+                        $rootScope.message = 'Add data "' + datatransaksi._id + '" Succesful!';
+                        $modalInstance.close();
+                        //$location.url('/viewtransaksi');
+                    })
+                    .error(function(){
+                        $rootScope.message = 'Add data "' + datatransaksi._id + '" Failed!';
+                    });
+            };
+
+            $scope.ok = function (){
+                $modalInstance.close();
+            }
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+
+        }
+
+
 
     }
 ]);

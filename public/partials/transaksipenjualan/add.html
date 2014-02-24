@@ -1,11 +1,11 @@
-<h1><span class="glyphicon glyphicon-tasks"> </span>  Adding</h1>
+<h1><span class="glyphicon glyphicon-tasks"> </span>  Transaksi Penjualan</h1>
 
 <table>
     <tr>
         <th>Tanggal Transaksi</th>
     </tr>
     <tr>
-        <td><input ng-model="datatransaksipenjualan.tanggal_transaksi" class="form-control"/></td>
+        <td><input ng-model="datatransaksipenjualan.tanggal_transaksi" class="form-control" disabled/></td>
     </tr>
 
     <tr>
@@ -15,6 +15,32 @@
         <td><input ng-model="datatransaksipenjualan.no_kwitansi" class="form-control"/></td>
     </tr>
 
+    <tr>
+        <th>Daftar Barang</th>
+    </tr>
+
+    <tr>
+        <div class="table-responsive">
+            <table class="table table-striped" id="tablebarang">
+                <tr>
+                    <th>No.</th>
+                    <th>Kode Barang</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah</th>
+                </tr>
+                <tr>
+                    <th colspan="3">Total Transaksi</th>
+                    <td>{{ datatransaksipenjualan.total_transaksi }}</td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-warning hover-shadow" ng-click="open()">Tambah Barang</button></td>
+    </tr>
+</table>
+        </div>
+    </tr>
+</table>
+
+<table>
     <tr>
         <th>Total Transaksi</th>
     </tr>
@@ -36,16 +62,17 @@
         <td><input ng-model="datatransaksipenjualan.uang_kembali" class="form-control"/></td>
     </tr>
 
-    <tr>
+   <!-- <tr>
         <th>Pegawai</th>
     </tr>
     <tr>
         <td><input ng-model="datatransaksipenjualan.pegawai" class="form-control"/></td>
-    </tr>
+    </tr>-->
 
     <tr>
         <th>Status</th>
     </tr>
+
     <tr>
         <td><input ng-model="datatransaksipenjualan.status" class="form-control"/></td>
     </tr>
@@ -55,3 +82,64 @@
     </tr>
 
 </table>
+
+<script type="text/ng-template" id="addTransaksiPenjualan.html">
+    <div class="modal-header">
+            <h3>Tambah Barang</h3>
+    </div>
+
+
+
+    <div class="modal-body table-responsive">
+
+        <label>Pencarian </label>
+        <input ng-model="search" class="form-control" placeholder="Ketik untuk mencari barang!!">
+
+        <div class="transaksibox">
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Nama Barang</th>
+                    <th>Harga</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                </tr>
+
+                <tr ng-repeat="data in databarang | filter : search" class="repeat-animation">
+                    <td> {{ $index+1 }}</td>
+                    <td> {{ data.nama }}</td>
+                    <td> {{ data.harga }}</td>
+                    <td> {{ data.stock }}</td>
+                    <td>  <a href="" ng-click="addBarang(data)" class="hover-shadow"><span class="glyphicon glyphicon-plus"></span></a></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <!--<label>Tanggal : </label>-->
+        <input type="hidden" ng-model="datatransaksi.tanggal" class="form-control">
+
+        <!--<label>ID Transaksi : </label>-->
+        <input type="hidden" ng-model="datatransaksi.id_transaksi" class="form-control">
+
+        <label>ID Barang : </label>
+        <input ng-model="datatransaksi.id_barang" class="form-control" disabled>
+
+        <label>Nama Barang : </label>
+        <input ng-model="datatransaksi.nama_barang" class="form-control" disabled>
+
+        <label>Jumlah Barang : </label>
+        <input ng-model="datatransaksi.jumlah_barang" class="form-control">
+
+        <label>Diskon : </label>
+        <input ng-model="datatransaksi.diskon" class="form-control">
+
+
+    </div>
+
+    <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="simpanTransaksi(datatransaksi)">Tambah</button>
+            <button class="btn btn-warning" ng-click="cancel()">Batal</button>
+    </div>
+</script>
+
