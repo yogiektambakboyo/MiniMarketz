@@ -340,6 +340,7 @@ AngularAppRoute.config(
                     loggedin: checkLoggedin
                 }
             }).
+
             otherwise({
                 redirectTo: '/home'
             });

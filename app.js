@@ -20,7 +20,6 @@ var mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10;
 var db;
 var uri = 'mongodb://127.0.0.1:27017/angularapp';
-//var uri = 'mongodb://192.168.16.13:27017/angularapp';
 //var uri = 'mongodb://yogiaditya:angularappdb@ds061518.mongolab.com:61518/angularapp';
 
 

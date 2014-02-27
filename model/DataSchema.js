@@ -141,17 +141,12 @@ exports.dataTransaksiPembelian = new mongoose.Schema(
         no_kwitansi : String,
         total_transaksi : Number,
         id_distributor : String,
-        tanggal_transaksi : Date,
-        no_kwitansi : String,
-        total_transaksi : Number,
-        distributor : String,
         penerima : String,
         status : String
     }
 );
 exports.dataTransaksiPenjualan = new mongoose.Schema(
     {
-
         id_transaksi : String,
         tanggal_transaksi : Date,
         no_kwitansi : String,
@@ -171,7 +166,7 @@ exports.dataTransaksi = new mongoose.Schema(
         nama_barang : String,
         jumlah_barang : Number,
         harga_satuan : Number,
-        jumlah_barang : String,
+        total_harga : Number,
         diskon : String
     }
 );
