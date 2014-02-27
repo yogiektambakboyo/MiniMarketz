@@ -225,13 +225,13 @@ AngularAppController.controller('AngularDataPegawai', [ '$scope', '$resource', '
 
         //var socket = io.connect('http://localhost:3000');
         //socket.on('news', function (data) {
-            //console.log(data);
-            //socket.emit('my other event', { my: 'data' });
+        //console.log(data);
+        //socket.emit('my other event', { my: 'data' });
         //});
 
         //socket.on('databaru', function (data) {
-            //console.log(data);
-            //socket.emit('my other event', { my: 'data' });
+        //console.log(data);
+        //socket.emit('my other event', { my: 'data' });
         //});
     }
 
@@ -381,14 +381,14 @@ AngularAppController.controller('AngularAddDataPegawai', [ '$scope' , '$location
         };
 
         // Disable weekend selection
-/*        $scope.disabled = function(date, mode) {
-            //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-            return ( mode === '');
-        };*/
+        /*        $scope.disabled = function(date, mode) {
+         //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+         return ( mode === '');
+         };*/
 
         /*$scope.toggleMin = function() {
-            $scope.minDate = ( $scope.minDate ) ? null : new Date();
-        };*/
+         $scope.minDate = ( $scope.minDate ) ? null : new Date();
+         };*/
         //$scope.toggleMin();
 
         $scope.open = function($event) {
@@ -541,16 +541,16 @@ AngularAppController.controller('LoginCtrl', function($scope, $rootScope, $http,
             username: $scope.user.username,
             password: $scope.user.password
         })
-        .success(function(user){
+            .success(function(user){
                 // No error: authentication OK
                 $rootScope.message = 'Authentication successful!';
                 $location.url('/admin');
-        })
-        .error(function(){
+            })
+            .error(function(){
                 // Error: authentication failed
                 $rootScope.message = 'Authentication failed.';
                 $location.url('/login');
-        });
+            });
     };
 });
 
@@ -1278,35 +1278,35 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope', 
                 });
         };
 
-/*        var dataDistributor = datadistributor;
-        $scope.datadistributor = dataDistributor.query();
+        /*        var dataDistributor = datadistributor;
+         $scope.datadistributor = dataDistributor.query();
 
-        $scope.selectedDataDistributor = null;
+         $scope.selectedDataDistributor = null;
 
-        $scope.selectActionDistributor = function(){
-            $scope.datatransaksipenjualan.id_distributor = $scope.selectedDataDistributor;
-        }*/
+         $scope.selectActionDistributor = function(){
+         $scope.datatransaksipenjualan.id_distributor = $scope.selectedDataDistributor;
+         }*/
 
         /*var dataSatuan = datasatuan;
-        $scope.datasatuan = dataSatuan.query();
+         $scope.datasatuan = dataSatuan.query();
 
-        $scope.selectedDataSatuan = null;
+         $scope.selectedDataSatuan = null;
 
-        $scope.selectActionSatuan = function(){
-            $scope.datatransaksipenjualan.id_satuan = $scope.selectedDataSatuan;
-        }*/
+         $scope.selectActionSatuan = function(){
+         $scope.datatransaksipenjualan.id_satuan = $scope.selectedDataSatuan;
+         }*/
 
         /*var dataMataUang = datamatauang;
-        $scope.datamatauang = dataMataUang.query();
+         $scope.datamatauang = dataMataUang.query();
 
-        $scope.selectedDataMataUang = null;
+         $scope.selectedDataMataUang = null;
 
-        $scope.selectActionMataUang = function(){
-            $scope.datatransaksipenjualan.id_mata_uang = $scope.selectedDataMataUang;
-        }*/
+         $scope.selectActionMataUang = function(){
+         $scope.datatransaksipenjualan.id_mata_uang = $scope.selectedDataMataUang;
+         }*/
 
         $scope.onChangeUangBayar = function(){
-                $scope.datatransaksipenjualan.uang_kembali = $scope.datatransaksipenjualan.uang_bayar - $scope.datatransaksipenjualan.total_transaksi;
+            $scope.datatransaksipenjualan.uang_kembali = $scope.datatransaksipenjualan.uang_bayar - $scope.datatransaksipenjualan.total_transaksi;
         };
 
 

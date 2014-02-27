@@ -32,7 +32,10 @@
                 <th>Nama</th>
                 <th>Action</th>
             </tr>
+
             <tr ng-repeat="data in datamatauang | filter : search | startFrom:currentPage * pageSize | limitTo: pageSize" class="repeat-animation">
+            <tr ng-repeat="data in datamatauang | filter : search" class="repeat-animation">
+
 
                 <td>{{ $index + 1 }}</td>
                 <td>{{ data.nama }}</td>
@@ -40,8 +43,6 @@
             </tr>
         </table>
     </div>
-
-
 
 
 </div>
@@ -64,3 +65,4 @@
                 </tr>
             </table>
         </div>
+</div>
