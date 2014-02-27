@@ -2,21 +2,20 @@
 
 <table>
     <tr>
-        <th>Tanggal Transaksi</th>
-    </tr>
-    <tr>
+        <th>Tanggal Transaksi </th>
+        <th> : </th>
         <td><input ng-model="datatransaksipenjualan.tanggal_transaksi" class="form-control" disabled/></td>
+        <td><input type="hidden" ng-model="datatransaksipenjualan.id_transaksi" class="form-control" disabled/></td>
     </tr>
 
     <tr>
-        <th>No Kwitansi</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datatransaksipenjualan.no_kwitansi" class="form-control"/></td>
+        <th>No Kwitansi </th>
+        <th> : </th>
+        <td><input ng-model="datatransaksipenjualan.no_kwitansi" class="form-control" disabled/></td>
     </tr>
 
     <tr>
-        <th>Daftar Barang</th>
+        <th>Daftar Barang </th>
     </tr>
 
     <tr>
@@ -26,13 +25,29 @@
                     <th>No.</th>
                     <th>Kode Barang</th>
                     <th>Nama Barang</th>
-                    <th>Jumlah</th>
+                    <th>Jumlah Barang</th>
+                    <th>Harga Satuan</th>
+                    <th>Diskon</th>
+                    <th>Total Harga</th>
+                    <th>Actions</th>
+                </tr>
+                <tr ng-repeat="datatransaksis in datatransaksi | filter : datatransaksipenjualan.id_transaksi">
+                    <td>{{ $index+1 }}</td>
+                    <td>{{ datatransaksis._id }}</td>
+                    <td>{{ datatransaksis.nama_barang }}</td>
+                    <td>{{ datatransaksis.jumlah_barang }}</td>
+                    <td>{{ datatransaksis.harga_satuan | currency:"Rp. "  }}</td>
+                    <td>{{ datatransaksis.diskon }}</td>
+                    <td>{{ datatransaksis.total_harga | currency:"Rp. "  }}</td>
+                    <td><a href="" ng-click="delTransaksi(datatransaksis)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a> </td>
                 </tr>
                 <tr>
-                    <th colspan="3">Total Transaksi</th>
-                    <td>{{ datatransaksipenjualan.total_transaksi }}</td>
+                    <td></td>
+                    <th colspan="5">Total Transaksi</th>
+                    <th>{{ datatransaksipenjualan.total_transaksi | currency:"Rp. "  }}</th>
                 </tr>
                 <tr>
+                    <td></td>
                     <td><button class="btn btn-warning hover-shadow" ng-click="open()">Tambah Barang</button></td>
     </tr>
 </table>
@@ -41,26 +56,27 @@
 </table>
 
 <table>
-    <tr>
+    <!--<tr>
         <th>Total Transaksi</th>
-    </tr>
+    </tr>-->
     <tr>
-        <td><input ng-model="datatransaksipenjualan.total_transaksi" class="form-control"/></td>
+        <td><input type="hidden" ng-model="datatransaksipenjualan.total_transaksi" class="form-control" disabled/></td>
     </tr>
 
     <tr>
         <th>Uang Bayar</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datatransaksipenjualan.uang_bayar" class="form-control"/></td>
+        <th> : </th>
+        <td><input ng-model="datatransaksipenjualan.uang_bayar" class="form-control" ng-change="onChangeUangBayar()"/></td>
+
+        <th class="col-md-2">Uang Kembali :</th>
+        <td rowspan="2" colspan="5" class="col-md-6"><h1>{{ datatransaksipenjualan.uang_kembali| currency:"Rp. "  }}</h1></td>
     </tr>
 
     <tr>
-        <th>Uang Kembali</th>
+        <td><input type="hidden" ng-model="datatransaksipenjualan.uang_kembali" class="form-control" disabled/></td>
     </tr>
-    <tr>
-        <td><input ng-model="datatransaksipenjualan.uang_kembali" class="form-control"/></td>
-    </tr>
+
+
 
    <!-- <tr>
         <th>Pegawai</th>
@@ -69,12 +85,14 @@
         <td><input ng-model="datatransaksipenjualan.pegawai" class="form-control"/></td>
     </tr>-->
 
-    <tr>
+<!--    <tr>
         <th>Status</th>
-    </tr>
+        <th> : </th>
+        <td><input ng-model="datatransaksipenjualan.status" class="form-control"/></td>
+    </tr>-->
 
     <tr>
-        <td><input ng-model="datatransaksipenjualan.status" class="form-control"/></td>
+
     </tr>
 
     <tr>
@@ -108,7 +126,7 @@
                 <tr ng-repeat="data in databarang | filter : search" class="repeat-animation">
                     <td> {{ $index+1 }}</td>
                     <td> {{ data.nama }}</td>
-                    <td> {{ data.harga }}</td>
+                    <td> {{ data.harga | currency:"Rp. " }}</td>
                     <td> {{ data.stock }}</td>
                     <td>  <a href="" ng-click="addBarang(data)" class="hover-shadow"><span class="glyphicon glyphicon-plus"></span></a></td>
                 </tr>
@@ -128,11 +146,18 @@
         <label>Nama Barang : </label>
         <input ng-model="datatransaksi.nama_barang" class="form-control" disabled>
 
+        <label>Harga Satuan : </label>
+        <input ng-model="datatransaksi.harga_satuan" class="form-control" disabled>
+
         <label>Jumlah Barang : </label>
-        <input ng-model="datatransaksi.jumlah_barang" class="form-control">
+        <input ng-model="datatransaksi.jumlah_barang" class="form-control" ng-change="onChangeJumlahBarang()">
 
         <label>Diskon : </label>
-        <input ng-model="datatransaksi.diskon" class="form-control">
+        <input ng-model="datatransaksi.diskon" class="form-control" ng-change="onChangeDiskon()">
+
+        <label>Total Harga : </label>
+        <input ng-model="datatransaksi.total_harga" class="form-control" disabled>
+
 
 
     </div>

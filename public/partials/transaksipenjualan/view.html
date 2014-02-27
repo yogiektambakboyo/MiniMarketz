@@ -23,14 +23,14 @@
             <tr ng-repeat="data in datatransaksipenjualan | filter : search" class="repeat-animation">
 
                 <td>{{ $index + 1 }}</td>
-                <td>{{ data.tanggal_transaksi }}</td>
+                <td>{{ data.tanggal_transaksi.substring(0,10) }}</td>
                 <td>{{ data.no_kwitansi }}</td>
                 <td>{{ data.total_transaksi }}</td>
                 <td>{{ data.uang_bayar }}</td>
                 <td>{{ data.uang_kembali }}</td>
                 <td>{{ data.pegawai }}</td>
                 <td>{{ data.status }}</td>
-                <td>  <a href="/#/edittransaksipenjualan/{{ data._id }}" class="hover-shadow"><span class="glyphicon glyphicon-pencil"></span></a> <a href="" ng-click="delTransaksiPenjualan(data)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
+                <td>  <a href="/#/detailtransaksipenjualan/{{ data._id }}" class="hover-shadow"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="" ng-click="delTransaksiPenjualan(data)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a>  </td>
             </tr>
         </table>
     </div>

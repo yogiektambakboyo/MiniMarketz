@@ -1,0 +1,75 @@
+<h1><span class="glyphicon glyphicon-tasks"> </span> Detail</h1>
+
+<table>
+    <tr>
+        <th>Tanggal Transaksi</th>
+        <th> : </th>
+        <td> {{ datatransaksipenjualan.tanggal_transaksi.substring(0,10) }} </td>
+    </tr>
+
+    <tr>
+        <th>No Kwitansi</th>
+        <th> : </th>
+        <td> {{ datatransaksipenjualan.no_kwitansi }}</td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Nama Barang</th>
+                <th>Harga Satuan</th>
+                <th>Jumlah Barang</th>
+                <th>Diskon</th>
+                <th>Total Harga</th>
+            </tr>
+
+            <tr ng-repeat="datatransaksis in datatransaksi | filter : datatransaksipenjualan.no_kwitansi">
+                <td> {{ $index+1 }}</td>
+                <td> {{ datatransaksis.nama_barang }}</td>
+                <td> {{ datatransaksis.harga_satuan }}</td>
+                <td> {{ datatransaksis.jumlah_barang }}</td>
+                <td> {{ datatransaksis.diskon }}</td>
+                <td> {{ datatransaksis.total_harga }}</td>
+            </tr>
+
+        </table>
+
+<table>
+    <tr>
+        <th>Total Transaksi</th>
+        <th> : </th>
+        <td> {{ datatransaksipenjualan.total_transaksi | currency : "Rp. "}}</td>
+    </tr>
+
+    <tr>
+        <th>Uang Bayar</th>
+        <th> : </th>
+        <td> {{ datatransaksipenjualan.uang_bayar  | currency : "Rp. " }}</td>
+    </tr>
+
+    <tr>
+        <th>Uang Kembali</th>
+        <th> : </th>
+        <td>{{ datatransaksipenjualan.uang_kembali | currency : "Rp. "}}</td>
+    </tr>
+
+    <tr>
+        <th>Pegawai
+        <th> : </th>
+        <td>{{ datatransaksipenjualan.pegawai }}</td>
+    </tr>
+
+    <tr>
+        <th>Status</th>
+        <th> : </th>
+        <td>{{ datatransaksipenjualan.status }}</td>
+    </tr>
+
+    <tr>
+        <td> <a href="/#/viewtransaksipenjualan" class="hover-shadow"><input type="button" class="btn btn-warning" value="Back"/> </a></td>
+    </tr>
+
+</table>

@@ -163,7 +163,10 @@ exports.dataTransaksi = new mongoose.Schema(
         tanggal : Date,
         id_transaksi : String,
         id_barang : String,
-        jumlah_barang : String,
+        nama_barang : String,
+        jumlah_barang : Number,
+        harga_satuan : Number,
+        total_harga : Number,
         diskon : String
     }
 );

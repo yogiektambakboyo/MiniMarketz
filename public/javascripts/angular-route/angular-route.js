@@ -305,6 +305,13 @@ AngularAppRoute.config(
                     loggedin: checkLoggedin
                 }
             }).
+            when('/detailtransaksipenjualan/:_id',{
+                templateUrl: '/partials/transaksipenjualan/detail.html',
+                controller : 'AngularDetailDataTransaksiPenjualan',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            }).
             when('/addtransaksipenjualan',{
                 templateUrl: '/partials/transaksipenjualan/add.html',
                 controller: 'AngularAddDataTransaksiPenjualan',

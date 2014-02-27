@@ -1132,12 +1132,32 @@ module.exports.findOneTransaksi = function(req, res, next){
         });
 };
 
+module.exports.aggregateTransaksi = function(req, res, next){
+    dataTransaksi.aggregate([
+            { $match : { id_transaksi : req.params.id_transaksi }},
+            { $group :
+                {
+                    _id : null,
+                    total_harga: { $sum : "$total_harga" }
+                }
+            }])
+    .exec(function (err, editdatatransaksi){
+            if(err) return next(err);
+            res.send(editdatatransaksi[0]);
+    });
+
+};
+
+
 module.exports.saveTransaksi = function(req, res, next){
     var datatransaksi = new dataTransaksi({
         tanggal : req.body.datatransaksi.tanggal,
         id_transaksi : req.body.datatransaksi.id_transaksi,
         id_barang : req.body.datatransaksi.id_barang,
+        nama_barang : req.body.datatransaksi.nama_barang,
         jumlah_barang : req.body.datatransaksi.jumlah_barang,
+        harga_satuan : req.body.datatransaksi.harga_satuan,
+        total_harga : req.body.datatransaksi.total_harga,
         diskon : req.body.datatransaksi.diskon
     });
 
@@ -1154,7 +1174,10 @@ module.exports.editTransaksi = function(req, res){
             tanggal : req.body.datatransaksi.tanggal,
             id_transaksi : req.body.datatransaksi.id_transaksi,
             id_barang : req.body.datatransaksi.id_barang,
+            nama_barang : req.body.datatransaksi.nama_barang,
             jumlah_barang : req.body.datatransaksi.jumlah_barang,
+            harga_satuan : req.body.datatransaksi.harga_satuan,
+            total_harga : req.body.datatransaksi.total_harga,
             diskon : req.body.datatransaksi.diskon
         },
         function(err){
@@ -1283,7 +1306,6 @@ module.exports.findOneTransaksiPenjualan = function(req, res, next){
 };
 
 module.exports.saveTransaksiPenjualan = function(req, res, next){
-    console.log(req.user);
     var datatransaksipenjualan = new dataTransaksiPenjualan({
         id_transaksi : req.body.datatransaksipenjualan.id_transaksipenjualan,
         tanggal_transaksi : req.body.datatransaksipenjualan.tanggal_transaksi,
@@ -1291,7 +1313,7 @@ module.exports.saveTransaksiPenjualan = function(req, res, next){
         total_transaksi : req.body.datatransaksipenjualan.total_transaksi,
         uang_bayar : req.body.datatransaksipenjualan.uang_bayar,
         uang_kembali : req.body.datatransaksipenjualan.uang_kembali,
-        pegawai : req.user._id,
+        pegawai : req.user.nama,
         status : req.body.datatransaksipenjualan.status
     });
 
@@ -1433,6 +1455,7 @@ app.delete('/api/datamatauang/:_id', this.deleteMataUang);
 
 //app.get('/api/datatransaksi',needsRoles(1), this.findAllTransaksi);
 app.get('/api/datatransaksi', this.findAllTransaksi);
+app.get('/api/datatransaksi/aggregate/:id_transaksi', this.aggregateTransaksi);
 app.get('/api/datatransaksi/:_id', this.findOneTransaksi);
 app.post('/api/datatransaksi', this.saveTransaksi);
 app.put('/api/datatransaksi/:_id', this.editTransaksi);

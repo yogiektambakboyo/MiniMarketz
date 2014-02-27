@@ -64,6 +64,29 @@ AngularAppController.factory('datauseraktif',function($resource){
     return $resource('/api/datapegawai/:_id',{ _id : '@_id'})
 });
 
+AngularAppController.factory('GenerateId', function($resource){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+
+    var hh = today.getHours();
+    var MM = today.getMinutes();
+    var ss = today.getSeconds();
+
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+
+    var generate_id = 'TRPJ-' + yyyy + mm + dd + hh + MM + ss;
+
+    return generate_id;
+});
+
 
 //==============================================
 // Barang Section
@@ -1142,6 +1165,7 @@ AngularAppController.controller('AngularDataTransaksiPenjualan', [ '$scope', '$r
         var dataTransaksiPenjualan = datatransaksipenjualan;
         $scope.datatransaksipenjualan = dataTransaksiPenjualan.query();
 
+
         var dataProdusen = dataprodusen;
         $scope.dataprodusen = dataProdusen.query();
 
@@ -1182,8 +1206,19 @@ AngularAppController.controller('AngularEditDataTransaksiPenjualan', [ '$scope',
     }
 ]);
 
-AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,'databarang', '$modal', '$location', '$http', '$rootScope',
-    function($scope,databarang, $modal, $location, $http, $rootScope, dataprodusen, datadistributor){
+AngularAppController.controller('AngularDetailDataTransaksiPenjualan', [ '$scope', '$resource', 'datatransaksipenjualan','datatransaksi', '$routeParams', '$http', '$location', '$rootScope',
+    function($scope, $resource, datatransaksipenjualan, datatransaksi, $routeParams, $http, $location, $rootScope){
+        $scope.datatransaksipenjualan = datatransaksipenjualan.get({ _id : $routeParams._id });
+
+        var dataTransaksi = datatransaksi;
+        $scope.datatransaksi = dataTransaksi.query();
+    }
+]);
+
+AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope', '$route', '$resource' ,'GenerateId','databarang','datatransaksi', '$modal', '$location', '$http', '$rootScope',
+    function($scope, $route, $resource, GenerateId, databarang, datatransaksi, $modal, $location, $http, $rootScope, dataprodusen, datadistributor){
+
+        //$route.reload();
 
         var today = new Date();
         var dd = today.getDate();
@@ -1198,11 +1233,50 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,
             mm='0'+mm
         }
 
-        today = mm+'-'+dd+'-'+yyyy;
+        var hh = today.getHours();
+        var MM = today.getMinutes();
+        var ss = today.getSeconds();
+
+        today = mm + '-' + dd + '-' + yyyy;
+
+        var generate_id = 'TRPJ-' + yyyy + mm + dd + hh + MM + ss;
+
+
+
+        if(GenerateId != generate_id){
+            GenerateId = generate_id;
+        }
+
+        $scope.generate_id = GenerateId;
+
+        console.log(GenerateId);
+        console.log(generate_id);
 
         $scope.datatransaksipenjualan = {};
+        $scope.datatransaksipenjualan.id_transaksi = GenerateId;
+        $scope.datatransaksipenjualan.no_kwitansi = GenerateId;
         $scope.datatransaksipenjualan.tanggal_transaksi = today;
         $scope.datatransaksipenjualan.total_transaksi = 0;
+        $scope.datatransaksipenjualan.uang_kembali = 0;
+
+        var dataTransaksi = datatransaksi;
+        $scope.datatransaksi = dataTransaksi.query();
+
+        $scope.delTransaksi = function(data){
+            $http.delete('/api/datatransaksi/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(transaksi){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datatransaksi = dataTransaksi.query();
+                    $http.get("/api/datatransaksi/aggregate/" + GenerateId).success(function(result){
+                        $scope.datatransaksipenjualan.total_transaksi = result.total_harga;
+                    });
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
 
 /*        var dataDistributor = datadistributor;
         $scope.datadistributor = dataDistributor.query();
@@ -1231,6 +1305,10 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,
             $scope.datatransaksipenjualan.id_mata_uang = $scope.selectedDataMataUang;
         }*/
 
+        $scope.onChangeUangBayar = function(){
+                $scope.datatransaksipenjualan.uang_kembali = $scope.datatransaksipenjualan.uang_bayar - $scope.datatransaksipenjualan.total_transaksi;
+        };
+
 
         $scope.simpanTransaksiPenjualan = function(datatransaksipenjualan){
             $http.post('/api/datatransaksipenjualan' , {
@@ -1256,14 +1334,20 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,
             });
 
             modalInstance.result.then(function (){
-                console.log("Test");
+                $scope.datatransaksi = dataTransaksi.query();
+                $http.get("/api/datatransaksi/aggregate/" + GenerateId).success(function(result){
+                    $scope.datatransaksipenjualan.total_transaksi = result.total_harga;
+                });
             });
         };
 
         var ModalInstanceCtrl = function ($scope, $modalInstance){
+            //console.log($scope);
             var dataBarang = databarang;
             $scope.databarang = dataBarang.query();
+
             $scope.datatransaksi = {};
+            $scope.datatransaksi.id_transaksi = GenerateId;
 
             var today = new Date();
             var dd = today.getDate();
@@ -1283,9 +1367,17 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,
             $scope.datatransaksi.tanggal = today;
 
             $scope.addBarang = function(data){
-                //console.log("Add" + data.nama);
                 $scope.datatransaksi.id_barang = data._id;
                 $scope.datatransaksi.nama_barang = data.nama;
+                $scope.datatransaksi.harga_satuan = data.harga;
+            };
+
+            $scope.onChangeJumlahBarang = function(){
+                $scope.datatransaksi.total_harga = $scope.datatransaksi.harga_satuan * $scope.datatransaksi.jumlah_barang;
+            };
+
+            $scope.onChangeDiskon = function(){
+                $scope.datatransaksi.total_harga = ($scope.datatransaksi.harga_satuan * $scope.datatransaksi.jumlah_barang) - $scope.datatransaksi.diskon;
             };
 
             $scope.simpanTransaksi = function(datatransaksi){
@@ -1295,7 +1387,6 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope' ,
                     .success(function(datatransaksi){
                         $rootScope.message = 'Add data "' + datatransaksi._id + '" Succesful!';
                         $modalInstance.close();
-                        //$location.url('/viewtransaksi');
                     })
                     .error(function(){
                         $rootScope.message = 'Add data "' + datatransaksi._id + '" Failed!';
