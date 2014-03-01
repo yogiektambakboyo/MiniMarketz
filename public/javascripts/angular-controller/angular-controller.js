@@ -1164,7 +1164,7 @@ AngularAppController.controller('AngularAddDataTransaksiPembelian', [ '$scope' ,
             //===============================
             // Update Barang if Delete
             //===============================
-            data.stock = data.stock + data.jumlah_barang;
+            data.stock = data.stock - data.jumlah_barang;
             $http.put('/api/databarang/' + data.id_barang , {
                 databarang :{
                     _id  : data.id_barang,
@@ -1324,7 +1324,7 @@ AngularAppController.controller('AngularAddDataTransaksiPembelian', [ '$scope' ,
             };
 
             $scope.simpanTransaksi = function(datatransaksi){
-                $scope.datatransaksi.stock = $scope.datatransaksi.stock - $scope.datatransaksi.jumlah_barang;
+                $scope.datatransaksi.stock = $scope.datatransaksi.stock + $scope.datatransaksi.jumlah_barang;
                 $http.post('/api/datatransaksi' , {
                     "datatransaksi" : $scope.datatransaksi
                 })

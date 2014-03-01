@@ -137,10 +137,10 @@
         <input ng-model="datatransaksi.harga_satuan" class="form-control" disabled>
 
         <label>Jumlah Barang : </label>
-        <input ng-model="datatransaksi.jumlah_barang" class="form-control" ng-change="onChangeJumlahBarang()">
+        <input ng-model="datatransaksi.jumlah_barang" class="form-control" ng-change="onChangeJumlahBarang()" type="number">
 
         <label>Diskon : </label>
-        <input ng-model="datatransaksi.diskon" class="form-control" ng-change="onChangeDiskon()">
+        <input ng-model="datatransaksi.diskon" class="form-control" ng-change="onChangeDiskon()"  type="number">
 
         <label>Total Harga : </label>
         <input ng-model="datatransaksi.total_harga" class="form-control" disabled>
@@ -149,7 +149,7 @@
         <input type="hidden" ng-model="datatransaksi.tipe" class="form-control" disabled>
         <input type="hidden" ng-model="datatransaksi.id_distributor" class="form-control" disabled>
         <input type="hidden" ng-model="datatransaksi.id_produsen" class="form-control" disabled>
-        <input type="hidden" ng-model="datatransaksi.stock" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.stock" class="form-control" disabled  type="number">
         <input type="hidden" ng-model="datatransaksi.id_satuan" class="form-control" disabled>
         <input type="hidden" ng-model="datatransaksi.harga" class="form-control" disabled>
         <input type="hidden" ng-model="datatransaksi.id_mata_uang" class="form-control" disabled>
