@@ -1582,6 +1582,36 @@ app.get('/api/android/databarang', function (req,res){
         });
 });
 
+app.get('/api/android/datatransaksipembelian', function (req,res){
+    res.contentType('json');
+
+    dataTransaksiPembelian
+        .find()
+        .sort({'tanggal_transaksi' : 1})
+        .exec(function (err, datatransaksipembelian){
+            if (err) return next(err);
+            var datatransaksipembelianJSON = {
+                "datatransaksipembelian" : datatransaksipembelian
+            }
+            res.json(datatransaksipembelianJSON);
+        });
+});
+
+app.get('/api/android/datatransaksipenjualan', function (req,res){
+    res.contentType('json');
+
+    dataTransaksiPenjualan
+        .find()
+        .sort({'tanggal_transaksi' : 1})
+        .exec(function (err, datatransaksipenjualan){
+            if (err) return next(err);
+            var datatransaksipenjualanJSON = {
+                "datatransaksipembelian" : datatransaksipenjualan
+            }
+            res.json(datatransaksipenjualanJSON);
+        });
+});
+
 
 //==================================================================
 // Server Running
