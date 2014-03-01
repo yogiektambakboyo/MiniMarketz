@@ -87,6 +87,29 @@ AngularAppController.factory('GenerateId', function($resource){
     return generate_id;
 });
 
+AngularAppController.factory('GenerateIdBeli', function($resource){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+
+    var hh = today.getHours();
+    var MM = today.getMinutes();
+    var ss = today.getSeconds();
+
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+
+    var generate_id = 'TRPB-' + yyyy + mm + dd + hh + MM + ss;
+
+    return generate_id;
+});
+
 
 //==============================================
 // Barang Section
@@ -225,13 +248,13 @@ AngularAppController.controller('AngularDataPegawai', [ '$scope', '$resource', '
 
         //var socket = io.connect('http://localhost:3000');
         //socket.on('news', function (data) {
-            //console.log(data);
-            //socket.emit('my other event', { my: 'data' });
+        //console.log(data);
+        //socket.emit('my other event', { my: 'data' });
         //});
 
         //socket.on('databaru', function (data) {
-            //console.log(data);
-            //socket.emit('my other event', { my: 'data' });
+        //console.log(data);
+        //socket.emit('my other event', { my: 'data' });
         //});
     }
 
@@ -381,14 +404,14 @@ AngularAppController.controller('AngularAddDataPegawai', [ '$scope' , '$location
         };
 
         // Disable weekend selection
-/*        $scope.disabled = function(date, mode) {
-            //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-            return ( mode === '');
-        };*/
+        /*        $scope.disabled = function(date, mode) {
+         //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+         return ( mode === '');
+         };*/
 
         /*$scope.toggleMin = function() {
-            $scope.minDate = ( $scope.minDate ) ? null : new Date();
-        };*/
+         $scope.minDate = ( $scope.minDate ) ? null : new Date();
+         };*/
         //$scope.toggleMin();
 
         $scope.open = function($event) {
@@ -541,16 +564,16 @@ AngularAppController.controller('LoginCtrl', function($scope, $rootScope, $http,
             username: $scope.user.username,
             password: $scope.user.password
         })
-        .success(function(user){
+            .success(function(user){
                 // No error: authentication OK
                 $rootScope.message = 'Authentication successful!';
                 $location.url('/admin');
-        })
-        .error(function(){
+            })
+            .error(function(){
                 // Error: authentication failed
                 $rootScope.message = 'Authentication failed.';
                 $location.url('/login');
-        });
+            });
     };
 });
 
@@ -1100,14 +1123,90 @@ AngularAppController.controller('AngularEditDataTransaksiPembelian', [ '$scope',
     }
 ]);
 
-AngularAppController.controller('AngularAddDataTransaksiPembelian', [ '$scope' , '$location', '$http', '$rootScope', 'dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang',
-    function($scope, $location, $http, $rootScope, dataprodusen, datadistributor, datasatuan, datamatauang){
+AngularAppController.controller('AngularAddDataTransaksiPembelian', [ '$scope' ,'$resource', 'databarang', '$modal','GenerateIdBeli', '$location', '$http', '$rootScope', 'dataprodusen', 'datadistributor', 'datasatuan', 'datamatauang', 'datatransaksipembelian','datatransaksi',
+    function($scope, $resource, databarang, $modal, GenerateIdBeli, $location, $http, $rootScope, dataprodusen, datadistributor, datasatuan, datamatauang, datatransaksipembelian , datatransaksi){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+
+        var yyyy = today.getFullYear();
+
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        var hh = today.getHours();
+        var MM = today.getMinutes();
+        var ss = today.getSeconds();
+
+        today = mm + '-' + dd + '-' + yyyy;
+
+        var generate_id = 'TRPB-' + yyyy + mm + dd + hh + MM + ss;
+
+        if(GenerateIdBeli != generate_id){
+            GenerateIdBeli = generate_id;
+        }
+
+        $scope.datatransaksipembelian = {};
+        $scope.datatransaksipembelian.id_transaksi = GenerateIdBeli;
+        $scope.datatransaksipembelian.no_kwitansi = GenerateIdBeli;
+        $scope.datatransaksipembelian.tanggal_transaksi = today;
+        $scope.datatransaksipembelian.total_transaksi = 0;
+        $scope.datatransaksipembelian.uang_kembali = 0;
+
+        var dataTransaksi = datatransaksi;
+        $scope.datatransaksi = dataTransaksi.query();
+
+        $scope.delTransaksi = function(data){
+            //===============================
+            // Update Barang if Delete
+            //===============================
+            data.stock = data.stock + data.jumlah_barang;
+            $http.put('/api/databarang/' + data.id_barang , {
+                databarang :{
+                    _id  : data.id_barang,
+                    nama : data.nama_barang,
+                    tipe : data.tipe,
+                    id_distributor : data.id_distributor,
+                    id_produsen : data.id_produsen,
+                    stock : data.stock,
+                    id_satuan : data.id_satuan,
+                    harga : data.harga,
+                    id_mata_uang : data.id_mata_uang
+                }
+            })
+                .success(function(response){
+                    console.log($scope.datatransaksi.stock);
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Succesful!';
+                    //console.log($scope.databarang);
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Failed!';
+                });
+
+            $http.delete('/api/datatransaksi/' + data._id  , {
+                _id : data._id
+            })
+                .success(function(transaksi){
+                    $rootScope.message = 'Delete data "' + data._id + '" Succesful!';
+                    $scope.datatransaksi = dataTransaksi.query();
+                    $http.get("/api/datatransaksi/aggregate/" + GenerateIdBeli).success(function(result){
+                        $scope.datatransaksipembelian.total_transaksi = result.total_harga;
+                    });
+                })
+                .error(function(){
+                    $rootScope.message = 'Delete data "' + data._id + '" Failed!';
+                });
+        };
+
 
         var dataProdusen = dataprodusen;
         $scope.dataprodusen = dataProdusen.query();
 
         $scope.selectedDataProdusen = null;
-        $scope.datatransaksipembelian = {};
 
         $scope.selectActionProdusen = function(){
             $scope.datatransaksipembelian.id_produsen = $scope.selectedDataProdusen;
@@ -1140,6 +1239,10 @@ AngularAppController.controller('AngularAddDataTransaksiPembelian', [ '$scope' ,
             $scope.datatransaksipembelian.id_mata_uang = $scope.selectedDataMataUang;
         }
 
+        $scope.onChangeUangBayar = function(){
+            $scope.datatransaksipembelian.uang_kembali = $scope.datatransaksipembelian.uang_bayar - $scope.datatransaksipembelian.total_transaksi;
+        };
+
 
         $scope.simpanTransaksiPembelian = function(datatransaksipembelian){
             $http.post('/api/datatransaksipembelian' , {
@@ -1153,6 +1256,125 @@ AngularAppController.controller('AngularAddDataTransaksiPembelian', [ '$scope' ,
                     $rootScope.message = 'Add data "' + datatransaksipembelian._id + '" Failed!';
                 });
         };
+
+
+        //==========================
+        // Dialog
+        //==========================
+
+        $scope.open = function(){
+            var modalInstance = $modal.open({
+                templateUrl : 'addTransaksiPembelian.html',
+                controller : ModalInstanceCtrl
+            });
+
+            modalInstance.result.then(function (){
+                $scope.datatransaksi = dataTransaksi.query();
+                $http.get("/api/datatransaksi/aggregate/" + GenerateIdBeli).success(function(result){
+                    $scope.datatransaksipembelian.total_transaksi = result.total_harga;
+                });
+            });
+        };
+
+        var ModalInstanceCtrl = function ($scope, $modalInstance){
+            //console.log($scope);
+            var dataBarang = databarang;
+            $scope.databarang = dataBarang.query();
+
+            $scope.datatransaksi = {};
+            $scope.datatransaksi.id_transaksi = GenerateIdBeli;
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+
+            var yyyy = today.getFullYear();
+
+            if(dd<10){
+                dd='0'+dd
+            }
+            if(mm<10){
+                mm='0'+mm
+            }
+
+            today = mm+'-'+dd+'-'+yyyy;
+
+            $scope.datatransaksi.tanggal = today;
+
+            $scope.addBarang = function(data){
+                $scope.datatransaksi.id_barang = data._id;
+                $scope.datatransaksi.nama = data.nama;
+                $scope.datatransaksi.tipe = data.tipe;
+                $scope.datatransaksi.id_distributor = data.id_distributor;
+                $scope.datatransaksi.id_produsen = data.id_produsen;
+                $scope.datatransaksi.stock = data.stock;
+                $scope.datatransaksi.id_satuan = data.id_satuan;
+                $scope.datatransaksi.harga = data.harga;
+                $scope.datatransaksi.id_mata_uang = data.id_mata_uang;
+                $scope.datatransaksi.nama_barang = data.nama;
+                $scope.datatransaksi.harga_satuan = data.harga;
+            };
+
+            $scope.onChangeJumlahBarang = function(){
+                $scope.datatransaksi.total_harga = $scope.datatransaksi.harga_satuan * $scope.datatransaksi.jumlah_barang;
+            };
+
+            $scope.onChangeDiskon = function(){
+                $scope.datatransaksi.total_harga = ($scope.datatransaksi.harga_satuan * $scope.datatransaksi.jumlah_barang) - $scope.datatransaksi.diskon;
+            };
+
+            $scope.simpanTransaksi = function(datatransaksi){
+                $scope.datatransaksi.stock = $scope.datatransaksi.stock - $scope.datatransaksi.jumlah_barang;
+                $http.post('/api/datatransaksi' , {
+                    "datatransaksi" : $scope.datatransaksi
+                })
+                    .success(function(datatransaksi){
+                        //===============================
+                        // Update Barang After Add Transaksi
+                        //===============================
+                        $http.put('/api/databarang/' + $scope.datatransaksi.id_barang , {
+                            databarang :{
+                                _id  : $scope.datatransaksi.id_barang,
+                                nama : $scope.datatransaksi.nama,
+                                tipe : $scope.datatransaksi.tipe,
+                                id_distributor : $scope.datatransaksi.id_distributor,
+                                id_produsen : $scope.datatransaksi.id_produsen,
+                                stock : $scope.datatransaksi.stock,
+                                id_satuan : $scope.datatransaksi.id_satuan,
+                                harga : $scope.datatransaksi.harga,
+                                id_mata_uang : $scope.datatransaksi.id_mata_uang
+                            }
+                        })
+                            .success(function(response){
+                                console.log($scope.datatransaksi.stock);
+                                $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Succesful!';
+                                //console.log($scope.databarang);
+                            })
+                            .error(function(response){
+                                $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Failed!';
+                            });
+
+
+
+                        $rootScope.message = 'Add data "' + datatransaksi._id + '" Succesful!';
+                        $modalInstance.close();
+                    })
+                    .error(function(){
+                        $rootScope.message = 'Add data "' + datatransaksi._id + '" Failed!';
+                    });
+
+
+            };
+
+            $scope.ok = function (){
+                $modalInstance.close();
+            }
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            }
+        }
+
 
     }
 ]);
@@ -1249,9 +1471,6 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope', 
 
         $scope.generate_id = GenerateId;
 
-        console.log(GenerateId);
-        console.log(generate_id);
-
         $scope.datatransaksipenjualan = {};
         $scope.datatransaksipenjualan.id_transaksi = GenerateId;
         $scope.datatransaksipenjualan.no_kwitansi = GenerateId;
@@ -1263,6 +1482,32 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope', 
         $scope.datatransaksi = dataTransaksi.query();
 
         $scope.delTransaksi = function(data){
+            //===============================
+            // Update Barang if Delete
+            //===============================
+            data.stock = data.stock + data.jumlah_barang;
+            $http.put('/api/databarang/' + data.id_barang , {
+                databarang :{
+                    _id  : data.id_barang,
+                    nama : data.nama_barang,
+                    tipe : data.tipe,
+                    id_distributor : data.id_distributor,
+                    id_produsen : data.id_produsen,
+                    stock : data.stock,
+                    id_satuan : data.id_satuan,
+                    harga : data.harga,
+                    id_mata_uang : data.id_mata_uang
+                }
+            })
+                .success(function(response){
+                    console.log($scope.datatransaksi.stock);
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Succesful!';
+                    //console.log($scope.databarang);
+                })
+                .error(function(response){
+                    $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Failed!';
+                });
+
             $http.delete('/api/datatransaksi/' + data._id  , {
                 _id : data._id
             })
@@ -1278,35 +1523,35 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope', 
                 });
         };
 
-/*        var dataDistributor = datadistributor;
-        $scope.datadistributor = dataDistributor.query();
+        /*        var dataDistributor = datadistributor;
+         $scope.datadistributor = dataDistributor.query();
 
-        $scope.selectedDataDistributor = null;
+         $scope.selectedDataDistributor = null;
 
-        $scope.selectActionDistributor = function(){
-            $scope.datatransaksipenjualan.id_distributor = $scope.selectedDataDistributor;
-        }*/
+         $scope.selectActionDistributor = function(){
+         $scope.datatransaksipenjualan.id_distributor = $scope.selectedDataDistributor;
+         }*/
 
         /*var dataSatuan = datasatuan;
-        $scope.datasatuan = dataSatuan.query();
+         $scope.datasatuan = dataSatuan.query();
 
-        $scope.selectedDataSatuan = null;
+         $scope.selectedDataSatuan = null;
 
-        $scope.selectActionSatuan = function(){
-            $scope.datatransaksipenjualan.id_satuan = $scope.selectedDataSatuan;
-        }*/
+         $scope.selectActionSatuan = function(){
+         $scope.datatransaksipenjualan.id_satuan = $scope.selectedDataSatuan;
+         }*/
 
         /*var dataMataUang = datamatauang;
-        $scope.datamatauang = dataMataUang.query();
+         $scope.datamatauang = dataMataUang.query();
 
-        $scope.selectedDataMataUang = null;
+         $scope.selectedDataMataUang = null;
 
-        $scope.selectActionMataUang = function(){
-            $scope.datatransaksipenjualan.id_mata_uang = $scope.selectedDataMataUang;
-        }*/
+         $scope.selectActionMataUang = function(){
+         $scope.datatransaksipenjualan.id_mata_uang = $scope.selectedDataMataUang;
+         }*/
 
         $scope.onChangeUangBayar = function(){
-                $scope.datatransaksipenjualan.uang_kembali = $scope.datatransaksipenjualan.uang_bayar - $scope.datatransaksipenjualan.total_transaksi;
+            $scope.datatransaksipenjualan.uang_kembali = $scope.datatransaksipenjualan.uang_bayar - $scope.datatransaksipenjualan.total_transaksi;
         };
 
 
@@ -1368,6 +1613,14 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope', 
 
             $scope.addBarang = function(data){
                 $scope.datatransaksi.id_barang = data._id;
+                $scope.datatransaksi.nama = data.nama;
+                $scope.datatransaksi.tipe = data.tipe;
+                $scope.datatransaksi.id_distributor = data.id_distributor;
+                $scope.datatransaksi.id_produsen = data.id_produsen;
+                $scope.datatransaksi.stock = data.stock;
+                $scope.datatransaksi.id_satuan = data.id_satuan;
+                $scope.datatransaksi.harga = data.harga;
+                $scope.datatransaksi.id_mata_uang = data.id_mata_uang;
                 $scope.datatransaksi.nama_barang = data.nama;
                 $scope.datatransaksi.harga_satuan = data.harga;
             };
@@ -1381,16 +1634,46 @@ AngularAppController.controller('AngularAddDataTransaksiPenjualan', [ '$scope', 
             };
 
             $scope.simpanTransaksi = function(datatransaksi){
+                $scope.datatransaksi.stock = $scope.datatransaksi.stock - $scope.datatransaksi.jumlah_barang;
                 $http.post('/api/datatransaksi' , {
                     "datatransaksi" : $scope.datatransaksi
                 })
                     .success(function(datatransaksi){
+                        //===============================
+                        // Update Barang After Add Transaksi
+                        //===============================
+                        $http.put('/api/databarang/' + $scope.datatransaksi.id_barang , {
+                            databarang :{
+                                _id  : $scope.datatransaksi.id_barang,
+                                nama : $scope.datatransaksi.nama,
+                                tipe : $scope.datatransaksi.tipe,
+                                id_distributor : $scope.datatransaksi.id_distributor,
+                                id_produsen : $scope.datatransaksi.id_produsen,
+                                stock : $scope.datatransaksi.stock,
+                                id_satuan : $scope.datatransaksi.id_satuan,
+                                harga : $scope.datatransaksi.harga,
+                                id_mata_uang : $scope.datatransaksi.id_mata_uang
+                            }
+                        })
+                            .success(function(response){
+                                console.log($scope.datatransaksi.stock);
+                                $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Succesful!';
+                                //console.log($scope.databarang);
+                            })
+                            .error(function(response){
+                                $rootScope.message = 'Edit data "' + $scope.datatransaksi.id_barang + '" Failed!';
+                            });
+
+
+
                         $rootScope.message = 'Add data "' + datatransaksi._id + '" Succesful!';
                         $modalInstance.close();
                     })
                     .error(function(){
                         $rootScope.message = 'Add data "' + datatransaksi._id + '" Failed!';
                     });
+
+
             };
 
             $scope.ok = function (){

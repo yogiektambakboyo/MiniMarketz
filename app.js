@@ -1158,7 +1158,15 @@ module.exports.saveTransaksi = function(req, res, next){
         jumlah_barang : req.body.datatransaksi.jumlah_barang,
         harga_satuan : req.body.datatransaksi.harga_satuan,
         total_harga : req.body.datatransaksi.total_harga,
-        diskon : req.body.datatransaksi.diskon
+        diskon : req.body.datatransaksi.diskon,
+
+        tipe:  req.body.datatransaksi.tipe,
+        stock :  req.body.datatransaksi.stock,
+        id_satuan :  req.body.datatransaksi.id_satuan,
+        id_distributor :  req.body.datatransaksi.id_distributor,
+        id_produsen :  req.body.datatransaksi.id_produsen,
+        harga :  req.body.datatransaksi.harga,
+        id_mata_uang : req.body.datatransaksi.id_mata_uang
     });
 
     datatransaksi.save( function(err, datatransaksi){
@@ -1235,7 +1243,7 @@ module.exports.saveTransaksiPembelian = function(req, res, next){
         no_kwitansi : req.body.datatransaksipembelian.no_kwitansi,
         total_transaksi : req.body.datatransaksipembelian.total_transaksi,
         id_distributor : req.body.datatransaksipembelian.id_distributor,
-        penerima : req.body.datatransaksipembelian.penerima,
+        penerima : req.user.nama,
         status : req.body.datatransaksipembelian.status
     });
 

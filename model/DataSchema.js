@@ -45,7 +45,7 @@ exports.dataBarangSchema = new mongoose.Schema(
         id : String,
         nama : String,
         tipe: String,
-        stock : String,
+        stock : Number,
         id_satuan : String,
         id_distributor : String,
         id_produsen : String,
@@ -167,7 +167,15 @@ exports.dataTransaksi = new mongoose.Schema(
         jumlah_barang : Number,
         harga_satuan : Number,
         total_harga : Number,
-        diskon : String
+        diskon : String,
+
+        tipe: String,
+        stock : Number,
+        id_satuan : String,
+        id_distributor : String,
+        id_produsen : String,
+        harga : Number,
+        id_mata_uang : String
     }
 );
 

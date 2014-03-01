@@ -3,23 +3,57 @@
 <table>
     <tr>
         <th>Tanggal Transaksi</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datatransaksipembelian.tanggal_transaksi" class="form-control"/></td>
+        <th> : </th>
+        <td><input ng-model="datatransaksipembelian.tanggal_transaksi" class="form-control" disabled/></td>
     </tr>
 
     <tr>
         <th>No Kwitansi</th>
+        <th> : </th>
+        <td><input ng-model="datatransaksipembelian.no_kwitansi" class="form-control" disabled/></td>
     </tr>
     <tr>
-        <td><input ng-model="datatransaksipembelian.no_kwitansi" class="form-control"/></td>
+
+        <th>Daftar Barang </th>
     </tr>
+</table>
+        <div class="table-responsive">
+            <table class="table table-striped" id="tablebarang">
+                <tr>
+                    <th>No.</th>
+                    <th>Kode Barang</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah Barang</th>
+                    <th>Harga Satuan</th>
+                    <th>Diskon</th>
+                    <th>Total Harga</th>
+                    <th>Actions</th>
+                </tr>
+                <tr ng-repeat="datatransaksis in datatransaksi | filter : datatransaksipembelian.id_transaksi">
+                    <td>{{ $index+1 }}</td>
+                    <td>{{ datatransaksis._id }}</td>
+                    <td>{{ datatransaksis.nama_barang }}</td>
+                    <td>{{ datatransaksis.jumlah_barang }}</td>
+                    <td>{{ datatransaksis.harga_satuan | currency:"Rp. "  }}</td>
+                    <td>{{ datatransaksis.diskon }}</td>
+                    <td>{{ datatransaksis.total_harga | currency:"Rp. "  }}</td>
+                    <td><a href="" ng-click="delTransaksi(datatransaksis)" class="hover-shadow"><span class="glyphicon glyphicon-trash"></span></a> </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <th colspan="5">Total Transaksi</th>
+                    <th>Rp. {{ datatransaksipembelian.total_transaksi | currency:"Rp. "  }}</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-warning hover-shadow" ng-click="open()">Tambah Barang</button></td>
+                </tr>
+            </table>
+        </div>
+ <table>
 
     <tr>
-        <th>Total Transaksi</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datatransaksipembelian.total_transaksi" class="form-control"/></td>
+        <td><input ng-model="datatransaksipembelian.total_transaksi" class="form-control" type="hidden"/></td>
     </tr>
 
 
@@ -35,11 +69,9 @@
         <td><input type="hidden" ng-model="datatransaksipembelian.id_distributor" class="form-control"/></td>
     </tr>
 
+
     <tr>
-        <th>Penerima</th>
-    </tr>
-    <tr>
-        <td><input ng-model="datatransaksipembelian.penerima" class="form-control"/></td>
+        <td><input ng-model="datatransaksipembelian.penerima" class="form-control" type="hidden"/></td>
     </tr>
 
     <tr>
@@ -54,3 +86,80 @@
     </tr>
 
 </table>
+
+
+<script type="text/ng-template" id="addTransaksiPembelian.html">
+    <div class="modal-header">
+        <h3>Tambah Barang</h3>
+    </div>
+
+
+
+    <div class="modal-body table-responsive">
+
+        <label>Pencarian </label>
+        <input ng-model="search" class="form-control" placeholder="Ketik untuk mencari barang!!">
+
+        <div class="transaksibox">
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Nama Barang</th>
+                    <th>Harga</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                </tr>
+
+                <tr ng-repeat="data in databarang | filter : search" class="repeat-animation">
+                    <td> {{ $index+1 }}</td>
+                    <td> {{ data.nama }}</td>
+                    <td> {{ data.harga | currency:"Rp. " }}</td>
+                    <td> {{ data.stock }}</td>
+                    <td>  <a href="" ng-click="addBarang(data)" class="hover-shadow"><span class="glyphicon glyphicon-plus"></span></a></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <!--<label>Tanggal : </label>-->
+        <input type="hidden" ng-model="datatransaksi.tanggal" class="form-control">
+
+        <!--<label>ID Transaksi : </label>-->
+        <input type="hidden" ng-model="datatransaksi.id_transaksi" class="form-control">
+
+        <label>ID Barang : </label>
+        <input ng-model="datatransaksi.id_barang" class="form-control" disabled>
+
+        <label>Nama Barang : </label>
+        <input ng-model="datatransaksi.nama_barang" class="form-control" disabled>
+
+        <label>Harga Satuan : </label>
+        <input ng-model="datatransaksi.harga_satuan" class="form-control" disabled>
+
+        <label>Jumlah Barang : </label>
+        <input ng-model="datatransaksi.jumlah_barang" class="form-control" ng-change="onChangeJumlahBarang()">
+
+        <label>Diskon : </label>
+        <input ng-model="datatransaksi.diskon" class="form-control" ng-change="onChangeDiskon()">
+
+        <label>Total Harga : </label>
+        <input ng-model="datatransaksi.total_harga" class="form-control" disabled>
+
+        <input type="hidden" ng-model="datatransaksi.nama" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.tipe" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.id_distributor" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.id_produsen" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.stock" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.id_satuan" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.harga" class="form-control" disabled>
+        <input type="hidden" ng-model="datatransaksi.id_mata_uang" class="form-control" disabled>
+
+
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="simpanTransaksi(datatransaksi)">Tambah</button>
+        <button class="btn btn-warning" ng-click="cancel()">Batal</button>
+    </div>
+</script>
